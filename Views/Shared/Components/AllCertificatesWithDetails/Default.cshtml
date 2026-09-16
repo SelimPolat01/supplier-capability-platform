@@ -1,0 +1,52 @@
+﻿@model FetchAllCertificatesGetResponseDTO
+
+<div class="certificate-list-container">
+    @if (Model.Data != null && Model.Data.Any())
+    {
+        <table class="certificate-table">
+            <thead>
+                <tr>
+                    <th><a asp-action="Certificates" asp-controller="Supplier" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a></th>
+                    <th><a asp-action="Certificates" asp-controller="Supplier" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentSort == "name_asc" ? "↑" : ViewBag.CurrentSort == "name_desc" ? "↓" : "")</a></th>
+                    <th><a asp-action="Certificates" asp-controller="Supplier" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "issued-by_asc" ? "issued-by_desc" : "issued-by_asc")">Issued By @(ViewBag.CurrentSort == "issued-by_asc" ? "↑" : ViewBag.CurrentSort == "issued-by_desc" ? "↓" : "")</a></th>
+                    <th><a asp-action="Certificates" asp-controller="Supplier" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "issue-date_asc" ? "issue-date_desc" : "issue-date_asc")">Issue Date @(ViewBag.CurrentSort == "issue-date_asc" ? "↑" : ViewBag.CurrentSort == "issue-date_desc" ? "↓" : "")</a></th>
+                    <th><a asp-action="Certificates" asp-controller="Supplier" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "expiry-date_asc" ? "expiry-date_desc" : "expiry-date_asc")">Expiry Date @(ViewBag.CurrentSort == "expiry-date_asc" ? "↑" : ViewBag.CurrentSort == "expiry-date_desc" ? "↓" : "")</a></th>
+                    <th>File</th>
+                    <th><a asp-action="Certificates" asp-controller="Supplier" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Added @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var certificate in Model.Data)
+                {
+                    <tr onclick="window.location.href = '/supplier/certificates/@certificate.Id'">
+                        <td>@certificate.Id</td>
+                        <td>@certificate.Name</td>
+                        <td>@certificate.IssuedBy</td>
+                        <td style="white-space: nowrap;">@certificate.IssueDate.ToString("yyyy-MM-dd")</td>
+                        <td style="white-space: nowrap;">@(certificate.ExpiryDate.HasValue ? certificate.ExpiryDate.Value.ToString("yyyy-MM-dd") : "-")</td>
+                        <td>
+                            <a href="@certificate.DocumentUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
+                        </td>
+                        <td style="white-space: nowrap;">@certificate.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model.TotalPages > 0)
+        {
+            <div class="pagination-container">
+                @for (int i=1; i<= Model.TotalPages; i++)
+                {
+                    <a asp-action="Certificates" asp-controller="Supplier" asp-route-page="@i" asp-route-sortBy="@ViewBag.CurrentSort" asp-route-searchString="@ViewBag.CurrentSearch" class="pagination-button @(Model.CurrentPage == i ? "active-page" : "")">@i</a>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <div class="empty-state-message">
+            <p>No certificates are registered in the system yet.</p>
+        </div>
+    }
+</div>

@@ -1,0 +1,49 @@
+﻿.search-bar-form {
+    display: flex;
+    align-items: center; 
+    width: 100%;
+    max-width: 250px;
+    height: 30px;
+    background-color: #ffffff; 
+    border-radius: 12px;
+    box-sizing: border-box;
+    overflow: hidden; 
+    border: 1px solid transparent; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .search-bar-form:focus-within {
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+
+.input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none; 
+    padding: 0 0 0 12px; 
+    font-size: 1rem;
+    height: 100%;
+}
+
+.button {
+    width: 40px; 
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent; 
+    border: none;
+    cursor: pointer;
+}
+
+    .button svg {
+        fill: #00f4ff;
+        transition: transform 0.2s ease, fill 0.2s ease;
+    }
+
+    .button:hover svg {
+        fill: #68ffed;
+        transform: scale(1.1);
+    }

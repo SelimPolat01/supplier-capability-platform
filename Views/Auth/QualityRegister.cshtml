@@ -1,0 +1,78 @@
+﻿@model QualityRegisterPostRequestDTO
+
+@{
+    InputModel nameInputModel = new()
+    {
+        Name = "Name",
+        Label = "Name",
+        Type = "text",        
+        InputCssClass = "input",
+        LabelCssClass = "label",
+        Value = Model?.Name
+    };
+
+    InputModel surnameInputModel = new()
+    {
+        Name = "Surname",
+        Label = "Surname",
+        Type = "text",
+        InputCssClass = "input",
+        LabelCssClass = "label",
+        Value = Model?.Surname
+    };
+
+    InputModel emailInputModel = new()
+    {
+        Name = "Email",
+        Label = "Email",
+        Type = "email",
+        InputCssClass = "input",
+        LabelCssClass = "label",
+        Value = Model?.Email
+    };
+
+    InputModel passwordInputModel = new()
+    {
+        Name = "Password",
+        Label = "Password",
+        Type = "password",
+        InputCssClass = "input",
+        LabelCssClass = "label",
+    };
+
+    PrimaryButtonModel primaryButtonModel = new()
+    {
+        Type = "submit",
+        Text = "Register",
+    };
+}
+
+<div class="quality-register-container">
+     <div class="quality-register-text-container">
+        <h2 class="quality-register-text">Quality Register</h2>
+     </div>
+    <form asp-action="QualityRegister" method="post" class="quality-register-form">
+        <div asp-validation-summary="ModelOnly" style="color: red; margin: 0 0 1rem 0;"></div>
+        <partial name="_Input" model="nameInputModel"></partial>
+            <partial name="_Input" model="surnameInputModel"></partial>
+
+                <partial name="_Input" model="emailInputModel"></partial>
+                    <partial name="_Input" model="passwordInputModel"></partial>
+
+                        <partial name="_PrimaryButton" model="primaryButtonModel"></partial>
+                        </form>
+                    </div>
+
+                    @section QualityRegisterStyles {
+                        <link rel="stylesheet" href="~/css/QualityRegisterStyles.css" />
+                    }
+
+                    @section InputStyles {
+                        <link rel="stylesheet" href="~/css/InputStyles.css" />
+                    }
+
+                    @section PrimaryButtonStyles {
+                        <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+                    }
+
+

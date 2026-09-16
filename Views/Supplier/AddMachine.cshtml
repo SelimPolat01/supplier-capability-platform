@@ -1,0 +1,155 @@
+﻿@model AddMachinePostRequestDTO
+
+@{
+    InputModel machineGroupInputModel = new()
+    {
+        Name = "MachineGroup",
+        Label = "Machine Group",
+        Type = "text",
+        Value = Model.MachineGroup,
+        Placeholder = "e.g., CNC Machining",
+        LabelCssClass = "label"
+    };
+
+    InputModel machineTypeInputModel = new()
+    {
+        Name = "MachineType",
+        Label = "Machine Type",
+        Type = "text",
+        Value = Model.MachineType,
+        Placeholder = "e.g., CNC Lathe",
+        LabelCssClass = "label"
+    };
+
+    InputModel brandAndModelInputModel = new()
+    {
+        Name = "BrandAndModel",
+        Label = "Brand and Model",
+        Type = "text",
+        Value = Model.BrandAndModel,
+        Placeholder = "e.g., DMG Mori CTX 310",
+        LabelCssClass = "label"
+    };
+
+    InputModel productionYearInputModel = new()
+    {
+        Name = "ProductionYear",
+        Label = "Production Year",
+        Type = "number",
+        Value = Convert.ToString(Model.ProductionYear),
+        Placeholder = "e.g., 2023",
+        LabelCssClass = "label"
+    };
+
+    InputModel quantityInputModel = new()
+    {
+        Name = "Quantity",
+        Label = "Quantity",
+        Type = "number",
+        Value = Model.Quantity.ToString(),
+        Placeholder = "e.g., 1",
+        LabelCssClass = "label"
+    };
+
+    InputModel axisCountInputModel = new()
+    {
+        Name = "AxisCount",
+        Label = "Axis Count",
+        Type = "number",
+        Value = Model.AxisCount?.ToString(),
+        Placeholder = "e.g., 3, 4, or 5",
+        LabelCssClass = "label"
+    };
+
+    InputModel capacitySpecsInputModel = new()
+    {
+        Name = "CapacitySpecs",
+        Label = "Capacity Specs",
+        Type = "text",
+        Value = Model.CapacitySpecs,
+        Placeholder = "Enter dimension and tonnage",
+        LabelCssClass = "label"
+    };
+
+    PrimaryButtonModel primaryButtonModel = new()
+    {
+        Type = "submit",
+        Text = "Add",
+    };
+}
+
+<div class="add-machine-container">
+    <div class="add-machine-wrapper">
+        <form asp-action="AddMachine" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" style="color: #ff4d4d; margin-bottom: 15px; font-weight: bold;"></div>
+            <partial name="_Input" model="machineGroupInputModel"></partial>
+                <div class="half-input-flex-wrapper">
+                    <partial name="_Input" model="machineTypeInputModel"></partial>
+                        <partial name="_Input" model="brandAndModelInputModel"></partial>
+                        </div>
+                        <div class="half-input-flex-wrapper">
+                            <partial name="_Input" model="productionYearInputModel"></partial>
+                                <partial name="_Input" model="quantityInputModel"></partial>
+                                </div>
+                                <div class="half-input-flex-wrapper">
+                                    <partial name="_Input" model="axisCountInputModel"></partial>
+                                        <partial name="_Input" model="capacitySpecsInputModel"></partial>
+                                        </div>
+                                        <div class="custom-file-upload-container">
+                                            <div class="custom-file-upload-box" onclick="document.getElementById('real-file-input').click()">
+                                                <span id="file-name-display">📁 Click to Upload File</span>
+                                                <img id="image-preview" />
+                                                <iframe id="file-preview-frame"></iframe>
+                                            </div>
+                                            <input type="file" id="real-file-input" asp-for="ImageFile" onchange="fileChangeHandler(this)" accept=".pdf, image/jpeg, image/jpg, image/png" />
+                                        </div>
+                                        <span asp-validation-for="ImageFile" style="color: #ff4d4d; font-size: 0.875rem; margin: 0.2rem 0 1rem 0; display: block;"></span>
+                                        <partial name="_PrimaryButton" model="primaryButtonModel"></partial>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                
+                                @section AddMachineStyles {
+                                    <link rel="stylesheet" href="~/css/AddMachineStyles.css" />
+                                }
+
+                                @section InputStyles {
+                                    <link rel="stylesheet" href="~/css/InputStyles.css" />
+
+                                }
+
+                                @section PrimaryButtonStyles{
+                                    <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+                                }
+
+                                @section Scripts {
+                                    <partial name="_ValidationScriptsPartial"></partial>
+
+                                        <script>
+                                            function fileChangeHandler(input) {
+                                                const fileNameDisplay = document.getElementById("file-name-display");
+                                                const imgPreview = document.getElementById("image-preview");
+                                                const pdfPreview = document.getElementById("file-preview-frame");
+
+                                                if (input.files && input.files.length > 0) {
+                                                    const file = input.files[0];
+                                                    const fileUrl = URL.createObjectURL(file);
+
+                                                    fileNameDisplay.innerText = "🔄 Click to Change: " + file.name;
+                                                    fileNameDisplay.style.color = "cyan";
+
+                                                    imgPreview.src = "";
+                                                    pdfPreview.src = "";
+
+                                                    if (file.type.startsWith("image/")) {
+                                                        imgPreview.style.display = "block";
+                                                        imgPreview.src = fileUrl;
+                                                    } else if (file.type === "application/pdf") {
+                                                        pdfPreview.style.display = "block";
+                                                        pdfPreview.src = fileUrl + "#toolbar=0&navpanes=0&view=FitH";
+                                                    }
+                                                }
+                                            }
+                                        </script>
+                                    }
