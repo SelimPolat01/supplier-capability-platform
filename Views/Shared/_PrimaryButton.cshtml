@@ -1,9 +1,0 @@
-﻿@model PrimaryButtonModel
-
-<button type="@Model.Type" class="primary-button @Model?.CssClass" onclick="@Model?.OnClick">
-    @if (!string.IsNullOrEmpty(Model?.IconClass))
-    {
-        <i class="@Model?.IconClass"></i> 
-    }
-    @Model?.Text
-    </button>

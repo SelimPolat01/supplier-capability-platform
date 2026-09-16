@@ -1,7 +1,0 @@
-﻿@model InputModel
-
-<div class="input-container">
-    <label for="@Model.Name" class="label @Model.LabelCssClass">@Model.Label</label>
-    <input type="@Model.Type" name="@Model.Name" id="@Model.Name" value="@Model.Value" placeholder="@Model.Placeholder" class="input @Model.InputCssClass" />
-    @Html.ValidationMessage(Model.Name, "", new { style = "color: red; font-size: 0.85rem; margin-top: 0.2rem;" })
-</div>
