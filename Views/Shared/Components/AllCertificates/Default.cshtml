@@ -1,0 +1,36 @@
+﻿@model FetchAllCertificatesGetResponseDTO
+
+<div class="certificate-list-container">
+    @if (Model.Data != null && Model.Data.Any())
+    {
+        <table class="certificate-table">
+            <thead>
+                <tr>
+                    <th><a asp-action="Index" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentCertificateSort == "name_asc" ? "↑" : ViewBag.CurrentCertificateSort == "name_desc" ? "↓" : "")</a></th>
+                    <th style="width: 1%; white-space: nowrap;"><a asp-action="Index" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "expiry-date_asc" ? "expiry-date_desc" : "expiry-date_asc")">Expiry Date @(ViewBag.CurrentCertificateSort == "expiry-date_asc" ? "↑" : ViewBag.CurrentCertificateSort == "expiry-date_desc" ? "↓" : "")</a></th>
+                    <th>Document</th>
+                    <th style="width: 1%; white-space: nowrap;"><a asp-action="Index" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "added_asc" ? "added_desc" : "added_asc")">Added @(ViewBag.CurrentCertificateSort == "added_asc" ? "↑" : ViewBag.CurrentCertificateSort == "added_desc" ? "↓" : "")</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var certificate in Model.Data)
+                {
+                    <tr onclick="window.location.href = '/supplier/certificates/@certificate.Id'">
+                        <td>@certificate.Name</td>
+                        <td style="white-space: nowrap;">@(certificate.ExpiryDate?.ToString("yyyy-MM-dd") ?? "-")</td>
+                        <td>
+                            <a href="@certificate.DocumentUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
+                        </td>
+                        <td style="white-space: nowrap;">@certificate.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state-message">
+            <p>No certificates are registered in the system yet.</p>
+        </div>
+    }
+</div>

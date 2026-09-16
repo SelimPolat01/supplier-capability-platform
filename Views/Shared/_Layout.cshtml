@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/GlobalStyles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @await RenderSectionAsync("InputStyles", required: false)
+    @await RenderSectionAsync("PrimaryButtonStyles", required: false)
+    <link rel="stylesheet" href="~/css/HeaderStyles.css" />
+    @await RenderSectionAsync("LoginStyles", required: false)
+    @await RenderSectionAsync("AdminRegisterStyles", required: false)
+    @await RenderSectionAsync("QualityRegisterStyles", required: false)
+    @await RenderSectionAsync("PurchasingRegisterStyles", required: false)
+    @await RenderSectionAsync("SupplierRegisterStyles", required: false)
+    @await RenderSectionAsync("SupplierHomeStyles", required: false)
+    @await RenderSectionAsync("AddMachineStyles", required: false)
+    @await RenderSectionAsync("AddCertificateStyles", required: false)
+    @await RenderSectionAsync("MachineStyles", required: false)
+    @await RenderSectionAsync("CertificateStyles", required: false)
+    @await RenderSectionAsync("MachinesStyles", required: false)
+    @await RenderSectionAsync("CertificatesStyles", required: false)
+    @await RenderSectionAsync("SearchBarStyles", required: false)
+    @await RenderSectionAsync("ConfirmModalStyles", required: false)
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="layout-container">
+        <partial name="_Header"></partial>
+            @RenderBody()
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="~/scripts/HeaderScript.js"></script>
+
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
+</html>
