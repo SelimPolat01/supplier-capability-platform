@@ -8,7 +8,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Entities
         public string Surname { get; set; } = string.Empty;
         public string? CompanyName { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public virtual ICollection<Machine> Machines { get; set; } = new List<Machine>();
-        public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
+        public virtual ICollection<SupplierMachine> Machines { get; set; } = new List<SupplierMachine>();
+        public virtual ICollection<SupplierCertificate> Certificates { get; set; } = new List<SupplierCertificate>();
     }
 }

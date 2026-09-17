@@ -21,11 +21,11 @@
         </h2>            
         <partial name="_SearchBar" model="searchBarModel"></partial>
     </div>
-    <vc:all-certificates-with-details user-id="@userId" page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:all-certificates-with-details>
+    <vc:all-supplier-certificates-with-details user-id="@userId" page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:all-supplier-certificates-with-details>
 </div>
 
-@section CertificatesStyles {
-    <link rel="stylesheet" href="~/css/CertificatesStyles.css" />
+@section SupplierCertificatesStyles {
+    <link rel="stylesheet" href="~/css/SupplierCertificatesStyles.css" />
 }
 
 @section SearchBarStyles {

@@ -73,11 +73,11 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             return role switch
             {
-                "Admin" => RedirectToAction("Index", "Admin"),
-                "Quality" => RedirectToAction("Index", "Quality"),
-                "Purchasing" => RedirectToAction("Index", "Purchasing"),
-                "Supplier" => RedirectToAction("Index", "Supplier"),
-                _ => RedirectToAction("Index", "Home")
+                "Admin" => RedirectToAction("Home", "Admin"),
+                "Quality" => RedirectToAction("Home", "Quality"),
+                "Purchasing" => RedirectToAction("Home", "Purchasing"),
+                "Supplier" => RedirectToAction("Home", "Supplier"),
+                _ => RedirectToAction("Home", "Admin")
             };
         }
 
@@ -314,10 +314,10 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                if (User.IsInRole("Admin")) return RedirectToAction("Index", "Admin");
-                if (User.IsInRole("Quality")) return RedirectToAction("Index", "Quality");
-                if (User.IsInRole("Purchasing")) return RedirectToAction("Index", "Purchasing");
-                if (User.IsInRole("Supplier")) return RedirectToAction("Index", "Supplier");
+                if (User.IsInRole("Admin")) return RedirectToAction("Home", "Admin");
+                if (User.IsInRole("Quality")) return RedirectToAction("Home", "Quality");
+                if (User.IsInRole("Purchasing")) return RedirectToAction("Home", "Purchasing");
+                if (User.IsInRole("Supplier")) return RedirectToAction("Home", "Supplier");
             }
             return null;
         }

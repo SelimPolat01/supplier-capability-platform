@@ -1,4 +1,4 @@
-﻿@model AddMachinePostRequestDTO
+﻿@model AddSupplierMachinePostRequestDTO
 
 @{
     InputModel machineGroupInputModel = new()
@@ -75,6 +75,7 @@
     {
         Type = "submit",
         Text = "Add",
+        IconClass = "fa-solid fa-circle-plus"
     };
 }
 
@@ -110,8 +111,8 @@
                                 </div>
 
                                 
-                                @section AddMachineStyles {
-                                    <link rel="stylesheet" href="~/css/AddMachineStyles.css" />
+                                @section AddSupplierMachineStyles {
+                                    <link rel="stylesheet" href="~/css/AddSupplierMachineStyles.css" />
                                 }
 
                                 @section InputStyles {

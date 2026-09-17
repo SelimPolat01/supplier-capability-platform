@@ -1,4 +1,4 @@
-﻿@model AddCertificatePostRequestDTO
+﻿@model AddSupplierCertificatePostRequestDTO
 
 @{
     InputModel nameInputModel = new()
@@ -49,7 +49,7 @@
     {
         Text = "Add",
         Type = "submit",
-        CssClass = "add-certificate-button"
+        IconClass = "fa-solid fa-circle-plus"
     };
 }
 
@@ -79,8 +79,8 @@
                         </div>
                     </div>
 
-                    @section AddCertificateStyles {
-                        <link rel="stylesheet" href="~/css/AddCertificateStyles.css" />
+                    @section AddSupplierCertificateStyles {
+                        <link rel="stylesheet" href="~/css/AddSupplierCertificateStyles.css" />
                     }
 
                     @section InputStyles {

@@ -3,7 +3,7 @@
 <button type="@Model.Type" class="primary-button @Model?.CssClass" onclick="@Model?.OnClick">
     @if (!string.IsNullOrEmpty(Model?.IconClass))
     {
-        <i class="@Model?.IconClass"></i> 
+        <i class="@Model?.IconClass"></i>
     }
-    @Model?.Text
-    </button>
+    <span>@Model?.Text</span>
+</button>

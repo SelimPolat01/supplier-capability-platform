@@ -6,10 +6,12 @@ using TedarikciKabiliyetYonetimSistemi.Repositories;
 using TedarikciKabiliyetYonetimSistemi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<IMachineRepository, MachineRepository>();
-builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
-builder.Services.AddScoped<IMachineService, MachineService>();
-builder.Services.AddScoped<ICertificateService, AddCertificateService>();
+builder.Services.AddScoped<ISupplierMachineRepository, SupplierMachineRepository>();
+builder.Services.AddScoped<ISupplierCertificateRepository, SupplierCertificateRepository>();
+builder.Services.AddScoped<ISupplierHumanResourceRepository, SupplierHumanResourceRepository>();
+builder.Services.AddScoped<ISupplierMachineService, SupplierMachineService>();
+builder.Services.AddScoped<ISupplierCertificateService, AddCertificateService>();
+builder.Services.AddScoped<ISupplierHumanResourceService, SupplierHumanResourceService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddControllersWithViews();

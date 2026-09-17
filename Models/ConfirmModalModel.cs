@@ -9,5 +9,7 @@
         public string OnConfirm { get; set; } = null!;
         public string? OnCancel { get; set; }
         public string? CssClass { get; set; }
+        public string? ConfirmButtonIcon { get; set; }
+        public string? CancelButtonIcon { get; set; }
     }
 }

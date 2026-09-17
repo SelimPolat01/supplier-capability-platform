@@ -8,8 +8,9 @@ namespace TedarikciKabiliyetYonetimSistemi.Database
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions) : base(dbContextOptions) { }
 
-        public DbSet<Machine> Machines { get; set; }
-        public DbSet<Certificate> Certificates { get; set; }
+        public DbSet<SupplierMachine> Machines { get; set; }
+        public DbSet<SupplierCertificate> Certificates { get; set; }
+        public DbSet<SupplierHumanResource> HumanResources { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,11 +24,11 @@ namespace TedarikciKabiliyetYonetimSistemi.Database
             //    .WithMany(user => user.Certificates)
             //    .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Machine>()
+            modelBuilder.Entity<SupplierMachine>()
                 .HasIndex(machine => new { machine.AppUserId, machine.MachineGroup, machine.MachineType, machine.BrandAndModel, machine.ProductionYear, machine.CapacitySpecs }).
                 IsUnique();
 
-            modelBuilder.Entity<Certificate>()
+            modelBuilder.Entity<SupplierCertificate>()
                 .HasIndex(certificate => new { certificate.AppUserId, certificate.Name, certificate.IssuedBy, certificate.IssueDate, certificate.ExpiryDate });
 
             base.OnModelCreating(modelBuilder);

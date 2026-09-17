@@ -21,11 +21,11 @@
         </h2>        
         <partial name="_SearchBar" model="searchBarModel"></partial>
         </div>
-        <vc:all-machines-with-details user-id="@userId" page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:all-machines-with-details>
+        <vc:all-supplier-machines-with-details user-id="@userId" page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:all-supplier-machines-with-details>
     </div>
 
-    @section MachinesStyles {
-        <link rel="stylesheet" href="~/css/MachinesStyles.css" />
+    @section SupplierMachinesStyles {
+        <link rel="stylesheet" href="~/css/SupplierMachinesStyles.css" />
     }
 
     @section SearchBarStyles {

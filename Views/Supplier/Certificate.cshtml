@@ -1,4 +1,4 @@
-﻿@model Certificate
+﻿@model SupplierCertificate
 
 @{
     PrimaryButtonModel editButtonModel = new()
@@ -6,14 +6,16 @@
         Type = "button",
         Text = "Edit",
         OnClick = "toggleEditClickHandler()",
-        CssClass = "edit-button"
+        CssClass = "edit-button",
+        IconClass = "fa-solid fa-pen-to-square"
     };
 
     PrimaryButtonModel saveButtonModel = new()
     {
         Type = "submit",
         Text = "Save",
-        CssClass = "save-button"
+        CssClass = "save-button",
+        IconClass = "fa-solid fa-circle-check"
     };
 
     PrimaryButtonModel deleteButtonModel = new()
@@ -21,16 +23,19 @@
         Type = "button",
         Text = "Delete",
         OnClick = $"deleteClickHandler()",
-        CssClass = "delete-button"
+        CssClass = "delete-button",
+        IconClass = "fa-solid fa-trash-can"
     };
 
     ConfirmModalModel confirmModalModel = new()
     {
-        Title = "Delete Certificate",
-        Message = "Are you sure you want to delete this certificate? This action cannot be undone.",
+        Title = "Delete Supplier Certificate",
+        Message = "Are you sure you want to delete this supplier certificate? This action cannot be undone.",
         OnConfirm = $"confirmDeleteHandler({Model.Id})",
         ConfirmButtonText = "Yes, Delete",
+        ConfirmButtonIcon = "fa-solid fa-trash-can",
         CancelButtonText = "Cancel",
+        CancelButtonIcon = "fa-solid fa-circle-xmark"
     };
 }
 
@@ -91,8 +96,8 @@
                     </div>
                 </div>
 
-                @section CertificateStyles {
-                    <link rel="stylesheet" href="~/css/CertificateStyles.css" />
+                @section SupplierCertificateStyles {
+                    <link rel="stylesheet" href="~/css/SupplierCertificateStyles.css" />
                 }
 
                 @section PrimaryButtonStyles {
@@ -170,19 +175,21 @@
                             const dataSpans = document.querySelectorAll(".certificate-element-data");
                             const editInputs = document.querySelectorAll(".editable-input");
                             const editButton = document.querySelector(".edit-button");
-                            const saveButton = document.querySelector(".save-button");
+                            const saveButton = document.querySelector(".save-button");                            
+                            const buttonText = editButton.querySelector("span");
+                            const buttonIcon = editButton.querySelector("i");
 
-                            if (editButton.innerText === "Edit") {
+                            if (buttonText.innerText.trim() === "Edit") {
                                 dataSpans.forEach(dataSpan => dataSpan.style.display = "none");
                                 editInputs.forEach(editInput => editInput.style.display = "block");
-                                editButton.innerText = "Cancel";
+                                buttonText.innerText = "Cancel";
                                 if (editInputs.length > 0) editInputs[0].focus();
                                 saveButton.style.display = "block";
 
-                            } else if (editButton.innerText === "Cancel") {
+                            } else if (buttonText.innerText.trim() === "Cancel") {
                                 dataSpans.forEach(dataSpan => dataSpan.style.display = "");
                                 editInputs.forEach(editInput => editInput.style.display = "none");
-                                editButton.innerText = "Edit";
+                                buttonText.innerText = "Edit";
                                 saveButton.style.display = "none";
                             }
                         }
@@ -200,7 +207,7 @@
                                 if (response.ok) {
                                     window.location.href = '/supplier/certificates';
                                 } else {
-                                    alert("An error occured while deleting the certificate.");
+                                    alert("An error occured while deleting the supplier certificate.");
                                     closeModal();
                                 }
                             } catch (err) {

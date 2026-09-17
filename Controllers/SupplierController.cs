@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using TedarikciKabiliyetYonetimSistemi.Entities;
 using TedarikciKabiliyetYonetimSistemi.Models.DTO;
 using TedarikciKabiliyetYonetimSistemi.Services;
 
@@ -10,16 +11,18 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
     [Authorize(Roles = "Supplier")]
     public class SupplierController : Controller
     {
-        private readonly IMachineService _machineService;
-        private readonly ICertificateService _certificateService;
-        public SupplierController(IMachineService machineService, ICertificateService certificateService)
+        private readonly ISupplierMachineService _supplierMachineService;
+        private readonly ISupplierCertificateService _supplierCertificateService;
+        private readonly ISupplierHumanResourceService _supplierHumanResourceService;
+        public SupplierController(ISupplierMachineService machineService, ISupplierCertificateService certificateService, ISupplierHumanResourceService supplierHumanResourceService)
         {
-            _machineService = machineService;
-            _certificateService = certificateService;
+            _supplierMachineService = machineService;
+            _supplierCertificateService = certificateService;
+            _supplierHumanResourceService = supplierHumanResourceService;
         }
 
         [HttpGet("home")]
-        public IActionResult Index([FromQuery] string machineSortBy = "group_asc", [FromQuery] string certificateSortBy = "name_asc")
+        public IActionResult Home([FromQuery] string machineSortBy = "group_asc", [FromQuery] string certificateSortBy = "name_asc")
         {
             ViewBag.CurrentMachineSort = machineSortBy;
             ViewBag.CurrentCertificateSort = certificateSortBy;
@@ -30,25 +33,25 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         [HttpGet("add-machine")]
         public IActionResult AddMachine()
         {
-            return View(new AddMachinePostRequestDTO());
+            return View(new AddSupplierMachinePostRequestDTO());
         }
 
         [HttpPost("add-machine")]
-        public async Task<IActionResult> AddMachine(AddMachinePostRequestDTO addMachinePostRequestDTO)
+        public async Task<IActionResult> AddMachine(AddSupplierMachinePostRequestDTO addSupplierMachinePostRequestDTO)
         {
-            if (!ModelState.IsValid) return View(addMachinePostRequestDTO);
+            if (!ModelState.IsValid) return View(addSupplierMachinePostRequestDTO);
 
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (!int.TryParse(userIdString, out int userId)) return RedirectToAction("Login", "Auth");
 
-            AddMachinePostResponseDTO addMachinePostResponseDTO = await _machineService.AddMachineAsync(userId, addMachinePostRequestDTO);
+            AddSupplierMachinePostResponseDTO addMachinePostResponseDTO = await _supplierMachineService.AddMachineAsync(userId, addSupplierMachinePostRequestDTO);
 
             if (!addMachinePostResponseDTO.IsSuccess)
             {
                 ModelState.AddModelError("", addMachinePostResponseDTO.Message);
 
-                return View(addMachinePostRequestDTO);
+                return View(addSupplierMachinePostRequestDTO);
             }
             else return RedirectToAction("Machines", "Supplier");
         }
@@ -56,11 +59,11 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         [HttpGet("add-certificate")]
         public IActionResult AddCertificate()
         {
-            return View(new AddCertificatePostRequestDTO());
+            return View(new AddSupplierCertificatePostRequestDTO());
         }
 
         [HttpPost("add-certificate")]
-        public async Task<IActionResult> AddCertificate(AddCertificatePostRequestDTO addCertificatePostRequestDTO)
+        public async Task<IActionResult> AddCertificate(AddSupplierCertificatePostRequestDTO addCertificatePostRequestDTO)
         {
             if (!ModelState.IsValid) return View(addCertificatePostRequestDTO);
 
@@ -68,7 +71,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             if (!int.TryParse(userIdString, out int userId)) return RedirectToAction("Login", "Auth");
 
-            AddCertificatePostResponseDTO addCertificatePostResponseDTO = await _certificateService.AddCertificateAsync(userId, addCertificatePostRequestDTO);
+            AddSupplierCertificatePostResponseDTO addCertificatePostResponseDTO = await _supplierCertificateService.AddCertificateAsync(userId, addCertificatePostRequestDTO);
 
             if (!addCertificatePostResponseDTO.IsSuccess)
             {
@@ -96,7 +99,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             if (!int.TryParse(userIdString, out int userId)) return RedirectToAction("Login", "Auth");
 
-            var machine = await _machineService.FetchMachineAsync(userId, machineId);
+            var machine = await _supplierMachineService.FetchMachineAsync(userId, machineId);
 
             if (machine == null) return NotFound("Machine not found.");
 
@@ -120,7 +123,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             if (!int.TryParse(userIdString, out int userId)) return RedirectToAction("Login", "Auth");
 
-            var existingCertificate = await _certificateService.FetchCertificateAsync(userId, certificateId);
+            var existingCertificate = await _supplierCertificateService.FetchCertificateAsync(userId, certificateId);
 
             if (existingCertificate == null) return NotFound("Certificate not found.");
 
@@ -128,7 +131,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         }
 
         [HttpPatch("machines/{machineId:int}/patch")]
-        public async Task<IActionResult> PatchMachine([FromRoute] int machineId, [FromBody] EditMachinePatchRequestDTO editMachinePatchRequestDTO)
+        public async Task<IActionResult> PatchMachine([FromRoute] int machineId, [FromBody] EditSupplierMachinePatchRequestDTO editMachinePatchRequestDTO)
         {
             if (machineId != editMachinePatchRequestDTO.Id) return BadRequest("ID mismatch");
 
@@ -138,7 +141,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             if (!int.TryParse(userIdString, out int userId)) return Unauthorized(new { message = "Please log in again." });
 
-            var machineUpdatingResult = await _machineService.EditMachineAsync(editMachinePatchRequestDTO, userId);
+            var machineUpdatingResult = await _supplierMachineService.EditMachineAsync(editMachinePatchRequestDTO, userId);
 
             if (!machineUpdatingResult.IsSuccess) return Unauthorized(machineUpdatingResult.Message);
 
@@ -146,7 +149,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         }
 
         [HttpPatch("certificates/{certificateId:int}/patch")]
-        public async Task<IActionResult> PatchCertificate(int certificateId, [FromBody] EditCertificatePatchRequestDTO editCertificatePatchRequestDTO)
+        public async Task<IActionResult> PatchCertificate(int certificateId, [FromBody] EditSupplierCertificatePatchRequestDTO editCertificatePatchRequestDTO)
         {
             if (editCertificatePatchRequestDTO.Id != certificateId) return BadRequest("ID mismatch");
 
@@ -156,9 +159,9 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             if (!int.TryParse(userIdString, out int userId)) return Unauthorized(new { message = "Please log in again." });
 
-            var certificateUpdatingResult = await _certificateService.EditCertificateAsync(editCertificatePatchRequestDTO, userId);
+            var certificateUpdatingResult = await _supplierCertificateService.EditCertificateAsync(editCertificatePatchRequestDTO, userId);
 
-            if (!certificateUpdatingResult.IsSuccess) return Unauthorized(certificateUpdatingResult.Message);
+            if (!certificateUpdatingResult.IsSuccess) return BadRequest(certificateUpdatingResult.Message);
 
             return Ok(new { message = certificateUpdatingResult.Message });
         }
@@ -170,7 +173,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             if (!int.TryParse(userIdString, out int userId)) return Unauthorized(new { message = "Please log in again." });
 
-            RemoveMachineDeleteResponseDTO removeMachineDeleteResponseDTO = await _machineService.RemoveMachineAsync(userId, machineId);
+            RemoveSupplierMachineDeleteResponseDTO removeMachineDeleteResponseDTO = await _supplierMachineService.RemoveMachineAsync(userId, machineId);
 
             if (removeMachineDeleteResponseDTO.IsSuccess) return Ok(new { message = removeMachineDeleteResponseDTO.Message });
             else return BadRequest(new { message = removeMachineDeleteResponseDTO.Message });
@@ -183,10 +186,31 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             if (!int.TryParse(userIdString, out int userId)) return Unauthorized(new { message = "Please log in again." });
 
-            RemoveCertificateDeleteResponseDTO removeCertificateDeleteResponseDTO = await _certificateService.RemoveCertificateAsync(userId, certificateId);
+            RemoveSupplierCertificateDeleteResponseDTO removeCertificateDeleteResponseDTO = await _supplierCertificateService.RemoveCertificateAsync(userId, certificateId);
 
             if (removeCertificateDeleteResponseDTO.IsSuccess) return Ok(new { message = removeCertificateDeleteResponseDTO.Message });
             else return BadRequest(new { message = removeCertificateDeleteResponseDTO.Message });
+        }
+
+        [HttpGet("manage-human-resource")]
+        public IActionResult ManageHumanResource()
+        {
+            return View(new SupplierCertificate());
+        }
+
+        [HttpPatch("edit-human-resource/patch")]
+        public async Task<IActionResult> EditHumanResource([FromBody] EditSupplierHumanResourcePatchRequestDTO editSupplierHumanRespourcePostRequestDTO)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!int.TryParse(userIdString, out int userId)) return Unauthorized("Please log in again.");
+
+            EditSupplierHumanResourcePatchResponseDTO editSupplierHumanResourcePatchResponseDTO = await _supplierHumanResourceService.EditHumanResourcesAsync(editSupplierHumanRespourcePostRequestDTO, userId);
+
+            if (!editSupplierHumanResourcePatchResponseDTO.IsSuccess) return BadRequest(new { message = editSupplierHumanResourcePatchResponseDTO.Message });
+
+            return Ok(new { message = editSupplierHumanResourcePatchResponseDTO.Message });
         }
     }
 }

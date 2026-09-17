@@ -237,7 +237,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.Certificate", b =>
+            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierCertificate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -263,7 +263,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
                     b.Property<string>("IssuedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -271,12 +271,66 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId", "Name", "IssueDate", "ExpiryDate");
+                    b.HasIndex("AppUserId", "Name", "IssuedBy", "IssueDate", "ExpiryDate");
 
-                    b.ToTable("Certificates", (string)null);
+                    b.ToTable("Certificates");
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.Machine", b =>
+            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierHumanResource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BlueCollarCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CertifiedOperatorCount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("EmployeeTurnoverRate")
+                        .HasColumnType("decimal(5, 2)");
+
+                    b.Property<int?>("EngineerCount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("HasLaborUnion")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("QualityControlStaffCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RndStaffCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShiftCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalEmployeeCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WhiteCollarCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WorkingDaysPerWeek")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("HumanResources");
+                });
+
+            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierMachine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -296,7 +350,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
                     b.Property<string>("CapacitySpecs")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -321,10 +375,10 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId", "MachineGroup", "MachineType", "BrandAndModel", "ProductionYear")
+                    b.HasIndex("AppUserId", "MachineGroup", "MachineType", "BrandAndModel", "ProductionYear", "CapacitySpecs")
                         .IsUnique();
 
-                    b.ToTable("Machines", (string)null);
+                    b.ToTable("Machines");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -378,7 +432,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.Certificate", b =>
+            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierCertificate", b =>
                 {
                     b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", "AppUser")
                         .WithMany("Certificates")
@@ -389,7 +443,18 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.Machine", b =>
+            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierHumanResource", b =>
+                {
+                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierMachine", b =>
                 {
                     b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", "AppUser")
                         .WithMany("Machines")
