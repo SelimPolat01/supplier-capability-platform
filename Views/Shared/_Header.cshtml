@@ -2,8 +2,8 @@
     string homeController = "";
 
     if (User.IsInRole("Admin")) homeController = "Admin";
-    else if (User.IsInRole("Quality")) homeController = "Quality";
-    else if (User.IsInRole("Purchasing")) homeController = "Purchasing";
+    else if (User.IsInRole("Qualitier")) homeController = "Qualitier";
+    else if (User.IsInRole("Purchaser")) homeController = "Purchaser";
     else if (User.IsInRole("Supplier")) homeController = "Supplier";
 
     PrimaryButtonModel logOutButtonModel = new()
@@ -22,8 +22,8 @@
             @if (!User.Identity!.IsAuthenticated)
             {
                 <li><a asp-controller="Auth" asp-action="AdminRegister"><i class="fa-solid fa-user-shield"></i> ADMIN REGISTER</a></li>
-                <li><a asp-controller="Auth" asp-action="QualityRegister"><i class="fa-solid fa-clipboard-check"></i> QUALITY REGISTER</a></li>
-                <li><a asp-controller="Auth" asp-action="PurchasingRegister"><i class="fa-solid fa-file-invoice-dollar"></i> PURCHASING REGISTER</a></li>
+                <li><a asp-controller="Auth" asp-action="QualitierRegister"><i class="fa-solid fa-clipboard-check"></i> QUALITIER REGISTER</a></li>
+                <li><a asp-controller="Auth" asp-action="PurchaserRegister"><i class="fa-solid fa-file-invoice-dollar"></i> PURCHASER REGISTER</a></li>
                 <li><a asp-controller="Auth" asp-action="SupplierRegister"><i class="fa-solid fa-truck-fast"></i> SUPPLIER REGISTER</a></li>
                 <li><a asp-controller="Auth" asp-action="Login"><i class="fa-solid fa-right-to-bracket"></i> LOGIN</a></li>
             }

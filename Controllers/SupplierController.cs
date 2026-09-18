@@ -8,7 +8,7 @@ using TedarikciKabiliyetYonetimSistemi.Services;
 namespace TedarikciKabiliyetYonetimSistemi.Controllers
 {
     [Route("[controller]")]
-    [Authorize(Roles = "Supplier")]
+    [Authorize(Roles = "Supplier, Purchasing, Quality, Admin")]
     public class SupplierController : Controller
     {
         private readonly ISupplierMachineService _supplierMachineService;
@@ -83,7 +83,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         }
 
         [HttpGet("machines")]
-        public ActionResult Machines([FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", [FromQuery] string? searchString = null)
+        public IActionResult Machines([FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", [FromQuery] string? searchString = null)
         {
             ViewBag.CurrentPage = page;
             ViewBag.CurrentSort = sortBy;
@@ -130,6 +130,13 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
             return View(existingCertificate);
         }
 
+
+        [HttpGet("manage-human-resource")]
+        public IActionResult ManageHumanResource()
+        {
+            return View(new SupplierHumanResource());
+        }
+
         [HttpPatch("machines/{machineId:int}/patch")]
         public async Task<IActionResult> PatchMachine([FromRoute] int machineId, [FromBody] EditSupplierMachinePatchRequestDTO editMachinePatchRequestDTO)
         {
@@ -166,38 +173,6 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
             return Ok(new { message = certificateUpdatingResult.Message });
         }
 
-        [HttpDelete("machines/{machineId:int}/delete")]
-        public async Task<IActionResult> DeleteMachine(int machineId)
-        {
-            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (!int.TryParse(userIdString, out int userId)) return Unauthorized(new { message = "Please log in again." });
-
-            RemoveSupplierMachineDeleteResponseDTO removeMachineDeleteResponseDTO = await _supplierMachineService.RemoveMachineAsync(userId, machineId);
-
-            if (removeMachineDeleteResponseDTO.IsSuccess) return Ok(new { message = removeMachineDeleteResponseDTO.Message });
-            else return BadRequest(new { message = removeMachineDeleteResponseDTO.Message });
-        }
-
-        [HttpDelete("certificates/{certificateId:int}/delete")]
-        public async Task<IActionResult> DeleteCertificate(int certificateId)
-        {
-            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (!int.TryParse(userIdString, out int userId)) return Unauthorized(new { message = "Please log in again." });
-
-            RemoveSupplierCertificateDeleteResponseDTO removeCertificateDeleteResponseDTO = await _supplierCertificateService.RemoveCertificateAsync(userId, certificateId);
-
-            if (removeCertificateDeleteResponseDTO.IsSuccess) return Ok(new { message = removeCertificateDeleteResponseDTO.Message });
-            else return BadRequest(new { message = removeCertificateDeleteResponseDTO.Message });
-        }
-
-        [HttpGet("manage-human-resource")]
-        public IActionResult ManageHumanResource()
-        {
-            return View(new SupplierCertificate());
-        }
-
         [HttpPatch("edit-human-resource/patch")]
         public async Task<IActionResult> EditHumanResource([FromBody] EditSupplierHumanResourcePatchRequestDTO editSupplierHumanRespourcePostRequestDTO)
         {
@@ -211,6 +186,32 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
             if (!editSupplierHumanResourcePatchResponseDTO.IsSuccess) return BadRequest(new { message = editSupplierHumanResourcePatchResponseDTO.Message });
 
             return Ok(new { message = editSupplierHumanResourcePatchResponseDTO.Message });
+        }
+
+        [HttpDelete("machines/{machineId:int}/delete")]
+        public async Task<IActionResult> DeleteSupplierMachine(int machineId)
+        {
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdString, out int userId)) return Unauthorized(new { message = "Please log in again." });
+
+            RemoveSupplierMachineDeleteResponseDTO removeMachineDeleteResponseDTO = await _supplierMachineService.RemoveMachineAsync(userId, machineId);
+
+            if (removeMachineDeleteResponseDTO.IsSuccess) return Ok(new { message = removeMachineDeleteResponseDTO.Message });
+            else return BadRequest(new { message = removeMachineDeleteResponseDTO.Message });
+        }
+
+        [HttpDelete("certificates/{certificateId:int}/delete")]
+        public async Task<IActionResult> DeleteSupplierCertificate(int certificateId)
+        {
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdString, out int userId)) return Unauthorized(new { message = "Please log in again." });
+
+            RemoveSupplierCertificateDeleteResponseDTO removeCertificateDeleteResponseDTO = await _supplierCertificateService.RemoveCertificateAsync(userId, certificateId);
+
+            if (removeCertificateDeleteResponseDTO.IsSuccess) return Ok(new { message = removeCertificateDeleteResponseDTO.Message });
+            else return BadRequest(new { message = removeCertificateDeleteResponseDTO.Message });
         }
     }
 }

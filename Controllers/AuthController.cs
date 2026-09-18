@@ -74,8 +74,8 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
             return role switch
             {
                 "Admin" => RedirectToAction("Home", "Admin"),
-                "Quality" => RedirectToAction("Home", "Quality"),
-                "Purchasing" => RedirectToAction("Home", "Purchasing"),
+                "Qualitier" => RedirectToAction("Home", "Qualitier"),
+                "Purchaser" => RedirectToAction("Home", "Purchaser"),
                 "Supplier" => RedirectToAction("Home", "Supplier"),
                 _ => RedirectToAction("Home", "Admin")
             };
@@ -133,11 +133,11 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             await _userManager.AddToRoleAsync(newUser, "Admin");
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Auth");
         }
 
-        [HttpGet("quality-register")]
-        public IActionResult QualityRegister()
+        [HttpGet("qualitier-register")]
+        public IActionResult QualitierRegister()
         {
             var redirect = RedirectBasedOnRole();
             if (redirect != null) return redirect;
@@ -145,31 +145,31 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
             return View();
         }
 
-        [HttpPost("quality-register")]
-        public async Task<IActionResult> QualityRegister(QualityRegisterPostRequestDTO qualityRegisterPostDTO)
+        [HttpPost("qualitier-register")]
+        public async Task<IActionResult> QualitierRegister(QualitierRegisterPostRequestDTO qualitierRegisterPostDTO)
         {
             if (!ModelState.IsValid)
             {
-                return View(qualityRegisterPostDTO);
+                return View(qualitierRegisterPostDTO);
             }
 
-            var existingUser = await _userManager.FindByEmailAsync(qualityRegisterPostDTO.Email);
+            var existingUser = await _userManager.FindByEmailAsync(qualitierRegisterPostDTO.Email);
 
             if (existingUser != null)
             {
                 ModelState.AddModelError("Email", "This email address is already registered.");
-                return View(qualityRegisterPostDTO);
+                return View(qualitierRegisterPostDTO);
             }
 
             AppUser newUser = new()
             {
-                Name = qualityRegisterPostDTO.Name,
-                Surname = qualityRegisterPostDTO.Surname,
-                Email = qualityRegisterPostDTO.Email,
-                UserName = qualityRegisterPostDTO.Email
+                Name = qualitierRegisterPostDTO.Name,
+                Surname = qualitierRegisterPostDTO.Surname,
+                Email = qualitierRegisterPostDTO.Email,
+                UserName = qualitierRegisterPostDTO.Email
             };
 
-            var result = await _userManager.CreateAsync(newUser, qualityRegisterPostDTO.Password);
+            var result = await _userManager.CreateAsync(newUser, qualitierRegisterPostDTO.Password);
 
             if (!result.Succeeded)
             {
@@ -177,22 +177,22 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
-                return View(qualityRegisterPostDTO);
+                return View(qualitierRegisterPostDTO);
             }
 
-            if (!await _roleManager.RoleExistsAsync("Quality"))
+            if (!await _roleManager.RoleExistsAsync("Qualitier"))
             {
-                AppRole role = new() { Name = "Quality" };
+                AppRole role = new() { Name = "Qualitier" };
                 await _roleManager.CreateAsync(role);
             }
 
-            await _userManager.AddToRoleAsync(newUser, "Quality");
+            await _userManager.AddToRoleAsync(newUser, "Qualitier");
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Auth");
         }
 
-        [HttpGet("purchasing-register")]
-        public IActionResult PurchasingRegister()
+        [HttpGet("purchaser-register")]
+        public IActionResult PurchaserRegister()
         {
             var redirect = RedirectBasedOnRole();
             if (redirect != null) return redirect;
@@ -200,31 +200,31 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
             return View();
         }
 
-        [HttpPost("purchasing-register")]
-        public async Task<IActionResult> PurchasingRegister(PurchasingRegisterPostRequestDTO purchasingRegisterPostDTO)
+        [HttpPost("purchaser-register")]
+        public async Task<IActionResult> PurchaserRegister(PurchaserRegisterPostRequestDTO PpurchaserRegisterPostDTO)
         {
             if (!ModelState.IsValid)
             {
-                return View(purchasingRegisterPostDTO);
+                return View(PpurchaserRegisterPostDTO);
             }
 
-            var existingUser = await _userManager.FindByEmailAsync(purchasingRegisterPostDTO.Email);
+            var existingUser = await _userManager.FindByEmailAsync(PpurchaserRegisterPostDTO.Email);
 
             if (existingUser != null)
             {
                 ModelState.AddModelError("Email", "This email address is already registered.");
-                return View(purchasingRegisterPostDTO);
+                return View(PpurchaserRegisterPostDTO);
             }
 
             AppUser newUser = new()
             {
-                Name = purchasingRegisterPostDTO.Name,
-                Surname = purchasingRegisterPostDTO.Surname,
-                Email = purchasingRegisterPostDTO.Email,
-                UserName = purchasingRegisterPostDTO.Email
+                Name = PpurchaserRegisterPostDTO.Name,
+                Surname = PpurchaserRegisterPostDTO.Surname,
+                Email = PpurchaserRegisterPostDTO.Email,
+                UserName = PpurchaserRegisterPostDTO.Email
             };
 
-            var result = await _userManager.CreateAsync(newUser, purchasingRegisterPostDTO.Password);
+            var result = await _userManager.CreateAsync(newUser, PpurchaserRegisterPostDTO.Password);
 
             if (!result.Succeeded)
             {
@@ -232,18 +232,18 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
-                return View(purchasingRegisterPostDTO);
+                return View(PpurchaserRegisterPostDTO);
             }
 
-            if (!await _roleManager.RoleExistsAsync("Purchasing"))
+            if (!await _roleManager.RoleExistsAsync("Purchaser"))
             {
-                AppRole role = new() { Name = "Purchasing" };
+                AppRole role = new() { Name = "Purchaser" };
                 await _roleManager.CreateAsync(role);
             }
 
-            await _userManager.AddToRoleAsync(newUser, "Purchasing");
+            await _userManager.AddToRoleAsync(newUser, "Purchaser");
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Auth");
         }
 
         [HttpGet("supplier-register")]
@@ -299,13 +299,15 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
 
             await _userManager.AddToRoleAsync(newUser, "Supplier");
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Auth");
         }
 
         [HttpPost("log-out")]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
+
+            Response.Cookies.Delete("JwtToken");
 
             return Ok(new { message = "Successfully logged out." });
         }
@@ -315,8 +317,8 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 if (User.IsInRole("Admin")) return RedirectToAction("Home", "Admin");
-                if (User.IsInRole("Quality")) return RedirectToAction("Home", "Quality");
-                if (User.IsInRole("Purchasing")) return RedirectToAction("Home", "Purchasing");
+                if (User.IsInRole("Qualitier")) return RedirectToAction("Home", "Qualitier");
+                if (User.IsInRole("Purchaser")) return RedirectToAction("Home", "Purchaser");
                 if (User.IsInRole("Supplier")) return RedirectToAction("Home", "Supplier");
             }
             return null;
