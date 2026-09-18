@@ -32,6 +32,7 @@
         <h2 class="login-text">Login</h2>
      </div>
     <form asp-action="Login" method="post" class="login-form">
+        <div asp-validation-summary="ModelOnly" class="login-error-summary" ></div>
         <partial name="_Input" model="emailInputModel"></partial>
             <partial name="_Input" model="passwordInputModel"></partial>
                 <div class="remember-me-container">

@@ -367,6 +367,9 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("ProductionYear")
                         .HasColumnType("int");
 
@@ -446,7 +449,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
             modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierHumanResource", b =>
                 {
                     b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", "User")
-                        .WithMany()
+                        .WithMany("HumanResources")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -468,6 +471,8 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
             modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", b =>
                 {
                     b.Navigation("Certificates");
+
+                    b.Navigation("HumanResources");
 
                     b.Navigation("Machines");
                 });

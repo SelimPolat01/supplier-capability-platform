@@ -48,7 +48,13 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
                 return View(loginPostDTO);
             }
 
-            var passwordSignInResult = await _signInManager.PasswordSignInAsync(user, loginPostDTO.Password, isPersistent: loginPostDTO.RememberMe, lockoutOnFailure: false);
+            var passwordSignInResult = await _signInManager.PasswordSignInAsync(user, loginPostDTO.Password, isPersistent: loginPostDTO.RememberMe, lockoutOnFailure: true);
+
+            if (passwordSignInResult.IsLockedOut)
+            {
+                ModelState.AddModelError("", "The 5-minute lockout period has been triggered due to too many incorrect entries for the parts.");
+                return View(loginPostDTO);
+            }
 
             if (!passwordSignInResult.Succeeded)
             {

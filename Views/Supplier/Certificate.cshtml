@@ -41,185 +41,214 @@
 
 <div class="certificate-container">
     <partial name="_ConfirmModal" model="confirmModalModel"></partial>
-        <div class="certificate-element-wrapper">
-            <form onsubmit="submitHandler(event)" id="form">
-                <div class="flex-container-1">
-                    <h2 class="certificate-details-text">Certificate Details</h2>
-                    <div class="save-edit-button-container">
-                        <partial name="_PrimaryButton" model="saveButtonModel"></partial>
-                            <partial name="_PrimaryButton" model="editButtonModel"></partial>
-                                <partial name="_PrimaryButton" model="deleteButtonModel"></partial>
-                                </div>
-                            </div>
-                            <div class="certificate-flex-wrapper">
-                                <div class="certificate-element-container">
-                                    <span class="certificate-element-title">Id</span>
-                                    <span class="certificate-element-id-data">@Model.Id</span>
-                                    <input type="hidden" asp-for="Id" />
-                                </div>
-                                <div class="certificate-element-container">
-                                    <span class="certificate-element-title">Name</span>
-                                    <span class="certificate-element-data">@Model.Name</span>
-                                    <input type="text" class="editable-input" asp-for="Name" />
-                                </div>
-                                <div class="certificate-element-container">
-                                    <span class="certificate-element-title">Issued By</span>
-                                    <span class="certificate-element-data">@Model.IssuedBy</span>
-                                    <input type="text" class="editable-input" asp-for="IssuedBy" />
-                                </div>
-                                <div class="certificate-element-container">
-                                    <span class="certificate-element-title">Issue Date</span>
-                                    <span class="certificate-element-data">@Model.IssueDate.ToString("yyyy-MM-dd")</span>
-                                    <input type="date" class="editable-input" asp-for="IssueDate" asp-format="{0:yyyy-MM-dd}" />
-                                </div>
-                                <div class="certificate-element-container">
-                                    <span class="certificate-element-title">Expiry Date</span>
-                                    <span class="certificate-element-data">@(Model.ExpiryDate?.ToString("yyyy-MM-dd") ?? "No Expiry")</span>                            <input type="date" class="editable-input" asp-for="ExpiryDate" asp-format="{0:yyyy-MM-dd}" />
-                                </div>
-                                <div class="certificate-element-container">
-                                    <span class="certificate-element-title">Created At</span>
-                                    <span class="certificate-element-time-data">@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
-                                </div>
-                                <div class="image-file-container">
-                                    <h2 class="certificate-image-file-text">Image File</h2>
-                                    @if (!string.IsNullOrEmpty(Model.DocumentUrl) && Model.DocumentUrl.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        <iframe src="@Model.DocumentUrl#toolbar=0&navpanes=0&view=FitH"></iframe>
-                                    }
-                                    else
-                                    {
-                                        <img src="@Model.DocumentUrl" alt="@Model.DocumentUrl Image" />
-                                    }
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+    <div class="certificate-element-wrapper">
+        <form onsubmit="submitHandler(event)" id="form">
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger" style="color: #ff6b6b; font-weight: bold; margin-bottom: 1rem;"></div>
+
+            <div class="flex-container-1">
+                <h2 class="certificate-details-text">Certificate Details</h2>
+                
+                <div class="save-edit-button-container">
+                    <partial name="_PrimaryButton" model="saveButtonModel"></partial>
+                    <partial name="_PrimaryButton" model="editButtonModel"></partial>
+                    <partial name="_PrimaryButton" model="deleteButtonModel"></partial>
                 </div>
+            </div>
 
-                @section SupplierCertificateStyles {
-                    <link rel="stylesheet" href="~/css/SupplierCertificateStyles.css" />
+            <div class="certificate-flex-wrapper">
+                <!-- ID TEKRAR KENDİ KUTUSUNDA -->
+                <div class="certificate-element-container">
+                    <span class="certificate-element-title">Id</span>
+                    <span class="certificate-element-id-data">@Model.Id</span>
+                    <input type="hidden" asp-for="Id" />
+                </div>
+                
+                <div class="certificate-element-container">
+                    <span class="certificate-element-title">Name</span>
+                    <span class="certificate-element-data">@Model.Name</span>
+                    <input type="text" class="editable-input" asp-for="Name" />
+                    <span asp-validation-for="Name" class="text-danger" style="color: #ff6b6b; font-size: 0.85rem; margin-top: 4px;"></span>
+                </div>
+                
+                <div class="certificate-element-container">
+                    <span class="certificate-element-title">Issued By</span>
+                    <span class="certificate-element-data">@Model.IssuedBy</span>
+                    <input type="text" class="editable-input" asp-for="IssuedBy" />
+                    <span asp-validation-for="IssuedBy" class="text-danger" style="color: #ff6b6b; font-size: 0.85rem; margin-top: 4px;"></span>
+                </div>
+                
+                <div class="certificate-element-container">
+                    <span class="certificate-element-title">Issue Date</span>
+                    <span class="certificate-element-data">@Model.IssueDate.ToString("yyyy-MM-dd")</span>
+                    <input type="date" class="editable-input" asp-for="IssueDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="IssueDate" class="text-danger" style="color: #ff6b6b; font-size: 0.85rem; margin-top: 4px;"></span>
+                </div>
+                
+                <div class="certificate-element-container">
+                    <span class="certificate-element-title">Expiry Date</span>
+                    <span class="certificate-element-data">@(Model.ExpiryDate?.ToString("yyyy-MM-dd") ?? "No Expiry")</span>
+                    <input type="date" class="editable-input" asp-for="ExpiryDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="ExpiryDate" class="text-danger" style="color: #ff6b6b; font-size: 0.85rem; margin-top: 4px;"></span>
+                </div>
+                
+                <div class="certificate-element-container">
+                    <span class="certificate-element-title">Created At</span>
+                    <span class="certificate-element-time-data">@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                </div>
+                
+                <div class="image-file-container">
+                    <h2 class="certificate-image-file-text">Image File</h2>
+                    @if (!string.IsNullOrEmpty(Model.DocumentUrl) && Model.DocumentUrl.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                    {
+                        <iframe src="@Model.DocumentUrl#toolbar=0&navpanes=0&view=FitH"></iframe>
+                    }
+                    else
+                    {
+                        <img src="@Model.DocumentUrl" alt="Certificate Image" />
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section SupplierCertificateStyles {
+    <link rel="stylesheet" href="~/css/SupplierCertificateStyles.css" />
+}
+
+@section PrimaryButtonStyles {
+    <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+}
+
+@section ConfirmModalStyles {
+    <link rel="stylesheet" href="~/css/ConfirmModalStyles.css" />
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        async function submitHandler(event) {
+            event.preventDefault();
+
+            if (typeof $!== 'undefined' &&$.validator) {
+                if (!$("#form").valid()) {
+                    return;
+                }
+            }
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            const dataSpans = document.querySelectorAll(".certificate-element-data");
+            const editInputs = document.querySelectorAll(".editable-input");
+            const editButton = document.querySelector(".edit-button");
+            const saveButton = document.querySelector(".save-button");
+
+            dataSpans.forEach(dataSpan => dataSpan.style.display = "");
+            editInputs.forEach(editInput => editInput.style.display = "none");
+            editButton.innerText = "Edit";
+            saveButton.style.display = "none";
+
+            data.Id = parseInt(data.Id);
+            const certificateId = data.Id;
+
+            try {
+                const response = await fetch(`/supplier/certificates/${certificateId}/patch`, {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include"
+                });
+
+                if (!response.ok) {
+                    let errorDetails = "";
+
+                    try {
+                        const errorData = await response.json();
+
+                        if (errorData.errors) {
+                            const errorMessages = Object.values(errorData.errors).flat();
+                            errorDetails = errorMessages.join("\n");
+                        }
+                        else if (errorData.message) {
+                            errorDetails = errorData.message;
+                        }
+                        else if (errorData.title) {
+                            errorDetails = errorData.title;
+                        }
+                        else {
+                            errorDetails = JSON.stringify(errorData);
+                        }
+                    } catch (parseError) {
+                        errorDetails = "Server returned a non-JSON error.";
+                    }
+
+                    throw new Error(`Submit failed (Status: ${response.status})\n\nDetails:\n${errorDetails}`);
                 }
 
-                @section PrimaryButtonStyles {
-                    <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+                window.location.reload();
+
+            } catch (err) {
+                console.log(err.message);
+                alert(err.message);
+            }
+        }
+
+        function toggleEditClickHandler() {
+            const dataSpans = document.querySelectorAll(".certificate-element-data");
+            const editInputs = document.querySelectorAll(".editable-input");
+            const editButton = document.querySelector(".edit-button");
+            const saveButton = document.querySelector(".save-button");
+            const buttonText = editButton.querySelector("span") || editButton;
+            const buttonIcon = editButton.querySelector("i");
+
+            if (buttonText.innerText.trim() === "Edit") {
+                dataSpans.forEach(dataSpan => dataSpan.style.display = "none");
+                editInputs.forEach(editInput => editInput.style.display = "block");
+                buttonText.innerText = "Cancel";
+                if (buttonIcon) buttonIcon.className = "fa-solid fa-circle-xmark";
+                if (editInputs.length > 0) editInputs[0].focus();
+                saveButton.style.display = "block";
+
+            } else if (buttonText.innerText.trim() === "Cancel") {
+                dataSpans.forEach(dataSpan => dataSpan.style.display = "");
+                editInputs.forEach(editInput => editInput.style.display = "none");
+                buttonText.innerText = "Edit";
+                if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+                saveButton.style.display = "none";
+
+                if (typeof $!== 'undefined' &&$.validator) {
+                    $("#form").validate().resetForm();
                 }
+            }
+        }
 
-                @section ConfirmModalStyles{
-                    <link rel="stylesheet" href="~/css/ConfirmModalStyles.css" />
+        function deleteClickHandler() {
+            const confirmModal = document.querySelector(".modal-overlay");
+            confirmModal.style.display = "block";
+        }
+
+        async function confirmDeleteHandler(certificateId) {
+            try {
+                const response = await fetch(`/supplier/certificates/${certificateId}/delete`, { method: "DELETE", credentials: "include" });
+
+                if (response.ok) {
+                    window.location.href = '/supplier/certificates';
+                } else {
+                    alert("An error occured while deleting the supplier certificate.");
+                    closeModal();
                 }
+            } catch (err) {
+                console.log(err.message);
+                alert(err.message);
+                closeModal();
+            }
+        }
 
-                @section Scripts {
-                    <script>
-                        async function submitHandler(event) {
-                            event.preventDefault();
-
-                            const formData = new FormData(event.target);
-                            const data = Object.fromEntries(formData.entries());
-                            const dataSpans = document.querySelectorAll(".certificate-element-data");
-                            const editInputs = document.querySelectorAll(".editable-input");
-                            const editButton = document.querySelector(".edit-button");
-                            const saveButton = document.querySelector(".save-button");
-
-                            dataSpans.forEach(dataSpan => dataSpan.style.display = "");
-                            editInputs.forEach(editInput => editInput.style.display = "none");
-                            editButton.innerText = "Edit";
-                            saveButton.style.display = "none";
-
-                            data.Id = parseInt(data.Id);
-
-                            const certificateId = data.Id;
-
-                            try {
-                                const response = await fetch(`/supplier/certificates/${certificateId}/patch`, {
-                                    method: "PATCH",
-                                    body: JSON.stringify(data),
-                                    headers: { "Content-Type": "application/json" },
-                                    credentials: "include"
-                                });
-
-                                if (!response.ok) {
-                                    let errorDetails = "";
-
-                                    try {
-                                        const errorData = await response.json();
-
-                                        if (errorData.errors) {
-                                            const errorMessages = Object.values(errorData.errors).flat();
-                                            errorDetails = errorMessages.join("\n");
-                                        }
-                                        else if (errorData.message) {
-                                            errorDetails = errorData.message;
-                                        }
-                                        else if (errorData.title) {
-                                            errorDetails = errorData.title;
-                                        }
-                                        else {
-                                            errorDetails = JSON.stringify(errorData);
-                                        }
-                                    } catch (parseError) {
-                                        errorDetails = "Server returned a non-JSON error.";
-                                    }
-
-                                    throw new Error(`Submit failed (Status: ${response.status})\n\nDetails:\n${errorDetails}`);
-                                }
-
-                                window.location.reload();
-
-                            } catch (err) {
-                                console.log(err.message);
-                                alert(err.message);
-                            }
-                        }
-
-                        function toggleEditClickHandler() {
-                            const dataSpans = document.querySelectorAll(".certificate-element-data");
-                            const editInputs = document.querySelectorAll(".editable-input");
-                            const editButton = document.querySelector(".edit-button");
-                            const saveButton = document.querySelector(".save-button");                            
-                            const buttonText = editButton.querySelector("span");
-                            const buttonIcon = editButton.querySelector("i");
-
-                            if (buttonText.innerText.trim() === "Edit") {
-                                dataSpans.forEach(dataSpan => dataSpan.style.display = "none");
-                                editInputs.forEach(editInput => editInput.style.display = "block");
-                                buttonText.innerText = "Cancel";
-                                if (editInputs.length > 0) editInputs[0].focus();
-                                saveButton.style.display = "block";
-
-                            } else if (buttonText.innerText.trim() === "Cancel") {
-                                dataSpans.forEach(dataSpan => dataSpan.style.display = "");
-                                editInputs.forEach(editInput => editInput.style.display = "none");
-                                buttonText.innerText = "Edit";
-                                saveButton.style.display = "none";
-                            }
-                        }
-
-                        function deleteClickHandler() {
-                            const confirmModal = document.querySelector(".modal-overlay");
-
-                            confirmModal.style.display = "block";
-                        }
-
-                        async function confirmDeleteHandler(certificateId) {
-                            try {
-                                const response = await fetch(`/supplier/certificates/${certificateId}/delete`, { method: "DELETE", credentials: "include" });
-
-                                if (response.ok) {
-                                    window.location.href = '/supplier/certificates';
-                                } else {
-                                    alert("An error occured while deleting the supplier certificate.");
-                                    closeModal();
-                                }
-                            } catch (err) {
-                                console.log(err.message);
-                                alert(err.message);
-                                closeModal();
-                            }
-                        }
-
-                        function closeModal() {
-                            const confirmModal = document.querySelector(".modal-overlay");
-                            if (confirmModal) confirmModal.style.display = "none";
-                        }
-                    </script>
-                }
+        function closeModal() {
+            const confirmModal = document.querySelector(".modal-overlay");
+            if (confirmModal) confirmModal.style.display = "none";
+        }
+    </script>
+}
