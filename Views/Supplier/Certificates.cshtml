@@ -1,4 +1,7 @@
 ﻿@using System.Security.Claims
+@using SupplierCapabilitiesAndManagementSystem.Entities
+@using SupplierCapabilitiesAndManagementSystem.Models
+@using SupplierCapabilitiesAndManagementSystem.Models.DTO
 
 @{
     int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
@@ -21,7 +24,7 @@
         </h2>            
         <partial name="_SearchBar" model="searchBarModel"></partial>
     </div>
-    <vc:all-supplier-certificates-with-details user-id="@userId" page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:all-supplier-certificates-with-details>
+    <vc:supplier-all-certificates-with-pagination user-id="@userId" page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:supplier-all-certificates-with-pagination>
 </div>
 
 @section SupplierCertificatesStyles {

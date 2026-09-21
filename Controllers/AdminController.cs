@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TedarikciKabiliyetYonetimSistemi.Entities;
-using TedarikciKabiliyetYonetimSistemi.Models.DTO;
-using TedarikciKabiliyetYonetimSistemi.Services;
+using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+using SupplierCapabilitiesAndManagementSystem.Services;
 
-namespace TedarikciKabiliyetYonetimSistemi.Controllers
+namespace SupplierCapabilitiesAndManagementSystem.Controllers
 {
     [Route("[controller]")]
     [Authorize(Roles = "Admin")]
@@ -23,10 +22,12 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         }
 
         [HttpGet("home")]
-        public IActionResult Home([FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc")
+        public IActionResult Home([FromQuery] int page = 1, [FromQuery] string supplierSortBy = "id_asc", [FromQuery] string purchaserSortBy = "id_asc", [FromQuery] string qualitierSortBy = "id_asc", [FromQuery] string machineSortBy = "id_asc")
         {
-            ViewBag.CurrentPage = page;
-            ViewBag.CurrentSupplierSort = sortBy;
+            ViewBag.CurrentSupplierSort = supplierSortBy;
+            ViewBag.CurrentQualitierSort = qualitierSortBy;
+            ViewBag.CurrentPurchaserSort = purchaserSortBy;
+            ViewBag.CurrentMachineSort = machineSortBy;
 
             return View();
         }
@@ -44,11 +45,24 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         [HttpGet("suppliers/{supplierId:int}")]
         public IActionResult Supplier(int supplierId)
         {
+            ViewBag.SupplierId = supplierId;
+
             return View();
         }
 
         [HttpGet("suppliers/{supplierId:int}/certificates")]
         public IActionResult SupplierCertificates([FromRoute] int supplierId, [FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", string? searchString = null)
+        {
+            ViewBag.SupplierId = supplierId;
+            ViewBag.CurrentPage = page;
+            ViewBag.CurrentSort = sortBy;
+            ViewBag.CurrentSearch = searchString;
+
+            return View();
+        }
+
+        [HttpGet("all-supplier-machines")]
+        public IActionResult AllSupplierMachines([FromRoute] int supplierId, [FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", string? searchString = null)
         {
             ViewBag.SupplierId = supplierId;
             ViewBag.CurrentPage = page;
@@ -70,8 +84,12 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         }
 
         [HttpGet("all-purchasers")]
-        public IActionResult AllPurchasers()
+        public IActionResult AllPurchasers([FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", [FromQuery] string? searchString = null)
         {
+            ViewBag.CurrentPage = page;
+            ViewBag.CurrentSort = sortBy;
+            ViewBag.CurrentSearch = searchString;
+
             return View();
         }
 
@@ -82,8 +100,12 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         }
 
         [HttpGet("all-qualitiers")]
-        public IActionResult AllQualitiers()
+        public IActionResult AllQualitiers([FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", [FromQuery] string? searchString = null)
         {
+            ViewBag.CurrentPage = page;
+            ViewBag.CurrentSort = sortBy;
+            ViewBag.CurrentSearch = searchString;
+
             return View();
         }
 
@@ -118,7 +140,24 @@ namespace TedarikciKabiliyetYonetimSistemi.Controllers
         {
             ViewBag.SupplierId = supplierId;
 
-            return View(new SupplierCertificate());
+            return View(new FetchSupplierHumanResourcesGetResponseDTO());
+        }
+
+        [HttpGet("purchasers/{purchaserId:int}/purchases")]
+        public IActionResult PurchaserPurchases([FromRoute] int purchaserId, [FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", [FromQuery] string? searchString = null)
+        {
+            ViewBag.PurchaserId = purchaserId;
+            ViewBag.CurrentPage = page;
+            ViewBag.CurrentSort = sortBy;
+            ViewBag.CurrentSearch = searchString;
+
+            return View();
+        }
+
+        [HttpGet("purchasers/{purchaserId:int}/purchases/{purchaseId:int}")]
+        public IActionResult PurchaserPurchase([FromRoute] int purchaserId, [FromRoute] int purchaseId)
+        {
+            return View();
         }
 
         [HttpPatch("edit-human-resource/patch")]

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace TedarikciKabiliyetYonetimSistemi.Entities
+namespace SupplierCapabilitiesAndManagementSystem.Entities
 {
     public class AppRole : IdentityRole<int>
     {

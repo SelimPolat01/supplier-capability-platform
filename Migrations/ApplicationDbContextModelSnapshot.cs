@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TedarikciKabiliyetYonetimSistemi.Database;
+using SupplierCapabilitiesAndManagementSystem.Database;
 
 #nullable disable
 
-namespace TedarikciKabiliyetYonetimSistemi.Migrations
+namespace SupplierCapabilitiesAndManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -125,7 +125,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.AppRole", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.AppRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,7 +155,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -167,7 +167,8 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -191,7 +192,8 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -215,7 +217,8 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -237,7 +240,42 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierCertificate", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.MachinePurchase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("PurchasedPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PurchaserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SupplierMachineId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPurchasedPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PurchaserId");
+
+                    b.HasIndex("SupplierMachineId");
+
+                    b.ToTable("PurchaserMachinePurchases", (string)null);
+                });
+
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierCertificate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -273,10 +311,10 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
                     b.HasIndex("AppUserId", "Name", "IssuedBy", "IssueDate", "ExpiryDate");
 
-                    b.ToTable("Certificates");
+                    b.ToTable("SupplierCertificates", (string)null);
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierHumanResource", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierHumanResource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -327,10 +365,10 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("HumanResources");
+                    b.ToTable("SupplierHumanResources", (string)null);
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierMachine", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierMachine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -381,12 +419,12 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                     b.HasIndex("AppUserId", "MachineGroup", "MachineType", "BrandAndModel", "ProductionYear", "CapacitySpecs")
                         .IsUnique();
 
-                    b.ToTable("Machines");
+                    b.ToTable("SupplierMachines", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppRole", null)
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -395,7 +433,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", null)
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -404,7 +442,7 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", null)
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -413,13 +451,13 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppRole", null)
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", null)
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -428,16 +466,35 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", null)
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierCertificate", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.MachinePurchase", b =>
                 {
-                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", "AppUser")
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "Purchaser")
+                        .WithMany("MachinePurchases")
+                        .HasForeignKey("PurchaserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.SupplierMachine", "SupplierMachine")
+                        .WithMany()
+                        .HasForeignKey("SupplierMachineId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Purchaser");
+
+                    b.Navigation("SupplierMachine");
+                });
+
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierCertificate", b =>
+                {
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "AppUser")
                         .WithMany("Certificates")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -446,9 +503,9 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierHumanResource", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierHumanResource", b =>
                 {
-                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", "User")
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "User")
                         .WithMany("HumanResources")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -457,9 +514,9 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.SupplierMachine", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierMachine", b =>
                 {
-                    b.HasOne("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", "AppUser")
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "AppUser")
                         .WithMany("Machines")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -468,11 +525,13 @@ namespace TedarikciKabiliyetYonetimSistemi.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("TedarikciKabiliyetYonetimSistemi.Entities.AppUser", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", b =>
                 {
                     b.Navigation("Certificates");
 
                     b.Navigation("HumanResources");
+
+                    b.Navigation("MachinePurchases");
 
                     b.Navigation("Machines");
                 });

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using TedarikciKabiliyetYonetimSistemi.Entities;
-using TedarikciKabiliyetYonetimSistemi.Models.DTO;
-using TedarikciKabiliyetYonetimSistemi.Services;
+using SupplierCapabilitiesAndManagementSystem.Entities;
+using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+using SupplierCapabilitiesAndManagementSystem.Services;
 
-namespace TedarikciKabiliyetYonetimSistemi.Controllers
+namespace SupplierCapabilitiesAndManagementSystem.Controllers
 {
     [Route("[controller]")]
     [Authorize(Roles = "Supplier, Purchasing, Quality, Admin")]

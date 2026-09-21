@@ -1,4 +1,4 @@
-﻿namespace TedarikciKabiliyetYonetimSistemi.Services
+﻿namespace SupplierCapabilitiesAndManagementSystem.Services
 {
     public interface ITokenService
     {

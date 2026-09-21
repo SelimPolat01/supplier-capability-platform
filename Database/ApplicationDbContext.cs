@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TedarikciKabiliyetYonetimSistemi.Entities;
+using SupplierCapabilitiesAndManagementSystem.Entities;
 
-namespace TedarikciKabiliyetYonetimSistemi.Database
+namespace SupplierCapabilitiesAndManagementSystem.Database
 {
     public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions) : base(dbContextOptions) { }
 
-        public DbSet<SupplierMachine> Machines { get; set; }
-        public DbSet<SupplierCertificate> Certificates { get; set; }
-        public DbSet<SupplierHumanResource> HumanResources { get; set; }
+        public DbSet<SupplierMachine> SupplierMachines { get; set; }
+        public DbSet<SupplierCertificate> SupplierCertificates { get; set; }
+        public DbSet<SupplierHumanResource> SupplierHumanResources { get; set; }
+        public DbSet<MachinePurchase> PurchaserMachinePurchases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,8 @@ namespace TedarikciKabiliyetYonetimSistemi.Database
             //    .WithMany(user => user.Certificates)
             //    .OnDelete(DeleteBehavior.Cascade);
 
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<SupplierMachine>()
                 .HasIndex(machine => new { machine.AppUserId, machine.MachineGroup, machine.MachineType, machine.BrandAndModel, machine.ProductionYear, machine.CapacitySpecs }).
                 IsUnique();
@@ -31,7 +34,18 @@ namespace TedarikciKabiliyetYonetimSistemi.Database
             modelBuilder.Entity<SupplierCertificate>()
                 .HasIndex(certificate => new { certificate.AppUserId, certificate.Name, certificate.IssuedBy, certificate.IssueDate, certificate.ExpiryDate });
 
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<MachinePurchase>()
+                .HasOne(machinePurchase => machinePurchase.Purchaser)
+                .WithMany(purchaser => purchaser.PurchaserMachinePurchases)
+                .HasForeignKey(machinePurchase => machinePurchase.PurchaserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MachinePurchase>()
+                .HasOne(machinePurchase => machinePurchase.SupplierMachine)
+                .WithMany()
+                .HasForeignKey(machinePurchase => machinePurchase.SupplierMachineId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

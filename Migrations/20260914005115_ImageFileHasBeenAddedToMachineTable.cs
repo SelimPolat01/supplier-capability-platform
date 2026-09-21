@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace TedarikciKabiliyetYonetimSistemi.Migrations
+namespace SupplierCapabilitiesAndManagementSystem.Migrations
 {
     /// <inheritdoc />
     public partial class ImageFileHasBeenAddedToMachineTable : Migration

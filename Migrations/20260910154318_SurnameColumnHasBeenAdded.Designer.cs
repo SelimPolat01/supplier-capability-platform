@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TedarikciKabiliyetYonetimSistemi.Database;
+using SupplierCapabilitiesAndManagementSystem.Database;
 
 #nullable disable
 
-namespace TedarikciKabiliyetYonetimSistemi.Migrations
+namespace SupplierCapabilitiesAndManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260910154318_SurnameColumnHasBeenAdded")]

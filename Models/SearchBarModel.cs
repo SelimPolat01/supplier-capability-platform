@@ -1,4 +1,4 @@
-﻿namespace TedarikciKabiliyetYonetimSistemi.Models
+﻿namespace SupplierCapabilitiesAndManagementSystem.Models
 {
     public class SearchBarModel
     {

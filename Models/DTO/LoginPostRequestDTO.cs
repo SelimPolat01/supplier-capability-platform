@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TedarikciKabiliyetYonetimSistemi.Models.DTO
+namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
 {
     public class LoginPostRequestDTO
     {

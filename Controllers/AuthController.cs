@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TedarikciKabiliyetYonetimSistemi.Entities;
-using TedarikciKabiliyetYonetimSistemi.Models.DTO;
-using TedarikciKabiliyetYonetimSistemi.Services;
+using SupplierCapabilitiesAndManagementSystem.Entities;
+using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+using SupplierCapabilitiesAndManagementSystem.Services;
 
-namespace TedarikciKabiliyetYonetimSistemi.Controllers
+namespace SupplierCapabilitiesAndManagementSystem.Controllers
 {
     [Route("[controller]")]
     public class AuthController : Controller

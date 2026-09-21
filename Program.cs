@@ -1,19 +1,25 @@
+//global using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+//global using SupplierCapabilitiesAndManagementSystem.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using TedarikciKabiliyetYonetimSistemi.Database;
-using TedarikciKabiliyetYonetimSistemi.Entities;
-using TedarikciKabiliyetYonetimSistemi.Repositories;
-using TedarikciKabiliyetYonetimSistemi.Services;
+using SupplierCapabilitiesAndManagementSystem.Database;
+using SupplierCapabilitiesAndManagementSystem.Entities;
+using SupplierCapabilitiesAndManagementSystem.Repositories;
+using SupplierCapabilitiesAndManagementSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 builder.Services.AddScoped<ISupplierMachineRepository, SupplierMachineRepository>();
 builder.Services.AddScoped<ISupplierCertificateRepository, SupplierCertificateRepository>();
 builder.Services.AddScoped<ISupplierHumanResourceRepository, SupplierHumanResourceRepository>();
+builder.Services.AddScoped<IQualitierRepository, QualitierRepository>();
+builder.Services.AddScoped<IPurchaserRepository, PurchaserRepository>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<ISupplierMachineService, SupplierMachineService>();
 builder.Services.AddScoped<ISupplierCertificateService, AddCertificateService>();
 builder.Services.AddScoped<ISupplierHumanResourceService, SupplierHumanResourceService>();
+builder.Services.AddScoped<IQualitierService, QualitierService>();
+builder.Services.AddScoped<IPurchaserService, PurchaserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddControllersWithViews();
