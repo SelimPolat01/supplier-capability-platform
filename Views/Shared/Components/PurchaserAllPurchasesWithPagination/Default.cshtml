@@ -1,0 +1,109 @@
+﻿@model FetchPurchaserAllPurchasesGetResponseDTO
+
+@{
+    bool isAdmin = User.IsInRole("Admin");
+    bool isPurchaser = User.IsInRole("Purchaser");
+    string targetController = isAdmin ? "Admin" : isPurchaser ? "Purchaser" : "";
+    string targetAction = isAdmin ? "PurchaserPurchases" : isPurchaser ? "Purchases" : "";
+}
+
+<div class="purchase-list-container">
+    <table class="purchase-table">
+        <thead>
+            <tr>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "group_asc" ? "group_desc" : "group_asc")">Group @(ViewBag.CurrentSort == "group_asc" ? "↑" : ViewBag.CurrentSort == "group_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "type_asc" ? "type_desc" : "type_asc")">Type @(ViewBag.CurrentSort == "type_asc" ? "↑" : ViewBag.CurrentSort == "type_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "brand-model_asc" ? "brand-model_desc" : "brand-model_asc")">Brand @(ViewBag.CurrentSort == "brand-model_asc" ? "↑" : ViewBag.CurrentSort == "brand-model_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "production-year_asc" ? "production-year_desc" : "production-year_asc")">Production Year @(ViewBag.CurrentSort == "production-year_asc" ? "↑" : ViewBag.CurrentSort == "production-year_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "quantity_asc" ? "quantity_desc" : "quantity_asc")">Quantity @(ViewBag.CurrentSort == "quantity_asc" ? "↑" : ViewBag.CurrentSort == "quantity_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "axis-count_asc" ? "axis-count_desc" : "axis-count_asc")">Axis Count @(ViewBag.CurrentSort == "axis-count_asc" ? "↑" : ViewBag.CurrentSort == "axis-count_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "capacity_asc" ? "capacity_desc" : "capacity_asc")">Capacity @(ViewBag.CurrentSort == "capacity_asc" ? "↑" : ViewBag.CurrentSort == "capacity_desc" ? "↓" : "")</a>
+                </th>
+               <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "supplier-id_asc" ? "supplier-id_desc" : "supplier-id_asc")">Supplier Id @(ViewBag.CurrentSort == "supplier-id_asc" ? "↑" : ViewBag.CurrentSort == "supplier-id_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">Machine File</th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "cost_asc" ? "cost_desc" : "cost_asc")">Total Cost @(ViewBag.CurrentSort == "cost_asc" ? "↑" : ViewBag.CurrentSort == "cost_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "purchase-date_asc" ? "purchase-date_desc" : "purchase-date_asc")">Purchase Date @(ViewBag.CurrentSort == "purchase-date_asc" ? "↑" : ViewBag.CurrentSort == "purchase-date_desc" ? "↓" : "")</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Data != null && Model.Data.Any())
+            {
+                @foreach (var purchase in Model.Data)
+                {
+                    string rowUrl = isAdmin 
+                        ? $"/admin/purchasers/{ViewBag.PurchaserId}/purchases/{purchase.Id}" 
+                        : isPurchaser 
+                            ? $"/purchaser/purchases/{purchase.Id}" 
+                            : "#";
+
+                    <tr onclick="window.location.href = '@rowUrl'">
+                        <td style="width: 1%; white-space: nowrap;">@purchase.Id</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.MachineGroup</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.MachineType</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.BrandAndModel</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.ProductionYear</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.Quantity</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.AxisCount</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.CapacitySpecs</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.AppUserId</td>
+                        <td style="width: 1%; white-space: nowrap;">
+                            <a href="@purchase.MachineDetails.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
+                        </td>
+                        <td style="width: 1%; white-space: nowrap;" class="purchase-element-price-data">$@purchase.TotalPurchasedPrice.ToString("N0")</td>
+                        <td style="white-space: nowrap;">@purchase.PurchaseDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="12">
+                        <div class="empty-state-message">
+                            <p>No purchases are registered in the system yet.</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.TotalPages > 0)
+    {
+        <div class="pagination-container">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <a asp-action="@targetAction"
+                   asp-controller="@targetController"
+                   asp-route-purchaserId="@ViewBag.PurchaserId"
+                   asp-route-page="@i"
+                   asp-route-sortBy="@ViewBag.CurrentSort"
+                   asp-route-searchString="@ViewBag.CurrentSearch"
+                   class="pagination-button @(Model.CurrentPage == i ? "active-page" : "")">
+                    @i
+                </a>
+            }   
+        </div>
+    }
+</div>

@@ -1,0 +1,114 @@
+﻿.human-resource-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.human-resource-element-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #0B0C27;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 750px;
+    padding: 1.5rem;
+}
+
+.human-resource-flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.human-resource-element-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    max-width: 239px;
+    background-color: #030317;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.human-resource-details-text {
+    color: rgb(255, 255, 255);
+    margin: 0;
+}
+
+.human-resource-element-title {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.human-resource-element-data {
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px; 
+    height: 16px;
+}
+
+.flex-container-1 {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 1rem 0;
+    min-height: 36.8px;
+}
+
+.save-edit-button-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.save-button {
+    display: none;
+    width: fit-content;
+}
+
+.edit-button {
+    background: none;
+    border: none;
+    outline: none;
+    color: navajowhite;
+    width: fit-content;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+    .edit-button:hover {
+        box-shadow: none;
+        filter: brightness(1.2);
+        transition: filter 0.2s ease, transform 0.2s ease;
+        transform: translateY(-1px);
+    }
+
+.editable-input {
+    display: none;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+    border-radius: 4px;
+    line-height: 16px; 
+    height: 16px;
+}
+
+    .editable-input:focus {
+        outline: none;
+        background-color: rgba(0, 255, 255, 0.05);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    }
+
+input[type="checkbox"].editable-input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}

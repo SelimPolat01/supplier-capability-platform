@@ -1,0 +1,98 @@
+﻿@using System.Security.Claims
+@using SupplierCapabilitiesAndManagementSystem.Entities
+@using SupplierCapabilitiesAndManagementSystem.Models
+@using SupplierCapabilitiesAndManagementSystem.Models.DTO
+
+@{
+    PrimaryButtonModel addSupplierMachineButtonModel = new()
+    {
+        Text = "Add New Machine",
+        Type = "button",
+        OnClick = "location.href='/supplier/add-machine'",
+        CssClass = "add-machine-button",
+        IconClass = "fa-solid fa-circle-plus"
+    };
+
+    PrimaryButtonModel addSupplierCertificateButtonModel = new()
+    {
+        Text = "Add New Certificate",
+        Type = "button",
+        OnClick = "location.href='/supplier/add-certificate'",
+        CssClass = "add-certificate-button",
+        IconClass = "fa-solid fa-circle-plus"
+    };
+
+    PrimaryButtonModel viewAllSupplierMachinesButtonModel = new()
+    {
+        Text = "View All",
+        Type = "button",
+        OnClick = "location.href='/supplier/machines'",
+        IconClass = "fa-solid fa-arrow-right",
+        CssClass = "view-all-button"
+    };
+
+    PrimaryButtonModel viewAllSupplierCertificatesButtonModel = new()
+    {
+        Text = "View All",
+        Type = "button",
+        OnClick = "location.href='/supplier/certificates'",
+        CssClass = "view-all-button",
+        IconClass = "fa-solid fa-arrow-right"
+    };
+
+    PrimaryButtonModel manageSupplierHumanResourcesButtonModel = new()
+    {
+        Text = "Manage Human Resources",
+        Type = "button",
+        OnClick = "location.href='/supplier/manage-human-resource'",
+        CssClass = "manage-human-resource-button",
+        IconClass = "fa-solid fa-users-cog"
+    };
+
+    int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+}
+
+<div class="supplier-home-container">
+    <div class="wrapper-vertical-flex-1">
+        <div class="machine-container">
+            <h2 class="machine-text"><i class="fa-solid fa-gears" style="margin-right: 8px; color: #cbd5e1;"></i> My Machines</h2>
+            <vc:supplier-all-machines user-id="@userId" sort-by="@ViewBag.CurrentMachineSort"></vc:supplier-all-machines>
+            <div class="machine-flex-container-1">
+                <partial name="_PrimaryButton" model="addSupplierMachineButtonModel"></partial>
+                    <partial name="_PrimaryButton" model="viewAllSupplierMachinesButtonModel"></partial>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wrapper-vertical-flex-2">
+                <div class="certificate-container">
+                    <h2 class="certificate-text"><i class="fa-solid fa-certificate" style="margin-right: 8px; color: #cbd5e1;"></i> My Certifications</h2>
+                    <vc:supplier-all-certificates user-id="@userId" sort-by="@ViewBag.CurrentCertificateSort"></vc:supplier-all-certificates>
+                    <div class="certificate-flex-container-1">
+                        <partial name="_PrimaryButton" model="addSupplierCertificateButtonModel"></partial>
+                            <partial name="_PrimaryButton" model="viewAllSupplierCertificatesButtonModel"></partial>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wrapper-vertical-flex-3">
+                        <div class="profile-completed-container">
+                            <h2 class="profile-completed-text"><i class="fa-solid fa-bars-progress" style="margin-right: 8px; color: #cbd5e1;"></i> Profile Completion</h2>
+                            <div class="profile-completed-rate-container">
+                                <p class="profile-completed-rate-text">75% Completed</p>
+                            </div>
+                        </div>
+                        <div class="manage-human-resources-container">
+                            <h2 class="manage-human-resources-text"><i class="fa-solid fa-users" style="margin-right: 8px; color: #cbd5e1;"></i> Human Resources</h2>
+                            <partial name="_PrimaryButton" model="manageSupplierHumanResourcesButtonModel"></partial>
+                            </div>
+                        </div>
+                    </div>
+
+                    @section SupplierHomeStyles {
+                        <link rel="stylesheet" href="~/css/SupplierHomeStyles.css" />
+                    }
+
+                    @section PrimaryButtonStyles {
+                        <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+                    }

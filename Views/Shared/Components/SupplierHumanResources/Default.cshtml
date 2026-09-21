@@ -1,0 +1,228 @@
+﻿@model SupplierHumanResourcesDTO
+
+@{
+    bool isAdmin = User.IsInRole("Admin");
+    bool isPurchaser = User.IsInRole("Purchaser");
+    bool isSupplier = User.IsInRole("Supplier");
+
+    var supplierId = Context.GetRouteValue("supplierId");
+
+    string patchUrl = isAdmin 
+        ? $"/admin/edit-human-resource/patch?supplierId={supplierId}" 
+        : "/supplier/edit-human-resource/patch";
+
+    PrimaryButtonModel editButtonModel = new()
+    {
+        Type = "button",
+        Text = "Edit",
+        OnClick = "toggleEditClickHandler()",
+        CssClass = "edit-button",
+        IconClass = "fa-solid fa-pen-to-square"
+    };
+
+    PrimaryButtonModel saveButtonModel = new()
+    {
+        Type = "submit",
+        Text = "Save",
+        CssClass = "save-button",
+        IconClass = "fa-solid fa-circle-check"
+    };
+}
+
+<div class="human-resource-container">
+    <div class="human-resource-element-wrapper">
+        <form onsubmit="submitHandler(event)" id="form">
+            <div class="flex-container-1">
+                <div style="display: flex; align-items: baseline;">
+                    <h2 class="human-resource-details-text">Human Resource Details</h2>
+                    <span style="color: rgba(255, 255, 255, 0.4); font-size: 1.2rem; margin-left: 0.5rem;">#@Model.Id</span>
+                </div>
+                
+                @if (!isPurchaser)
+                {
+                    <div class="save-edit-button-container">
+                        <partial name="_PrimaryButton" model="saveButtonModel"></partial>
+                        <partial name="_PrimaryButton" model="editButtonModel"></partial>
+                    </div>
+                }
+            </div>
+            
+            <div class="human-resource-flex-wrapper">                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Total Employee Count</span>
+                    <span class="human-resource-element-data">@(Model?.TotalEmployeeCount?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" class="editable-input" asp-for="TotalEmployeeCount" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">White Collar Count</span>
+                    <span class="human-resource-element-data">@(Model?.WhiteCollarCount?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" class="editable-input" asp-for="WhiteCollarCount" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Blue Collar Count</span>
+                    <span class="human-resource-element-data">@(Model?.BlueCollarCount?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" class="editable-input" asp-for="BlueCollarCount" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Engineer Count</span>
+                    <span class="human-resource-element-data">@(Model?.EngineerCount?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" class="editable-input" asp-for="EngineerCount" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Quality Control Staff Count</span>
+                    <span class="human-resource-element-data">@(Model?.QualityControlStaffCount?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" class="editable-input" asp-for="QualityControlStaffCount" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Rnd Staff Count</span>
+                    <span class="human-resource-element-data">@(Model?.RndStaffCount?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" class="editable-input" asp-for="RndStaffCount" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Certified Operator Count</span>
+                    <span class="human-resource-element-data">@(Model?.CertifiedOperatorCount?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" class="editable-input" asp-for="CertifiedOperatorCount" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Shift Count</span>
+                    <span class="human-resource-element-data">@(Model?.ShiftCount?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" class="editable-input" asp-for="ShiftCount" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Working Days Per Week</span>
+                    <span class="human-resource-element-data">@(Model?.WorkingDaysPerWeek?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" class="editable-input" asp-for="WorkingDaysPerWeek" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Has Labor Union</span>
+                    <span class="human-resource-element-data">@(Model?.HasLaborUnion == true ? "Yes" : (Model?.HasLaborUnion == false ? "No" : "-"))</span>
+                    @if (!isPurchaser) { <input type="checkbox" class="editable-input" asp-for="HasLaborUnion" /> }
+                </div>
+                
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Employee Turnover Rate</span>
+                    <span class="human-resource-element-data">@(Model?.EmployeeTurnoverRate?.ToString() ?? "-")</span>
+                    @if (!isPurchaser) { <input type="number" step="any" class="editable-input" asp-for="EmployeeTurnoverRate" /> }
+                </div>
+
+                <div class="human-resource-element-container">
+                    <span class="human-resource-element-title">Last Updated</span>
+                    <span class="human-resource-element-data">@(Model?.LastUpdatedDate.ToString("yyyy-MM-dd HH:mm") ?? "-")</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    async function submitHandler(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+        const dataSpans = document.querySelectorAll(".human-resource-element-data");
+        const editInputs = document.querySelectorAll(".editable-input");
+        const editButton = document.querySelector(".edit-button");
+        const saveButton = document.querySelector(".save-button");
+        const buttonText = editButton.querySelector("span");
+        const buttonIcon = editButton.querySelector("i");
+
+        dataSpans.forEach(dataSpan => dataSpan.style.display = "");
+        editInputs.forEach(editInput => editInput.style.display = "none");
+
+        if (buttonText) buttonText.innerText = "Edit";
+        if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+        if (saveButton) saveButton.style.display = "none";
+
+        data.HasLaborUnion = document.querySelector('input[name="HasLaborUnion"][type="checkbox"]').checked;
+        data.TotalEmployeeCount = data.TotalEmployeeCount ? parseInt(data.TotalEmployeeCount) : null;
+        data.WhiteCollarCount = data.WhiteCollarCount ? parseInt(data.WhiteCollarCount) : null;
+        data.BlueCollarCount = data.BlueCollarCount ? parseInt(data.BlueCollarCount) : null;
+        data.EngineerCount = data.EngineerCount ? parseInt(data.EngineerCount) : null;
+        data.QualityControlStaffCount = data.QualityControlStaffCount ? parseInt(data.QualityControlStaffCount) : null;
+        data.RndStaffCount = data.RndStaffCount ? parseInt(data.RndStaffCount) : null;
+        data.CertifiedOperatorCount = data.CertifiedOperatorCount ? parseInt(data.CertifiedOperatorCount) : null;
+        data.ShiftCount = data.ShiftCount ? parseInt(data.ShiftCount) : null;
+        data.WorkingDaysPerWeek = data.WorkingDaysPerWeek ? parseInt(data.WorkingDaysPerWeek) : null;
+        data.EmployeeTurnoverRate = data.EmployeeTurnoverRate ? parseFloat(data.EmployeeTurnoverRate) : null;
+
+        try {
+            const response = await fetch('@Html.Raw(patchUrl)', {
+                method: "PATCH",
+                body: JSON.stringify(data),
+                headers: { "Content-Type": "application/json" },
+                credentials: "include"
+            });
+
+            if (!response.ok) {
+                let errorDetails = "";
+
+                try {
+                    const errorData = await response.json();
+
+                    if (errorData.errors) {
+                        const errorMessages = Object.values(errorData.errors).flat();
+                        errorDetails = errorMessages.join("\n");
+                    }
+                    else if (errorData.message) {
+                        errorDetails = errorData.message;
+                    }
+                    else if (errorData.title) {
+                        errorDetails = errorData.title;
+                    }
+                    else {
+                        errorDetails = JSON.stringify(errorData);
+                    }
+                } catch (parseError) {
+                    errorDetails = "Server returned a non-JSON error.";
+                }
+
+                throw new Error(`Submit failed (Status: ${response.status})\n\nDetails:\n${errorDetails}`);
+            }
+
+            window.location.reload();
+
+        } catch (err) {
+            console.log(err.message);
+            alert(err.message);
+        }
+    }
+
+    function toggleEditClickHandler() {
+        const dataSpans = document.querySelectorAll(".human-resource-element-data");
+        const editInputs = document.querySelectorAll(".editable-input");
+        const editButton = document.querySelector(".edit-button");
+        const saveButton = document.querySelector(".save-button");
+        const buttonText = editButton.querySelector("span");
+        const buttonIcon = editButton.querySelector("i");
+
+        if (buttonText.innerText.trim() === "Edit") {
+            dataSpans.forEach(dataSpan => dataSpan.style.display = "none");
+            editInputs.forEach(editInput => editInput.style.display = "block");
+
+            buttonText.innerText = "Cancel";
+            if (buttonIcon) buttonIcon.className = "fa-solid fa-circle-xmark";
+
+            if (editInputs.length > 0) editInputs[0].focus();
+            if (saveButton) saveButton.style.display = "block";
+
+        } else if (buttonText.innerText.trim() === "Cancel") {
+            dataSpans.forEach(dataSpan => dataSpan.style.display = "");
+            editInputs.forEach(editInput => editInput.style.display = "none");
+
+            buttonText.innerText = "Edit";
+            if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+
+            if (saveButton) saveButton.style.display = "none";
+        }
+    }
+</script>

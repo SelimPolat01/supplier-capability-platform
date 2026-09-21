@@ -1,0 +1,160 @@
+﻿@model SupplierMachine
+
+@{
+        InputModel purchaseQuantityInputModel = new()
+    {
+        Name = "PurchaseQuantity",
+        Type = "number",
+        Value = "1",
+        Placeholder = "Qty",
+        InputCssClass = "purchase-quantity-input",
+    };
+
+    PrimaryButtonModel purchaseButtonModel = new()
+    {
+        Type = "button",
+        Text = "Purchase",
+        OnClick = "openPurchaseModal()", 
+        CssClass = "purchase-button",
+        IconClass = "fa-solid fa-file-invoice-dollar" 
+    };
+
+    ConfirmModalModel confirmModalModel = new()
+    {
+        Title = "Purchase Machine",
+        Message = "Are you sure you want to purchase this machine? This action will generate a new invoice.",
+        OnConfirm = $"confirmPurchaseHandler({Model.Id})",
+        ConfirmButtonText = "Yes, Purchase",
+        ConfirmButtonIcon = "fa-solid fa-file-invoice-dollar",
+        CancelButtonText = "Cancel",
+        CancelButtonIcon = "fa-solid fa-circle-xmark"
+    };
+}
+
+<div class="machine-container">
+    <partial name="_ConfirmModal" model="confirmModalModel"></partial>
+    
+    <div class="machine-element-wrapper">
+        <div class="flex-container-1">
+            <h2 class="machine-details-text">
+                Machine Details<span style="color: rgba(255, 255, 255, 0.4); font-size: 1.2rem; margin-left: 0.5rem;">#@Model.Id</span>
+            </h2>
+            <div>
+        <div class="purchase-button-container">
+            <partial name="_Input" model="purchaseQuantityInputModel"></partial>
+            <partial name="_PrimaryButton" model="purchaseButtonModel"></partial>
+        </div>
+        <span id="purchase-error-message" class="text-danger" style="display: none; margin-top: 0.5rem; font-weight: 500;"></span>
+    </div>
+        </div>
+        
+        <div class="machine-flex-wrapper">
+            <div class="machine-element-container">
+                <span class="machine-element-title">Machine Group</span>
+                <span class="machine-element-data">@Model.MachineGroup</span>
+            </div>
+            <div class="machine-element-container">
+                <span class="machine-element-title">Machine Type</span>
+                <span class="machine-element-data">@Model.MachineType</span>
+            </div>
+            <div class="machine-element-container">
+                <span class="machine-element-title">Brand / Model</span>
+                <span class="machine-element-data">@Model.BrandAndModel</span>
+            </div>
+            <div class="machine-element-container">
+                <span class="machine-element-title">Production Year</span>
+                <span class="machine-element-data">@Model.ProductionYear</span>
+            </div>
+            <div class="machine-element-container">
+                <span class="machine-element-title">Quantity</span>
+                <span class="machine-element-data">@Model.Quantity</span>
+            </div>
+            <div class="machine-element-container">
+                <span class="machine-element-title">AxisCount</span>
+                <span class="machine-element-data">@Model.AxisCount</span>
+            </div>
+            <div class="machine-element-container">
+                <span class="machine-element-title">Capacity / Specs</span>
+                <span class="machine-element-data">@Model.CapacitySpecs</span>
+            </div>
+            <div class="machine-element-container">
+                <span class="machine-element-title">Price</span>
+                <span class="machine-element-price-data">@Model.Price.ToString("N2") $</span>
+            </div>
+            <div class="machine-element-container">
+                <span class="machine-element-title">Created At</span>
+                <span class="machine-element-time-data">@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+            </div>
+            
+            <div class="image-file-container">
+                <h2 class="machine-image-file-text">Image File</h2>
+                @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                {
+                    <iframe src="@Model.ImageUrl#toolbar=0&navpanes=0&view=FitH"></iframe>
+                }
+                else
+                {
+                    <img src="@Model.ImageUrl" alt="@Model.BrandAndModel Image" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section SupplierMachineStyles {
+    <link rel="stylesheet" href="~/css/SupplierMachineStyles.css" />
+}
+
+@section PrimaryButtonStyles {
+    <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+}
+
+@section ConfirmModalStyles{
+    <link rel="stylesheet" href="~/css/ConfirmModalStyles.css" />
+}
+
+@section Scripts {
+    <script>
+        function openPurchaseModal() {
+            const confirmModal = document.querySelector(".modal-overlay");
+            if (confirmModal) confirmModal.style.display = "block";
+        }
+
+        function closeModal() {
+            const confirmModal = document.querySelector(".modal-overlay");
+            if (confirmModal) confirmModal.style.display = "none";
+        }
+
+        async function confirmPurchaseHandler(machineId) {
+            const quantityInput = document.querySelector("input[name='PurchaseQuantity']")
+            const quantity = quantityInput ? quantityInput.value : 1;
+            const errorSpan = document.getElementById("purchase-error-message");
+
+            errorSpan.style.display = "none";
+            errorSpan.innerText = "";
+
+            try {
+                const response = await fetch(`/purchaser/purchases/add/${machineId}?quantity=${quantity}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include"
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    window.location.href = `/purchaser/purchases/${data.addedMachinePurchaseId}`; 
+                } else {
+                    const errorData = await response.json();
+                    errorSpan.innerText = errorData.message || "Failed to purchase machine.";
+                    errorSpan.style.display = "block";
+                    closeModal();
+                }
+            } catch (error) {
+                console.error("Purchase error:", error);
+                errorSpan.innerText = "An error occurred while processing your purchase.";
+                errorSpan.style.display = "block";
+                closeModal();
+            }
+        }
+    </script>
+}

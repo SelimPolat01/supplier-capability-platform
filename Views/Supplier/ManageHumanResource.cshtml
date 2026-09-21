@@ -1,0 +1,19 @@
+﻿@using System.Security.Claims
+@using SupplierCapabilitiesAndManagementSystem.Entities
+@using SupplierCapabilitiesAndManagementSystem.Models
+@using SupplierCapabilitiesAndManagementSystem.Models.DTO
+
+@{
+    string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    int.TryParse(userIdString, out int userId);
+}
+
+<vc:supplier-human-resources user-id="@userId"></vc:supplier-human-resources>
+
+@section ManageSupplierHumanResourcesStyles {
+        <link rel="stylesheet" href="~/css/ManageSupplierHumanResourcesStyles.css" />
+}
+
+@section PrimaryButtonStyles {
+        <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+}

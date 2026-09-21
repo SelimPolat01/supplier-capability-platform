@@ -1,0 +1,85 @@
+﻿@model FetchAllSuppliersGetResponseDTO
+
+@{
+    bool isAdmin = User.IsInRole("Admin");
+    string targetController = isAdmin ? "Admin" : "Purchaser";
+}
+
+<div class="supplier-list-container">
+    <table class="supplier-table">
+        <thead>
+            <tr>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentSort == "name_asc" ? "↑" : ViewBag.CurrentSort == "name_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "surname_asc" ? "surname_desc" : "surname_asc")">Surname @(ViewBag.CurrentSort == "surname_asc" ? "↑" : ViewBag.CurrentSort == "surname_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "company-name_asc" ? "company-name_desc" : "company-name_asc")">Company Name @(ViewBag.CurrentSort == "company-name_asc" ? "↑" : ViewBag.CurrentSort == "company-name_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "email_asc" ? "email_desc" : "email_asc")">Email @(ViewBag.CurrentSort == "email_asc" ? "↑" : ViewBag.CurrentSort == "email_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "certificates_asc" ? "certificates_desc" : "certificates_asc")">Certificates @(ViewBag.CurrentSort == "certificates_asc" ? "↑" : ViewBag.CurrentSort == "certificates_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "machines_asc" ? "machines_desc" : "machines_asc")">Machines @(ViewBag.CurrentSort == "machines_asc" ? "↑" : ViewBag.CurrentSort == "machines_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "human-resources_asc" ? "human-resources_desc" : "human-resources_asc")">Human Resources @(ViewBag.CurrentSort == "human-resources_asc" ? "↑" : ViewBag.CurrentSort == "human-resources_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Added @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Data != null && Model.Data.Any())
+            {
+                foreach (var supplier in Model.Data)
+                {
+                    <tr onclick="window.location.href = '/@targetController.ToLower()/suppliers/@supplier.Id'">
+                        <td style="width: 1%; white-space: nowrap;">@supplier.Id</td>
+                        <td style="width: 1%; white-space: nowrap;">@supplier.Name</td>
+                        <td style="text-transform: uppercase;">@supplier.Surname</td>
+                        <td style="width: 1%; white-space: nowrap;">@supplier.CompanyName</td>
+                        <td style="width: 1%; white-space: nowrap;">@supplier.Email</td>
+                        <td style="width: 1%; white-space: nowrap;">
+                            <a asp-controller="Admin" asp-action="SupplierCertificates" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
+                                Certificates <span class="count-badge">@supplier.CertificatesCount</span>
+                            </a>
+                        </td>
+                        <td style="width: 1%; white-space: nowrap;">
+                            <a asp-controller="Admin" asp-action="SupplierMachines" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
+                                Machines <span class="count-badge">@supplier.MachinesCount</span>
+                            </a>
+                        </td>
+                        <td style="width: 1%; white-space: nowrap;">
+                            <a asp-controller="Admin" asp-action="SupplierHumanResources" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
+                                HR 
+                                @if (supplier.HumanResourcesCount > 0)
+                                {
+                                    <i class="fa-solid fa-circle-check" style="color: #2ed47a; margin: 0 0 3px 0;" title="Completed"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-circle-minus" style="color: rgba(255, 255, 255, 0.2); margin: 0 0 3px 0;" title="Missing"></i>
+                                }
+                            </a>
+                        </td>
+                        <td style="width: 1%; white-space: nowrap;">@supplier.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="9">
+                        <div class="empty-state-message">
+                            <p>No suppliers are registered in the system yet.</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.TotalPages > 0)
+    {
+        <div class="pagination-container">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <a asp-action="AllSuppliers" asp-controller="Admin" asp-route-page="@i" asp-route-sortBy="@ViewBag.CurrentSort" asp-route-searchString="@ViewBag.CurrentSearch" class="pagination-button @(Model.CurrentPage == i ? "active-page" : "")">
+                    @i
+                </a>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,38 @@
+﻿@using System.Security.Claims
+@using SupplierCapabilitiesAndManagementSystem.Entities
+@using SupplierCapabilitiesAndManagementSystem.Models
+@using SupplierCapabilitiesAndManagementSystem.Models.DTO
+
+@{
+    bool isAdmin = User.IsInRole("Admin");
+    bool isPurchaser = User.IsInRole("Purchaser");
+    bool isSupplier = User.IsInRole("Supplier");
+
+    SearchBarModel searchBarModel = new()
+    {
+        Name = "SearchString",
+        Value = ViewBag.CurrentSearch as string ?? "",
+        ButtonType = "submit",
+        AspController = isAdmin ? "Admin" : isPurchaser ? "Purchaser" : "",
+        AspAction = "AllSupplierMachines",
+        Placeholder = "Search machines...."
+    };
+}
+
+<div class="all-machines-container">
+    <div class="flex-container-1">
+        <h2 class="all-machines-text">
+            <i class="fa-solid fa-gears" style="margin-right: 8px; color: #cbd5e1;"></i> All Supplier Machines
+        </h2>
+        <partial name="_SearchBar" model="searchBarModel"></partial>
+        </div>
+        <vc:all-suppliers-machines-with-pagination  page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:all-suppliers-machines-with-pagination>
+    </div>
+
+    @section SupplierMachinesStyles {
+        <link rel="stylesheet" href="~/css/SupplierMachinesStyles.css" />
+    }
+
+    @section SearchBarStyles {
+        <link rel="stylesheet" href="~/css/SearchBarStyles.css" />
+    }

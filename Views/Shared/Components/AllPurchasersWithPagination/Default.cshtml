@@ -1,0 +1,71 @@
+﻿@model FetchAllPurchasersGetResponseDTO
+
+<div class="purchaser-list-container">
+    <table class="purchaser-table">
+        <thead>
+            <tr>
+                <th><a asp-action="AllPurchasers" asp-controller="Admin" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="AllPurchasers" asp-controller="Admin" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentSort == "name_asc" ? "↑" : ViewBag.CurrentSort == "name_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="AllPurchasers" asp-controller="Admin" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "surname_asc" ? "surname_desc" : "surname_asc")">Surname @(ViewBag.CurrentSort == "surname_asc" ? "↑" : ViewBag.CurrentSort == "surname_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="AllPurchasers" asp-controller="Admin" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "email_asc" ? "email_desc" : "email_asc")">Email @(ViewBag.CurrentSort == "email_asc" ? "↑" : ViewBag.CurrentSort == "email_desc" ? "↓" : "")</a></th>
+                <th>Purchases</th>
+                <th><a asp-action="AllPurchasers" asp-controller="Admin" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Created At @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Data != null && Model.Data.Any())
+            {
+                foreach (var purchaser in Model.Data)
+                {
+                    <tr onclick="window.location.href = '/admin/purchasers/@purchaser.Id'">
+                        <td>@purchaser.Id</td>
+                        <td>@purchaser.Name</td>
+                        <td>@purchaser.Surname</td>
+                        <td>@purchaser.Email</td>
+                        <td>
+                            <a asp-controller="Admin" asp-action="PurchaserPurchases" asp-route-purchaserId="@purchaser.Id" onclick="event.stopPropagation()" class="resource-link">
+                                Purchases 
+                                @if (purchaser.Purchases != null && purchaser.Purchases.Count > 0)
+                                {
+                                    <i class="fa-solid fa-circle-check" style="color: #2ed47a; margin: 0 0 3px 0;" title="Completed"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-circle-minus" style="color: rgba(255, 255, 255, 0.2); margin: 0 0 3px 0;" title="Missing"></i>
+                                }
+                            </a>
+                        </td>
+                        <td>@purchaser.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state-message">
+                            <p>No purchasers are registered in the system yet.</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.TotalPages > 0)
+    {
+        <div class="pagination-container">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <a asp-action="AllPurchasers"
+                   asp-controller="Admin"
+                   asp-route-page="@i"
+                   asp-route-sortBy="@ViewBag.CurrentSort"
+                   asp-route-searchString="@ViewBag.CurrentSearch"
+                   class="pagination-button @(Model.CurrentPage == i ? "active-page" : "")">
+                    @i
+                </a>
+            }
+        </div>
+    }
+</div>

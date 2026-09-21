@@ -1,0 +1,34 @@
+﻿@using System.Security.Claims
+@using SupplierCapabilitiesAndManagementSystem.Entities
+@using SupplierCapabilitiesAndManagementSystem.Models
+@using SupplierCapabilitiesAndManagementSystem.Models.DTO
+
+@{
+    SearchBarModel searchBarModel = new()
+    {
+        Name = "SearchString",
+        Value = ViewBag.CurrentSearch as string ?? "",
+        ButtonType = "submit",
+        AspController = "Purchaser",
+        AspAction = "Purchases",
+        Placeholder = "Search purchases...."
+    };
+}
+
+<div class="all-purchases-container">
+    <div class="flex-container-1">
+        <h2 class="all-purchases-text">
+            <i class="fa-solid fa-file-invoice-dollar" style="margin-right: 8px; color: #cbd5e1;"></i> All Purchases
+        </h2>        
+        <partial name="_SearchBar" model="searchBarModel"></partial>
+        </div>
+        <vc:purchaser-all-purchases-with-pagination purchaser-id="@ViewBag.PurchaserId" page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:purchaser-all-purchases-with-pagination>
+    </div>
+
+    @section PurchaserPurchasesStyles {
+        <link rel="stylesheet" href="~/css/PurchaserPurchasesStyles.css" />
+    }
+        
+    @section SearchBarStyles {
+        <link rel="stylesheet" href="~/css/SearchBarStyles.css" />
+    }

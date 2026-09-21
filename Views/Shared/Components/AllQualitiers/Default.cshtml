@@ -1,0 +1,40 @@
+﻿@model FetchAllQualitiersGetResponseDTO
+
+<div id="qualitiers-section" class="qualitier-list-container">
+    <table class="qualitier-table">
+        <thead>
+            <tr>
+                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="qualitiers-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" asp-route-qualitierSortBy="@(ViewBag.CurrentQualitierSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentQualitierSort == "id_asc" ? "↑" : ViewBag.CurrentQualitierSort == "id_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="qualitiers-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" asp-route-qualitierSortBy="@(ViewBag.CurrentQualitierSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentQualitierSort == "name_asc" ? "↑" : ViewBag.CurrentQualitierSort == "name_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="qualitiers-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" asp-route-qualitierSortBy="@(ViewBag.CurrentQualitierSort == "surname_asc" ? "surname_desc" : "surname_asc")">Surname @(ViewBag.CurrentQualitierSort == "surname_asc" ? "↑" : ViewBag.CurrentQualitierSort == "surname_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="qualitiers-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" asp-route-qualitierSortBy="@(ViewBag.CurrentQualitierSort == "email_asc" ? "email_desc" : "email_asc")">Email @(ViewBag.CurrentQualitierSort == "email_asc" ? "↑" : ViewBag.CurrentQualitierSort == "email_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="qualitiers-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" asp-route-qualitierSortBy="@(ViewBag.CurrentQualitierSort == "added_asc" ? "added_desc" : "added_asc")">Created At @(ViewBag.CurrentQualitierSort == "added_asc" ? "↑" : ViewBag.CurrentQualitierSort == "added_desc" ? "↓" : "")</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Data != null && Model.Data.Any())
+            {
+                foreach (var qualitier in Model.Data)
+                {
+                    <tr onclick="window.location.href = '/admin/qualitiers/@qualitier.Id'">
+                        <td style="width: 1%; white-space: nowrap;">@qualitier.Id</td>
+                        <td style="width: 1%; white-space: nowrap;">@qualitier.Name</td>
+                        <td style="width: 1%; white-space: nowrap; text-transform: uppercase;">@qualitier.Surname</td>
+                        <td style="width: 1%; white-space: nowrap;">@qualitier.Email</td>
+                        <td style="width: 1%; white-space: nowrap;">@qualitier.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state-message">
+                            <p>No qualitier are registered in the system yet.</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

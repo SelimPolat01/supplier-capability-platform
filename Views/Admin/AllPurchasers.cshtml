@@ -1,0 +1,29 @@
+﻿@{
+    SearchBarModel searchBarModel = new()
+    {
+        Name = "SearchString",
+        Value = ViewBag.CurrentSearch as string ?? "",
+        ButtonType = "submit",
+        AspController = "Admin",
+        AspAction = "AllPurchasers",
+        Placeholder = "Search purchasers...."
+    };
+}
+
+<div class="all-purchasers-container">
+    <div class="flex-container-1">
+        <h2 class="all-purchasers-text">
+            <i class="fa-solid fa-user-tag" style="margin-right: 8px; color: #cbd5e1;"></i> All Purchasers
+        </h2>
+        <partial name="_SearchBar" model="searchBarModel"></partial>
+        </div>
+        <vc:all-purchasers-with-pagination  page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:all-purchasers-with-pagination>
+    </div>
+
+    @section AllPurchasersStyles {
+        <link rel="stylesheet" href="~/css/AllPurchasersStyles.css" />
+    }
+
+    @section SearchBarStyles {
+        <link rel="stylesheet" href="~/css/SearchBarStyles.css" />
+    }

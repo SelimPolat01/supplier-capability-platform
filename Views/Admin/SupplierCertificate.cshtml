@@ -1,0 +1,126 @@
+﻿@model SupplierCertificate
+
+@{
+    PrimaryButtonModel deleteButtonModel = new()
+    {
+        Type = "button",
+        Text = "Delete",
+        OnClick = $"deleteClickHandler()",
+        CssClass = "delete-button",
+        IconClass = "fa-solid fa-trash-can"
+    };
+
+    ConfirmModalModel confirmModalModel = new()
+    {
+        Title = "Delete Supplier Certificate",
+        Message = "Are you sure you want to delete this supplier certificate? This action cannot be undone.",
+        OnConfirm = $"confirmDeleteHandler({Model.Id}, {Model.AppUserId})",
+        ConfirmButtonText = "Yes, Delete",
+        ConfirmButtonIcon = "fa-solid fa-trash-can",
+        CancelButtonText = "Cancel",
+        CancelButtonIcon = "fa-solid fa-circle-xmark"
+    };
+}
+
+<div class="certificate-container">
+    <partial name="_ConfirmModal" model="confirmModalModel"></partial>
+
+    <div class="certificate-element-wrapper">
+        <div class="flex-container-1">
+            <h2 class="certificate-details-text">Supplier Certificate Details</h2>
+            <div class="save-edit-button-container">
+                <partial name="_PrimaryButton" model="deleteButtonModel"></partial>
+            </div>
+        </div>
+        
+        <div class="certificate-flex-wrapper">
+            <div class="certificate-element-container">
+                <span class="certificate-element-title">Id</span>
+                <span class="certificate-element-id-data">@Model.Id</span>
+            </div>
+            
+            <div class="certificate-element-container">
+                <span class="certificate-element-title">Name</span>
+                <span class="certificate-element-data">@Model.Name</span>
+            </div>
+            
+            <div class="certificate-element-container">
+                <span class="certificate-element-title">Issued By</span>
+                <span class="certificate-element-data">@Model.IssuedBy</span>
+            </div>
+            
+            <div class="certificate-element-container">
+                <span class="certificate-element-title">Issue Date</span>
+                <span class="certificate-element-data">@Model.IssueDate.ToString("yyyy-MM-dd")</span>
+            </div>
+            
+            <div class="certificate-element-container">
+                <span class="certificate-element-title">Expiry Date</span>
+                <span class="certificate-element-data">@(Model.ExpiryDate?.ToString("yyyy-MM-dd") ?? "No Expiry")</span>
+            </div>
+            
+            <div class="certificate-element-container">
+                <span class="certificate-element-title">Created At</span>
+                <span class="certificate-element-time-data">@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+            </div>
+            
+            <div class="image-file-container">
+                <h2 class="certificate-image-file-text">Image File</h2>
+                @if (!string.IsNullOrEmpty(Model.DocumentUrl) && Model.DocumentUrl.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                {
+                    <iframe src="@Model.DocumentUrl#toolbar=0&navpanes=0&view=FitH"></iframe>
+                }
+                else
+                {
+                    <img src="@Model.DocumentUrl" alt="@Model.DocumentUrl Image" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section SupplierCertificateStyles {
+    <link rel="stylesheet" href="~/css/SupplierCertificateStyles.css" />
+}
+
+@section PrimaryButtonStyles {
+    <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+}
+
+@section ConfirmModalStyles{
+    <link rel="stylesheet" href="~/css/ConfirmModalStyles.css" />
+}
+
+@section Scripts {
+    <script>
+        function deleteClickHandler() {
+            const confirmModal = document.querySelector(".modal-overlay");
+            confirmModal.style.display = "block";
+        }
+
+        async function confirmDeleteHandler(certificateId, supplierId) {
+            try {
+                const response = await fetch(`/admin/certificates/${certificateId}/delete?userId=${supplierId}`, {
+                    method: "DELETE", 
+                    credentials: "include"
+                });
+
+                if (response.ok) {
+                    window.location.href = `/admin/suppliers/@Model.AppUserId/certificates`;
+                } else {
+                    alert("An error occurred while deleting the supplier certificate.");
+                    closeModal();
+                }
+            } catch(err) {
+                console.log(err.message);
+                alert(err.message);
+                closeModal();
+            }
+        }
+
+        function closeModal() {
+            const confirmModal = document.querySelector(".modal-overlay");
+            if (confirmModal) confirmModal.style.display = "none";
+        }
+    </script>
+}

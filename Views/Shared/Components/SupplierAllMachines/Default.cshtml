@@ -1,0 +1,64 @@
+﻿@model FetchSupplierAllMachinesGetResponseDTO
+
+<div class="machine-list-container">
+    <table class="machine-table">
+        <thead>
+            <tr>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "group_asc" ? "group_desc" : "group_asc")">
+                        Group @(ViewBag.CurrentMachineSort == "group_asc" ? "↑" : ViewBag.CurrentMachineSort == "group_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "type_asc" ? "type_desc" : "type_asc")">
+                        Type @(ViewBag.CurrentMachineSort == "type_asc" ? "↑" : ViewBag.CurrentMachineSort == "type_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "brand-model_asc" ? "brand-model_desc" : "brand-model_asc")">
+                        Brand @(ViewBag.CurrentMachineSort == "brand-model_asc" ? "↑" : ViewBag.CurrentMachineSort == "brand-model_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th>File</th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "price_asc" ? "price_desc" : "price_asc")">
+                        Price @(ViewBag.CurrentMachineSort == "price_asc" ? "↑" : ViewBag.CurrentMachineSort == "price_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "added_asc" ? "added_desc" : "added_asc")">
+                        Added @(ViewBag.CurrentMachineSort == "added_asc" ? "↑" : ViewBag.CurrentMachineSort == "added_desc" ? "↓" : "")
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Data != null && Model.Data.Any())
+            {
+                foreach (var machine in Model.Data)
+                {
+                    <tr onclick="window.location.href = '/supplier/machines/@machine.Id'">
+                        <td style="width: 1%; white-space: nowrap;">@machine.MachineGroup</td>
+                        <td style="width: 1%; white-space: nowrap;">@machine.MachineType</td>
+                        <td style="width: 1%; white-space: nowrap;">@machine.BrandAndModel</td>
+                        <td>
+                            <a href="@machine.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
+                        </td>
+                        <td style="width: 1%; white-space: nowrap;" class="machine-element-price-data">$@machine.Price.ToString("N0")</td>
+                        <td style="white-space: nowrap;">@machine.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state-message">
+                            <p>No machines are registered in the system yet.</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

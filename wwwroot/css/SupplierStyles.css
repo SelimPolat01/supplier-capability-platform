@@ -1,0 +1,146 @@
+﻿.supplier-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.supplier-page-title-container {
+    display: flex;
+    width: fit-content;
+    box-sizing: border-box;
+    gap: 0.5rem;
+}
+
+.supplier-page-title-container h1{
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    color: #FFFFFF;
+}
+
+    .supplier-page-title-container span {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 2rem;
+        line-height: 1;
+    }
+
+.supplier-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1100px;
+}
+
+.supplier-details-flexbox-1,
+.supplier-details-flexbox-2{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: #0B0C27;
+    padding: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 12px;
+}
+
+.supplier-id-name-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.supplier-id-container {
+    color: rgb(0, 244, 255);
+    background-color: rgba(0, 244, 255, 0.2);
+    border: 1px solid rgb(0, 244, 255);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 100px;
+    padding: 6px 12px;
+}
+
+.supplier-id-title {
+    font-size: 0.75rem;
+}
+
+.supplier-company-name-container{
+
+}
+
+.supplier-company-name-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    margin: 0;
+}
+
+.supplier-info-box-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.supplier-info-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    box-sizing: border-box;
+    flex: 1;
+    border-radius: 0.75rem;
+}
+
+.supplier-info-title {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.supplier-info-data {
+    color: rgb(255, 255, 255);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.supplier-hr-details-title {
+    font-size: 18px;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    margin: 0;
+}
+
+.supplier-hr-box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.supplier-hr-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    min-width: 200px;
+    flex: 1;
+    border-radius: 0.5rem;
+}
+
+.supplier-hr-info-title {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.supplier-hr-info-data {
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    font-weight: 600;
+}

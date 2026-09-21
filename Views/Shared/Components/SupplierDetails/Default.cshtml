@@ -1,0 +1,91 @@
+﻿@model FetchSupplierGetResponseDTO
+
+<div class="supplier-wrapper">
+    <div class="supplier-page-title-container">
+        <h1>Supplier Details</h1><span>#@ViewBag.SupplierId</span>
+    </div>
+    <div class="supplier-details-flexbox-1">
+        <div class="supplier-id-name-wrapper">
+            <div class="supplier-id-container">
+                <span class="supplier-id-title">Supplier Id: @Model.Data.Id</span>
+            </div>
+            <div class="supplier-company-name-container">
+                <h2 class="supplier-company-name-title">@Model.Data.CompanyName</h2>
+            </div>
+        </div>
+        <div class="supplier-info-box-container">
+            <div class="supplier-info-box">
+                <span class="supplier-info-title">Name</span>
+                <span class="supplier-info-data">@Model.Data.Name</span>
+            </div>
+            <div class="supplier-info-box">
+                <span class="supplier-info-title">Surname</span>
+                <span class="supplier-info-data">@Model.Data.Surname</span>
+            </div>
+            <div class="supplier-info-box">
+                <span class="supplier-info-title">Email</span>
+                <span class="supplier-info-data">@Model.Data.Email</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="supplier-details-flexbox-2">
+        <h3 class="supplier-hr-details-title">Human Resources</h3>
+        <div class="supplier-hr-box-container">
+            @if (Model.Data.HumanResources.Any())
+            {
+                foreach (var humanResource in Model.Data.HumanResources)
+                {
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Total Employee Count</span>
+                        <span class="supplier-hr-info-data">@(humanResource.TotalEmployeeCount?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">White Collar Count</span>
+                        <span class="supplier-hr-info-data">@(humanResource.WhiteCollarCount?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Blue Collar Count</span>
+                        <span class="supplier-hr-info-data">@(humanResource.BlueCollarCount?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Engineer Count</span>
+                        <span class="supplier-hr-info-data">@(humanResource.EngineerCount?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Quality Control Staff Count</span>
+                        <span class="supplier-hr-info-data">@(humanResource.QualityControlStaffCount?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Rnd Staff Count</span>
+                        <span class="supplier-hr-info-data">@(humanResource.RndStaffCount?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Certified Operator Count</span>
+                        <span class="supplier-hr-info-data">@(humanResource.CertifiedOperatorCount?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Shift Count</span>
+                        <span class="supplier-hr-info-data">@(humanResource.ShiftCount?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Working Days Per Week</span>
+                        <span class="supplier-hr-info-data">@(humanResource.WorkingDaysPerWeek?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Has Labor Union</span>
+                        <span class="supplier-hr-info-data">@(humanResource.HasLaborUnion ? "Yes" : "No")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Employee Turnover Rate</span>
+                        <span class="supplier-hr-info-data">@(humanResource.EmployeeTurnoverRate?.ToString() ?? "-")</span>
+                    </div>
+                    <div class="supplier-hr-box">
+                        <span class="supplier-hr-info-title">Last Updated</span>
+                        <span class="supplier-hr-info-data">@humanResource.LastUpdatedDate.ToString("yyyy-MM-dd")</span>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

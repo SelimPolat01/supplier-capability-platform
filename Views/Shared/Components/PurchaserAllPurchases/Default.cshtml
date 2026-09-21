@@ -1,0 +1,74 @@
+﻿@model FetchPurchaserAllPurchasesGetResponseDTO
+
+<div id="purchases-list-container" class="purchase-list-container">
+    <table class="purchase-table">
+        <thead>
+            <tr>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentPurchaseSort == "id_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "id_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "group_asc" ? "group_desc" : "group_asc")">Group @(ViewBag.CurrentPurchaseSort == "group_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "group_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "type_asc" ? "type_desc" : "type_asc")">Type @(ViewBag.CurrentPurchaseSort == "type_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "type_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "brand-model_asc" ? "brand-model_desc" : "brand-model_asc")">Brand @(ViewBag.CurrentPurchaseSort == "brand-model_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "brand-model_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "production-year_asc" ? "production-year_desc" : "production-year_asc")">Production Year @(ViewBag.CurrentPurchaseSort == "production-year_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "production-year_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "quantity_asc" ? "quantity_desc" : "quantity_asc")">Quantity @(ViewBag.CurrentPurchaseSort == "quantity_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "quantity_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "axis-count_asc" ? "axis-count_desc" : "axis-count_asc")">Axis Count @(ViewBag.CurrentPurchaseSort == "axis-count_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "axis-count_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "capacity_asc" ? "capacity_desc" : "capacity_asc")">Capacity @(ViewBag.CurrentPurchaseSort == "capacity_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "capacity_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">Machine File</th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "cost_asc" ? "cost_desc" : "cost_asc")">Total Cost @(ViewBag.CurrentPurchaseSort == "cost_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "cost_desc" ? "↓" : "")</a>
+                </th>
+                <th style="width: 1%; white-space: nowrap;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "purchase-date_asc" ? "purchase-date_desc" : "purchase-date_asc")">Purchase Date @(ViewBag.CurrentPurchaseSort == "purchase-date_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "purchase-date_desc" ? "↓" : "")</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Data != null && Model.Data.Any())
+            {
+                @foreach (var purchase in Model.Data)
+                {
+                    <tr onclick="window.location.href = '/purchaser/purchases/@purchase.Id'">
+                        <td style="width: 1%; white-space: nowrap;">@purchase.Id</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.MachineGroup</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.MachineType</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.BrandAndModel</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.ProductionYear</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.Quantity</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.AxisCount</td>
+                        <td style="width: 1%; white-space: nowrap;">@purchase.MachineDetails.CapacitySpecs</td>
+                        <td style="width: 1%; white-space: nowrap;">
+                            <a href="@purchase.MachineDetails.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
+                        </td>
+                        <td style="width: 1%; white-space: nowrap;" class="purchase-element-price-data">$@purchase.TotalPurchasedPrice.ToString("N0")</td>
+                        <td style="white-space: nowrap;">@purchase.PurchaseDate.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="11">
+                        <div class="empty-state-message">
+                            <p>No purchases are registered in the system yet.</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
