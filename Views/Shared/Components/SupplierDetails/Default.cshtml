@@ -8,7 +8,7 @@
             <span>#@Model.Data.Id</span>
         </div>
 
-        <div class="supplier-details-flexbox-1">
+        <div class="supplier-details-flexbox">
             <div class="supplier-id-name-wrapper">
                 <div class="supplier-info-container">
                     <div class="supplier-id-container">
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="supplier-details-flexbox-2">
+        <div class="supplier-details-flexbox">
             <h3 class="supplier-details-title">
                 <i class="fa-solid fa-gears" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
                 Machines <span class="count-badge">@(Model.Data.Machines?.Count() ?? 0)</span>
@@ -49,24 +49,24 @@
                 {
                     foreach (var machine in Model.Data.Machines)
                     {
-                        <div class="supplier-machine-box">
-                            <div class="supplier-machine-info-flex-container">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@machine.AppUserId/machines/@machine.Id'">
+                            <div class="supplier-info-flex-container">
                                 <span class="supplier-info-title">Group:</span>
                                 <span class="supplier-info-data">@machine.MachineGroup</span>
                             </div>
-                            <div class="supplier-machine-info-flex-container">
+                            <div class="supplier-info-flex-container">
                                 <span class="supplier-info-title">Type:</span>
                                 <span class="supplier-info-data">@machine.MachineType</span>
                             </div>
-                            <div class="supplier-machine-info-flex-container">
+                            <div class="supplier-info-flex-container">
                                 <span class="supplier-info-title">Brand / Model:</span>
                                 <span class="supplier-info-data">@machine.BrandAndModel</span>
                             </div>
-                            <div class="supplier-machine-info-flex-container">
+                            <div class="supplier-info-flex-container">
                                 <span class="supplier-info-title">Year:</span>
                                 <span class="supplier-info-data">@machine.ProductionYear</span>
                             </div>
-                            <div class="supplier-machine-info-flex-container">
+                            <div class="supplier-info-flex-container">
                                 <span class="supplier-info-title">Quantity:</span>
                                 <span class="supplier-info-data">@machine.Quantity</span>
                             </div>
@@ -82,7 +82,7 @@
             </div>
         </div>
 
-        <div class="supplier-details-flexbox-3">
+        <div class="supplier-details-flexbox">
             <h3 class="supplier-details-title">
                 <i class="fa-solid fa-certificate" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
                 Certificates <span class="count-badge">@(Model.Data.Certificates?.Count() ?? 0)</span>
@@ -92,27 +92,27 @@
                 {
                     foreach (var certificate in Model.Data.Certificates)
                     {
-                        <div class="supplier-certificate-box">
-                            <div class="supplier-certificate-info-flex-container">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@certificate.AppUserId/certificates/@certificate.Id'">
+                            <div class="supplier-info-flex-container">
                                 <span class="supplier-info-title">Name:</span>
                                 <span class="supplier-info-data">@certificate.Name</span>
                             </div>
-                            <div class="supplier-certificate-info-flex-container">
+                            <div class="supplier-info-flex-container">
                                 <span class="supplier-info-title">Issued By:</span>
                                 <span class="supplier-info-data">@certificate.IssuedBy</span>
                             </div>
-                            <div class="supplier-certificate-info-flex-container">
+                            <div class="supplier-info-flex-container">
                                 <span class="supplier-info-title">Issue Date:</span>
                                 <span class="supplier-info-data">@certificate.IssueDate.ToString("yyyy-MM-dd")</span>
                             </div>
-                            <div class="supplier-certificate-info-flex-container">
+                            <div class="supplier-info-flex-container">
                                 <span class="supplier-info-title">Expiry Date:</span>
                                 <span class="supplier-info-data">@certificate.ExpiryDate?.ToString("yyyy-MM-dd")</span>
                             </div>
-                            <div class="supplier-certificate-info-flex-container">
+                            <div class="supplier-info-flex-container" onclick="event.stopPropagation()">
                                 <span class="supplier-info-title">Document:</span>
                                 <a href="@certificate.DocumentUrl" target="_blank" rel="noopener noreferrer">
-                                    <i class="fa-solid fa-file-pdf" style="margin-right: 4px;"></i> View
+                                    <i class="fa-solid fa-file-pdf"></i> View
                                 </a>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
             </div>
         </div>
 
-        <div class="supplier-details-flexbox-4">
+        <div class="supplier-details-flexbox">
             <h3 class="supplier-details-title">
                 <i class="fa-solid fa-users" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
                 Human Resources
@@ -145,51 +145,51 @@
                 {
                     foreach (var humanResource in Model.Data.HumanResources)
                     {
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Total Employee Count</span>
                             <span class="supplier-info-data">@(humanResource.TotalEmployeeCount?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">White Collar Count</span>
                             <span class="supplier-info-data">@(humanResource.WhiteCollarCount?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Blue Collar Count</span>
                             <span class="supplier-info-data">@(humanResource.BlueCollarCount?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Engineer Count</span>
                             <span class="supplier-info-data">@(humanResource.EngineerCount?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Quality Control Staff Count</span>
                             <span class="supplier-info-data">@(humanResource.QualityControlStaffCount?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Rnd Staff Count</span>
                             <span class="supplier-info-data">@(humanResource.RndStaffCount?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Certified Operator Count</span>
                             <span class="supplier-info-data">@(humanResource.CertifiedOperatorCount?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Shift Count</span>
                             <span class="supplier-info-data">@(humanResource.ShiftCount?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Working Days Per Week</span>
                             <span class="supplier-info-data">@(humanResource.WorkingDaysPerWeek?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Has Labor Union</span>
                             <span class="supplier-info-data">@(humanResource.HasLaborUnion ? "Yes" : "No")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Employee Turnover Rate</span>
                             <span class="supplier-info-data">@(humanResource.EmployeeTurnoverRate?.ToString() ?? "-")</span>
                         </div>
-                        <div class="supplier-hr-box">
+                        <div class="supplier-box" onclick="window.location.href='/admin/suppliers/@humanResource.UserId/human-resources'">
                             <span class="supplier-info-title">Last Updated</span>
                             <span class="supplier-info-data">@humanResource.LastUpdatedDate.ToString("yyyy-MM-dd")</span>
                         </div>
