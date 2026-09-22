@@ -45,6 +45,39 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             }
         }
 
+        public async Task<FetchPurchaserGetResponseDTO> FetchPurchaserAsync(int purchaserId)
+        {
+            try
+            {
+                AppUser? existingPurchaser = await _purchaserRepository.FetchPurchaserAsync(purchaserId);
+                if (existingPurchaser == null)
+                {
+                    return new FetchPurchaserGetResponseDTO()
+                    {
+                        Message = "Purchaser not found.",
+                        IsSuccess = false
+                    };
+                }
+
+                var mappedData = existingPurchaser.ToPurchaserDTO();
+
+                return new FetchPurchaserGetResponseDTO()
+                {
+                    Data = mappedData,
+                    Message = "Purchaser details retrieved successfully.",
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new FetchPurchaserGetResponseDTO()
+                {
+                    Message = $"An error occurred while retrieving the purchaser: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
+        }
+
         public async Task<FetchPurchaserAllPurchasesGetResponseDTO> FetchPurchaserAllPurchasesAsync(int purhcaserId, string sortBy = "id_asc", int pageNumber = 1, int pageSize = 10, string? searchString = null)
         {
             if (pageNumber < 1) pageNumber = 1;
@@ -52,9 +85,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
 
             try
             {
-                (List<MachinePurchase> Data, int TotalCount) result = await _purchaserRepository.FetchPurchaserAllPurchaseAsync(purhcaserId, sortBy, pageNumber, pageSize, searchString);
+                (List<PurchaserMachinePurchase> Data, int TotalCount) result = await _purchaserRepository.FetchPurchaserAllPurchaseAsync(purhcaserId, sortBy, pageNumber, pageSize, searchString);
                 int totalPages = (int)Math.Ceiling(result.TotalCount / (double)pageSize);
-                var mappedData = result.Data.Select(machinePurchase => new MachinePurchaseDTO()
+                var mappedData = result.Data.Select(machinePurchase => new PurchaserMachinePurchaseDTO()
                 {
                     Id = machinePurchase.Id,
                     Quantity = machinePurchase.Quantity,

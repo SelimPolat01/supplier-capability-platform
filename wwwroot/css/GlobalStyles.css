@@ -357,6 +357,64 @@ h6 {
     height: 8px;
 }
 
+.flex-container-1 .add-machine-button i,
+.flex-container-1 .add-certificate-button i,
+.flex-container-1 .manage-human-resource-button i {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.flex-container-1 .add-machine-button {
+    width: fit-content;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+    .flex-container-1 .add-machine-button:hover {
+        transform: translateY(-3px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 10px 20px rgba(139, 92, 246, 0.4);
+    }
+
+    .flex-container-1 .add-machine-button:active {
+        transform: translateY(0);
+        box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3), 0 0px 0px rgba(139, 92, 246, 0);
+    }
+
+.flex-container-1 .add-certificate-button {
+    width: fit-content;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+    .flex-container-1 .add-certificate-button:hover {
+        transform: translateY(-3px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 10px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .flex-container-1 .add-certificate-button:active {
+        transform: translateY(0);
+        box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3), 0 0px 0px rgba(16, 185, 129, 0);
+    }
+
+.human-resources-container .manage-human-resource-button {
+    width: 100%;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #EC4899 0%, #F43F5E 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+    .human-resources-container .manage-human-resource-button:hover {
+        transform: translateY(-3px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 10px 20px rgba(236, 72, 153, 0.4);
+    }
+
+    .human-resources-container .manage-human-resource-button:active {
+        transform: translateY(0);
+        box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3), 0 0px 0px rgba(236, 72, 153, 0);
+    }
+
 ::-webkit-scrollbar-track {
     background: #030317;
 }

@@ -4,6 +4,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
 {
     public class PurchaserDTO
     {
+        [Display(Name = "Purchased Machines")]
+        public List<PurchaserMachinePurchaseDTO> Purchases { get; set; } = new();
         public int Id { get; set; }
 
         [Display(Name = "First Name")]
@@ -14,9 +16,6 @@ namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
 
         [Display(Name = "Email Address")]
         public string Email { get; set; } = string.Empty;
-
-        [Display(Name = "Purchased Machines")]
-        public List<MachinePurchaseDTO> Purchases { get; set; } = new();
 
         [Display(Name = "Registration Date")]
         public DateTime CreatedAt { get; set; }

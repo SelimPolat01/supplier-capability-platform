@@ -61,7 +61,16 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             return (result, totalPurchaserCount);
         }
 
-        public async Task<(List<MachinePurchase> Data, int TotalCount)> FetchPurchaserAllPurchaseAsync(int purchaserId, string sortBy, int pageNumber, int pageSize, string? searchString = null)
+        public async Task<AppUser?> FetchPurchaserAsync(int purchaserId)
+        {
+            return await _dbContext.Users.
+                Include(user => user.PurchaserMachinePurchases)
+                .ThenInclude(purchase => purchase.SupplierMachine)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(user => user.Id == purchaserId);
+        }
+
+        public async Task<(List<PurchaserMachinePurchase> Data, int TotalCount)> FetchPurchaserAllPurchaseAsync(int purchaserId, string sortBy, int pageNumber, int pageSize, string? searchString = null)
         {
             var query = _dbContext.PurchaserMachinePurchases
                 .Include(machinePurchase => machinePurchase.SupplierMachine)
@@ -134,7 +143,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             if (machine.Quantity == 0) return (0, "This machine is currently out of stock.");
             if (machine.Quantity < quantity) return (0, $"Insufficient stock. Only {machine.Quantity} items left.");
 
-            var newPurchase = new MachinePurchase()
+            var newPurchase = new PurchaserMachinePurchase()
             {
                 PurchaserId = purchaserId,
                 SupplierMachineId = machineId,

@@ -34,18 +34,18 @@
                         <td style="width: 1%; white-space: nowrap;">@supplier.Email</td>
                         <td style="width: 1%; white-space: nowrap;">
                             <a asp-controller="@targetController" asp-action="SupplierCertificates" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
-                                Certificates <span class="count-badge">@supplier.CertificatesCount</span>
+                                Certificates <span class="count-badge">@supplier.Certificates.Count</span>
                             </a>
                         </td>
                         <td style="width: 1%; white-space: nowrap;">
                             <a asp-controller="@targetController" asp-action="SupplierMachines" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
-                                Machines <span class="count-badge">@supplier.MachinesCount</span>
+                                Machines <span class="count-badge">@supplier.Machines.Count</span>
                             </a>
                         </td>
                         <td style="width: 1%; white-space: nowrap;">
                             <a asp-controller="@targetController" asp-action="SupplierHumanResources" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
                                 HR 
-                                @if (supplier.HumanResourcesCount > 0)
+                                @if (supplier.HumanResources.Count > 0)
                                 {
                                     <i class="fa-solid fa-circle-check" style="color: #2ed47a; margin: 0 0 3px 0;" title="Completed"></i>
                                 }

@@ -4,6 +4,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
 {
     public class SupplierDTO
     {
+        public List<SupplierMachineDTO> Machines { get; set; } = new();
+        public List<SupplierCertificateDTO> Certificates { get; set; } = new();
+        public List<SupplierHumanResourcesDTO> HumanResources { get; set; } = new();
         public int Id { get; set; }
 
         [Display(Name = "First Name")]
@@ -13,19 +16,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
         public string Surname { get; set; } = string.Empty;
 
         [Display(Name = "Company Name")]
-        public string? CompanyName { get; set; }
+        public string CompanyName { get; set; } = string.Empty;
 
         [Display(Name = "Email Address")]
         public string Email { get; set; } = string.Empty;
-
-        [Display(Name = "Certificates  Count")]
-        public int CertificatesCount { get; set; }
-
-        [Display(Name = "Machines  Count")]
-        public int MachinesCount { get; set; }
-
-        [Display(Name = "Human Resources  Count")]
-        public int HumanResourcesCount { get; set; }
 
         [Display(Name = "Registration Date")]
         public DateTime CreatedAt { get; set; }

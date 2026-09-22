@@ -11,7 +11,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
         public DbSet<SupplierMachine> SupplierMachines { get; set; }
         public DbSet<SupplierCertificate> SupplierCertificates { get; set; }
         public DbSet<SupplierHumanResource> SupplierHumanResources { get; set; }
-        public DbSet<MachinePurchase> PurchaserMachinePurchases { get; set; }
+        public DbSet<PurchaserMachinePurchase> PurchaserMachinePurchases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,13 +34,13 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
             modelBuilder.Entity<SupplierCertificate>()
                 .HasIndex(certificate => new { certificate.AppUserId, certificate.Name, certificate.IssuedBy, certificate.IssueDate, certificate.ExpiryDate });
 
-            modelBuilder.Entity<MachinePurchase>()
+            modelBuilder.Entity<PurchaserMachinePurchase>()
                 .HasOne(machinePurchase => machinePurchase.Purchaser)
                 .WithMany(purchaser => purchaser.PurchaserMachinePurchases)
                 .HasForeignKey(machinePurchase => machinePurchase.PurchaserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<MachinePurchase>()
+            modelBuilder.Entity<PurchaserMachinePurchase>()
                 .HasOne(machinePurchase => machinePurchase.SupplierMachine)
                 .WithMany()
                 .HasForeignKey(machinePurchase => machinePurchase.SupplierMachineId)

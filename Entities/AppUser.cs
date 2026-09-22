@@ -25,7 +25,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
 
         public virtual ICollection<SupplierHumanResource> SupplierHumanResources { get; set; } = new List<SupplierHumanResource>();
 
-        public virtual ICollection<MachinePurchase> PurchaserMachinePurchases { get; set; } = new List<MachinePurchase>();
+        public virtual ICollection<PurchaserMachinePurchase> PurchaserMachinePurchases { get; set; } = new List<PurchaserMachinePurchase>();
     }
 
     public static class AppUserExtensions
@@ -42,9 +42,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
                 CompanyName = supplier.CompanyName,
                 Email = supplier.Email ?? string.Empty,
                 CreatedAt = supplier.CreatedAt,
-                CertificatesCount = supplier.SupplierCertificates?.Count ?? 0,
-                MachinesCount = supplier.SupplierMachines?.Count ?? 0,
-                HumanResourcesCount = supplier.SupplierHumanResources?.Count ?? 0
+                Certificates = supplier.SupplierCertificates.Select(supplierCertificate => supplierCertificate.ToSupplierCertificateDTO()).ToList(),
+                Machines = supplier.SupplierMachines.Select(supplierMachine => supplierMachine.ToSupplierMachineDTO()).ToList(),
+                HumanResources = supplier.SupplierHumanResources.Select(supplierHR => supplierHR.ToSupplierHumanResourceDTO()).ToList(),
             };
         }
 
@@ -72,7 +72,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
                 Name = purchaser.Name,
                 Surname = purchaser.Surname,
                 Email = purchaser.Email ?? string.Empty,
-                Purchases = purchaser.PurchaserMachinePurchases?.Select(machinePurchase => machinePurchase.ToMachinePurchaseDTO()).ToList() ?? new List<MachinePurchaseDTO>(),
+                Purchases = purchaser.PurchaserMachinePurchases?.Select(machinePurchase => machinePurchase.ToMachinePurchaseDTO()).ToList() ?? new List<PurchaserMachinePurchaseDTO>(),
                 CreatedAt = purchaser.CreatedAt,
             };
         }

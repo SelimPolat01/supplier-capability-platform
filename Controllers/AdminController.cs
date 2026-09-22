@@ -96,6 +96,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         [HttpGet("purchasers/{purchaserId:int}")]
         public IActionResult Purchaser(int purchaserId)
         {
+            ViewBag.PurchaserId = purchaserId;
+
             return View();
         }
 

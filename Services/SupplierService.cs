@@ -59,20 +59,11 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
                     };
                 }
 
+                var mappedData = existingSupplier.ToSupplierDTO();
+
                 return new FetchSupplierGetResponseDTO()
                 {
-                    Data = new SupplierDetailDTO()
-                    {
-                        Id = existingSupplier.Id,
-                        Name = existingSupplier.Name,
-                        Surname = existingSupplier.Surname,
-                        Email = existingSupplier.Email ?? string.Empty,
-                        CompanyName = existingSupplier.CompanyName,
-                        CreatedAt = existingSupplier.CreatedAt,
-                        Machines = existingSupplier.SupplierMachines?.Select(supplierMachine => supplierMachine.ToSupplierMachineDTO()).ToList() ?? new(),
-                        Certificates = existingSupplier.SupplierCertificates?.Select(supplierCerificate => supplierCerificate.ToSupplierCertificateDTO()).ToList() ?? new(),
-                        HumanResources = existingSupplier.SupplierHumanResources?.Select(supplierHR => supplierHR.ToSupplierHumanResourceDTO()).ToList() ?? new(),
-                    },
+                    Data = mappedData,
                     Message = "Supplier details retrieved successfully.",
                     IsSuccess = true
                 };

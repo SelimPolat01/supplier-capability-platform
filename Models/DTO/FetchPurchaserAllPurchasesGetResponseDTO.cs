@@ -2,7 +2,7 @@
 {
     public class FetchPurchaserAllPurchasesGetResponseDTO
     {
-        public List<MachinePurchaseDTO> Data { get; set; } = new();
+        public List<PurchaserMachinePurchaseDTO> Data { get; set; } = new();
 
         public string Message { get; set; } = string.Empty;
         public int TotalCount { get; set; }

@@ -169,6 +169,10 @@
     font-weight: 600;
 }
 
+.element-price-data {
+    color: #4ade80;
+}
+
 .supplier-machine-info-flex-container,
 .supplier-certificate-info-flex-container {
     display: flex;
