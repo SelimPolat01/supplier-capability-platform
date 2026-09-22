@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using SupplierCapabilitiesAndManagementSystem.Entities;
 using SupplierCapabilitiesAndManagementSystem.Models.DTO;
 using SupplierCapabilitiesAndManagementSystem.Services;
+using System.Security.Claims;
 
 namespace SupplierCapabilitiesAndManagementSystem.Controllers
 {
     [Route("[controller]")]
-    [Authorize(Roles = "Supplier, Purchasing, Quality, Admin")]
+    [Authorize(Roles = "Supplier, Purchaser, Qualitier, Admin")]
     public class SupplierController : Controller
     {
         private readonly ISupplierMachineService _supplierMachineService;
@@ -93,17 +93,15 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         }
 
         [HttpGet("machines/{machineId:int}")]
-        public async Task<IActionResult> Machine(int machineId)
+        public IActionResult Machine(int machineId)
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int.TryParse(userIdString, out var userId);
 
-            if (!int.TryParse(userIdString, out int userId)) return RedirectToAction("Login", "Auth");
+            ViewBag.UserId = userId;
+            ViewBag.MachineId = machineId;
 
-            var machine = await _supplierMachineService.FetchMachineAsync(userId, machineId);
-
-            if (machine == null) return NotFound("Machine not found.");
-
-            return View(machine);
+            return View();
         }
 
         [HttpGet("certificates")]
@@ -117,19 +115,16 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         }
 
         [HttpGet("certificates/{certificateId:int}")]
-        public async Task<IActionResult> Certificate(int certificateId)
+        public IActionResult Certificate(int certificateId)
         {
             string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int.TryParse(userIdString, out var userId);
 
-            if (!int.TryParse(userIdString, out int userId)) return RedirectToAction("Login", "Auth");
+            ViewBag.UserId = userId;
+            ViewBag.CertificateId = certificateId;
 
-            var existingCertificate = await _supplierCertificateService.FetchCertificateAsync(userId, certificateId);
-
-            if (existingCertificate == null) return NotFound("Certificate not found.");
-
-            return View(existingCertificate);
+            return View();
         }
-
 
         [HttpGet("manage-human-resource")]
         public IActionResult ManageHumanResource()
@@ -140,8 +135,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         [HttpPatch("machines/{machineId:int}/patch")]
         public async Task<IActionResult> PatchMachine([FromRoute] int machineId, [FromBody] EditSupplierMachinePatchRequestDTO editMachinePatchRequestDTO)
         {
+            if (editMachinePatchRequestDTO == null) return BadRequest(new { message = "The submitted data format is invalid." });
             if (machineId != editMachinePatchRequestDTO.Id) return BadRequest("ID mismatch");
-
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -150,7 +145,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
 
             var machineUpdatingResult = await _supplierMachineService.EditMachineAsync(editMachinePatchRequestDTO, userId);
 
-            if (!machineUpdatingResult.IsSuccess) return Unauthorized(machineUpdatingResult.Message);
+            if (!machineUpdatingResult.IsSuccess) return BadRequest(new { message = machineUpdatingResult.Message });
 
             return Ok(new { message = machineUpdatingResult.Message });
         }
@@ -158,8 +153,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         [HttpPatch("certificates/{certificateId:int}/patch")]
         public async Task<IActionResult> PatchCertificate(int certificateId, [FromBody] EditSupplierCertificatePatchRequestDTO editCertificatePatchRequestDTO)
         {
+            if (editCertificatePatchRequestDTO == null) return BadRequest(new { message = "The submitted data format is invalid." });
             if (editCertificatePatchRequestDTO.Id != certificateId) return BadRequest("ID mismatch");
-
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -168,7 +163,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
 
             var certificateUpdatingResult = await _supplierCertificateService.EditCertificateAsync(editCertificatePatchRequestDTO, userId);
 
-            if (!certificateUpdatingResult.IsSuccess) return BadRequest(certificateUpdatingResult.Message);
+            if (!certificateUpdatingResult.IsSuccess) return BadRequest(new { message = certificateUpdatingResult.Message });
 
             return Ok(new { message = certificateUpdatingResult.Message });
         }

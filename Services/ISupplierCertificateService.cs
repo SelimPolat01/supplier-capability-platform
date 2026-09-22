@@ -1,5 +1,4 @@
-﻿using SupplierCapabilitiesAndManagementSystem.Entities;
-using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+﻿using SupplierCapabilitiesAndManagementSystem.Models.DTO;
 
 namespace SupplierCapabilitiesAndManagementSystem.Services
 {
@@ -9,7 +8,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
 
         public Task<FetchSupplierAllCertificatesGetResponseDTO> FetchAllCertificatesAsync(int userId, int pageNumber = 1, int pageSize = 10, string sortBy = "id_asc", string? searchString = null);
 
-        public Task<SupplierCertificate?> FetchCertificateAsync(int userId, int certificateId);
+        public Task<FetchSupplierCertificateGetResponseDTO> FetchCertificateAsync(int userId, int certificateId);
 
         public Task<EditSupplierCertificatePatchResponseDTO> EditCertificateAsync(EditSupplierCertificatePatchRequestDTO editCertificatePatchRequestDTO, int userId);
 

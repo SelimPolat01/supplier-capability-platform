@@ -77,9 +77,37 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             }
         }
 
-        public async Task<SupplierMachine?> FetchMachineAsync(int userId, int machineId)
+        public async Task<FetchSupplierMachineGetResponseDTO> FetchMachineAsync(int userId, int machineId)
         {
-            return await _supplierMachineRepository.FetchMachineAsync(machineId, userId);
+            try
+            {
+                SupplierMachine? existingSupplierMachine = await _supplierMachineRepository.FetchMachineAsync(machineId, userId);
+
+                if (existingSupplierMachine == null)
+                {
+                    return new FetchSupplierMachineGetResponseDTO()
+                    {
+                        Message = "Supplier machine not found.",
+                        IsSuccess = false
+                    };
+                }
+
+                return new FetchSupplierMachineGetResponseDTO()
+                {
+                    Machine = existingSupplierMachine.ToSupplierMachineDTO(),
+                    Message = "Supplier machine retrieved successfully.",
+                    IsSuccess = true
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new FetchSupplierMachineGetResponseDTO()
+                {
+                    Message = $"An error occurred while retrieving the supplier machine: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
         }
         public async Task<AddSupplierMachinePostResponseDTO> AddMachineAsync(int userId, AddSupplierMachinePostRequestDTO addSupplierMachinePostRequestDTO)
         {

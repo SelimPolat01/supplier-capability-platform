@@ -47,11 +47,11 @@
     };
 }
 
-<div class="purchaser-register-container">
-     <div class="purchaser-register-text-container">
-        <h2 class="purchaser-register-text">Purchaser Register</h2>
+<div class="register-container">
+     <div class="register-text-container">
+        <h2 class="register-text">Purchaser Register</h2>
      </div>
-    <form asp-action="PurchaserRegister" method="post" class="purchaser-register-form">
+    <form asp-action="PurchaserRegister" method="post" class="register-form">
         <div asp-validation-summary="ModelOnly" style="color: red; margin: 0 0 1rem 0;"></div>
         <partial name="_Input" model="nameInputModel"></partial>
             <partial name="_Input" model="surnameInputModel"></partial>
@@ -64,8 +64,8 @@
                         </form>
                     </div>
 
-                    @section PurchaserRegisterStyles {
-                        <link rel="stylesheet" href="~/css/PurchaserRegisterStyles.css" />
+                    @section RegisterStyles {
+                        <link rel="stylesheet" href="~/css/RegisterStyles.css" />
                     }
 
                     @section InputStyles {

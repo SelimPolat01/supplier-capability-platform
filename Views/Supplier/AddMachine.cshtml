@@ -89,8 +89,8 @@
     };
 }
 
-<div class="add-machine-container">
-    <div class="add-machine-wrapper">
+<div class="add-container">
+    <div class="add-wrapper" style="max-width: 680px;">
         <form asp-action="AddMachine" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" style="color: #ff4d4d; margin-bottom: 15px; font-weight: bold;"></div>
             <div class="half-input-flex-wrapper">
@@ -122,11 +122,6 @@
                                             </form>
                                         </div>
                                     </div>
-
-                                
-                                    @section AddSupplierMachineStyles {
-                                        <link rel="stylesheet" href="~/css/AddSupplierMachineStyles.css" />
-                                    }
 
                                     @section InputStyles {
                                         <link rel="stylesheet" href="~/css/InputStyles.css" />

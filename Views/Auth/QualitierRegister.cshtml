@@ -47,11 +47,11 @@
     };
 }
 
-<div class="quailitier-register-container">
-     <div class="quailitier-register-text-container">
-        <h2 class="quailitier-register-text">Quailitier Register</h2>
+<div class="register-container">
+     <div class="register-text-container">
+        <h2 class="register-text">Quailitier Register</h2>
      </div>
-    <form asp-action="QuailitierRegister" method="post" class="quailitier-register-form">
+    <form asp-action="QuailitierRegister" method="post" class="register-form">
         <div asp-validation-summary="ModelOnly" style="color: red; margin: 0 0 1rem 0;"></div>
         <partial name="_Input" model="nameInputModel"></partial>
             <partial name="_Input" model="surnameInputModel"></partial>
@@ -63,8 +63,8 @@
                         </form>
                     </div>
 
-                    @section QualitierRegisterStyles {
-                        <link rel="stylesheet" href="~/css/QualitierRegisterStyles.css" />
+                    @section RegisterStyles {
+                        <link rel="stylesheet" href="~/css/RegisterStyles.css" />
                     }
 
                     @section InputStyles {

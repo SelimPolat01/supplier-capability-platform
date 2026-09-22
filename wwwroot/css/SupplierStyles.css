@@ -13,17 +13,17 @@
     gap: 0.5rem;
 }
 
-.supplier-page-title-container h1{
-    font-size: 2rem;
-    font-weight: 600;
-    margin: 0;
-    color: #FFFFFF;
-}
+    .supplier-page-title-container h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin: 0;
+        color: #FFFFFF;
+    }
 
     .supplier-page-title-container span {
         color: rgba(255, 255, 255, 0.4);
         font-size: 2rem;
-        line-height: 1;
+        margin: 8px 0 0 0;
     }
 
 .supplier-wrapper {
@@ -32,10 +32,13 @@
     gap: 1.5rem;
     width: 100%;
     max-width: 1100px;
+    padding: 0 0 3rem 0;
 }
 
 .supplier-details-flexbox-1,
-.supplier-details-flexbox-2{
+.supplier-details-flexbox-2,
+.supplier-details-flexbox-3,
+.supplier-details-flexbox-4 {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -57,8 +60,7 @@
     background-color: rgba(0, 244, 255, 0.2);
     border: 1px solid rgb(0, 244, 255);
     border-radius: 20px;
-    width: 100%;
-    max-width: 100px;
+    width: fit-content;
     padding: 6px 12px;
 }
 
@@ -66,18 +68,40 @@
     font-size: 0.75rem;
 }
 
-.supplier-company-name-container{
+.supplier-info-container{
+    display: flex;
+    gap: 1rem;
+}
 
+.supplier-created-at-container {
+    color: rgb(255, 161, 46);
+    background-color: rgba(255, 140, 0, 0.2);
+    border: 1px solid rgb(255, 161, 46);
+    border-radius: 20px;
+    padding: 6px 12px;
+    width: fit-content;
+}
+
+.supplier-created-at-title {
+    font-size: 0.75rem;
 }
 
 .supplier-company-name-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: rgb(255, 255, 255);
+    color: rgba(255, 255, 255, 0.6);
     margin: 0;
 }
 
-.supplier-info-box-container{
+.supplier-company-name-data {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #F5F5DC;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.supplier-info-box-container {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -102,25 +126,27 @@
 }
 
 .supplier-info-data {
-    color: rgb(255, 255, 255);
+    color: #F5F5DC;
     font-size: 1.25rem;
     font-weight: 700;
 }
 
-.supplier-hr-details-title {
+.supplier-details-title {
     font-size: 18px;
     color: rgb(255, 255, 255);
     font-weight: 600;
     margin: 0;
 }
 
-.supplier-hr-box-container {
+.supplier-box-container {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
     width: 100%;
 }
 
+.supplier-machine-box,
+.supplier-certificate-box,
 .supplier-hr-box {
     display: flex;
     flex-direction: column;
@@ -129,18 +155,61 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1rem;
     min-width: 200px;
-    flex: 1;
+    max-width: 350px;
     border-radius: 0.5rem;
+    flex: 1;
 }
 
-.supplier-hr-info-title {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.75rem;
-    font-weight: 400;
+.supplier-box-container .supplier-info-title {
+    font-size: 14px;
 }
 
-.supplier-hr-info-data {
-    color: rgb(255, 255, 255);
+.supplier-box-container .supplier-info-data {
     font-size: 14px;
     font-weight: 600;
 }
+
+.supplier-machine-info-flex-container,
+.supplier-certificate-info-flex-container {
+    display: flex;
+    gap: 0.25rem;
+}
+
+    .supplier-certificate-info-flex-container a {
+        color: rgb(0, 244, 255);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.2s ease-in-out;
+    }
+
+        .supplier-certificate-info-flex-container a:hover {
+            color: rgb(255, 255, 255);
+        }
+
+.count-badge {
+    background-color: rgba(0, 244, 255, 0.1);
+    color: rgb(0, 244, 255);
+    font-size: 0.85rem;
+    padding: 2px 10px;
+    border-radius: 12px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+.empty-state-message {
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+}
+
+    .empty-state-message p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        margin: 0;
+        font-style: italic;
+    }

@@ -1,272 +1,158 @@
-﻿@model SupplierMachine
+﻿<div class="page-content">
+    <vc:supplier-machine-details user-id="@ViewBag.UserId" machine-id="@ViewBag.MachineId"></vc:supplier-machine-details>
+</div>
 
-@{
-    PrimaryButtonModel editButtonModel = new()
-    {
-        Type = "button",
-        Text = "Edit",
-        OnClick = "toggleEditClickHandler()",
-        CssClass = "edit-button",
-        IconClass = "fa-solid fa-pen-to-square"
-    };
-
-    PrimaryButtonModel saveButtonModel = new()
-    {
-        Type = "submit",
-        Text = "Save",
-        CssClass = "save-button",
-        IconClass = "fa-solid fa-circle-check"
-    };
-
-    PrimaryButtonModel deleteButtonModel = new()
-    {
-        Type = "button",
-        Text = "Delete",
-        OnClick = $"deleteClickHandler()",
-        CssClass = "delete-button",
-        IconClass = "fa-solid fa-trash-can"
-    };
-
-    ConfirmModalModel confirmModalModel = new()
-    {
-        Title = "Delete Supplier Machine",
-        Message = "Are you sure you want to delete this supplier machine? This action cannot be undone.",
-        OnConfirm = $"confirmDeleteHandler({Model.Id})",
-        ConfirmButtonText = "Yes, Delete",
-        ConfirmButtonIcon = "fa-solid fa-trash-can",
-        CancelButtonText = "Cancel",
-        CancelButtonIcon = "fa-solid fa-circle-xmark"
-    };
+@section SupplierCertificateMachineStyles {
+    <link rel="stylesheet" href="~/css/SupplierCertificateMachineStyles.css" />
 }
 
-<div class="machine-container">
-    <partial name="_ConfirmModal" model="confirmModalModel"></partial>
-        <div class="machine-element-wrapper">
-            <form onsubmit="submitHandler(event)" id="form">
-                <input type="hidden" asp-for="Id" />
-                <div asp-validation-summary="ModelOnly" class="text-danger" style="color: #ff6b6b; font-weight: bold; margin-bottom: 1rem;"></div>
+@section PrimaryButtonStyles {
+    <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+}
 
-                <div class="flex-container-1">
-                    <h2 class="machine-details-text">
-                        Machine Details<span style="color: rgba(255, 255, 255, 0.4); font-size: 1.2rem; margin-left: 0.5rem;">#@Model.Id</span>
-                    </h2>
-                    <div class="save-edit-button-container">
-                        <partial name="_PrimaryButton" model="saveButtonModel"></partial>
-                            <partial name="_PrimaryButton" model="editButtonModel"></partial>
-                                <partial name="_PrimaryButton" model="deleteButtonModel"></partial>
-                                </div>
-                            </div>
+@section ConfirmModalStyles {
+    <link rel="stylesheet" href="~/css/ConfirmModalStyles.css" />
+}
 
-                            <div class="machine-flex-wrapper">
-                                <div class="machine-element-container">
-                                    <span class="machine-element-title">Machine Group</span>
-                                    <span class="machine-element-data">@Model.MachineGroup</span>
-                                    <input type="text" class="editable-input" asp-for="MachineGroup" />
-                                    <span asp-validation-for="MachineGroup" class="text-danger" ></span>
-                                </div>
-                                <div class="machine-element-container">
-                                    <span class="machine-element-title">Machine Type</span>
-                                    <span class="machine-element-data">@Model.MachineType</span>
-                                    <input type="text" class="editable-input" asp-for="MachineType" />
-                                    <span asp-validation-for="MachineType" class="text-danger" ></span>
-                                </div>
-                                <div class="machine-element-container">
-                                    <span class="machine-element-title">Brand / Model</span>
-                                    <span class="machine-element-data">@Model.BrandAndModel</span>
-                                    <input type="text" class="editable-input" asp-for="BrandAndModel" />
-                                    <span asp-validation-for="BrandAndModel" class="text-danger" ></span>
-                                </div>
-                                <div class="machine-element-container">
-                                    <span class="machine-element-title">Production Year</span>
-                                    <span class="machine-element-data">@Model.ProductionYear</span>
-                                    <input type="number" class="editable-input" asp-for="ProductionYear" />
-                                    <span asp-validation-for="ProductionYear" class="text-danger" ></span>
-                                </div>
-                                <div class="machine-element-container">
-                                    <span class="machine-element-title">Quantity</span>
-                                    <span class="machine-element-data">@Model.Quantity</span>
-                                    <input type="number" class="editable-input" asp-for="Quantity" />
-                                    <span asp-validation-for="Quantity" class="text-danger" ></span>
-                                </div>
-                                <div class="machine-element-container">
-                                    <span class="machine-element-title">AxisCount</span>
-                                    <span class="machine-element-data">@Model.AxisCount</span>
-                                    <input type="number" class="editable-input" asp-for="AxisCount" />
-                                    <span asp-validation-for="AxisCount" class="text-danger" ></span>
-                                </div>
-                                <div class="machine-element-container">
-                                    <span class="machine-element-title">Capacity / Specs</span>
-                                    <span class="machine-element-data">@Model.CapacitySpecs</span>
-                                    <input type="text" class="editable-input" asp-for="CapacitySpecs" />
-                                    <span asp-validation-for="CapacitySpecs" class="text-danger" style=""></span>
-                                </div>
-                                <div class="machine-element-container">
-                                    <span class="machine-element-title">Price</span>
-                                    <span class="machine-element-price-data machine-element-data">$@Model.Price.ToString("N0")</span>
-                                    <input type="number" class="editable-price-input editable-input" asp-for="Price" />
-                                    <span asp-validation-for="Price" class="text-danger" ></span>
-                                </div>
-                                <div class="machine-element-container">
-                                    <span class="machine-element-title">Created At</span>
-                                    <span class="machine-element-time-data">@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
-                                </div>
-                                <div class="image-file-container">
-                                    <h2 class="machine-image-file-text">Image File</h2>
-                                    @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        <iframe src="@Model.ImageUrl#toolbar=0&navpanes=0&view=FitH"></iframe>
-                                    }
-                                    else
-                                    {
-                                        <img src="@Model.ImageUrl" alt="@Model.BrandAndModel Image" />
-                                    }
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 
-                @section SupplierMachineStyles {
-                    <link rel="stylesheet" href="~/css/SupplierMachineStyles.css" />
+    <script>
+        async function submitHandler(event) {
+            event.preventDefault();
+
+            if (typeof $!== 'undefined' &&$.validator) {
+                if (!$("#form").valid()) {
+                    return;
+                }
+            }
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            const dataSpans = document.querySelectorAll(".item-element-data");
+            const editInputs = document.querySelectorAll(".editable-input");
+            const editButton = document.querySelector(".edit-button");
+            const saveButton = document.querySelector(".save-button");
+            const buttonIcon = editButton.querySelector("i");
+            const buttonText = editButton.querySelector("span") || editButton;
+
+            dataSpans.forEach(dataSpan => dataSpan.style.display = "");
+            editInputs.forEach(editInput => editInput.style.display = "none");
+            
+            buttonText.innerText = "Edit";
+            if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+            saveButton.style.display = "none";
+
+            data.Id = parseInt(data.Id);
+            data.ProductionYear = parseInt(data.ProductionYear);
+            data.Quantity = parseInt(data.Quantity);
+            data.AxisCount = data.AxisCount ? parseInt(data.AxisCount) : null;
+            data.Price = parseFloat(data.Price);
+
+            const machineId = data.Id;
+
+            try {
+                const response = await fetch(`/supplier/machines/${machineId}/patch`, {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include"
+                });
+
+                if (!response.ok) {
+                    let errorDetails = "";
+
+                    try {
+                        const errorData = await response.json();
+
+                        if (errorData.errors) {
+                            const errorMessages = Object.values(errorData.errors).flat();
+                            errorDetails = errorMessages.join("\n");
+                        }
+                        else if (errorData.message) {
+                            errorDetails = errorData.message;
+                        }
+                        else if (errorData.title) {
+                            errorDetails = errorData.title;
+                        }
+                        else {
+                            errorDetails = JSON.stringify(errorData);
+                        }
+                    } catch (parseError) {
+                        errorDetails = "Server returned a non-JSON error.";
+                    }
+
+                    throw new Error(`Submit failed (Status: ${response.status})\n\nDetails:\n${errorDetails}`);
                 }
 
-                @section PrimaryButtonStyles {
-                    <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+                window.location.reload();
+
+            } catch (err) {
+                console.log(err.message);
+                alert(err.message);
+            }
+        }
+
+        function toggleEditClickHandler() {
+            const dataSpans = document.querySelectorAll(".item-element-data");
+            const editInputs = document.querySelectorAll(".editable-input");
+            const editButton = document.querySelector(".edit-button");
+            const saveButton = document.querySelector(".save-button");
+            const buttonText = editButton.querySelector("span") || editButton;
+            const buttonIcon = editButton.querySelector("i");
+
+            if (buttonText.innerText.trim() === "Edit") {
+                dataSpans.forEach(dataSpan => dataSpan.style.display = "none");
+                editInputs.forEach(editInput => editInput.style.display = "block");
+                
+                buttonText.innerText = "Cancel";
+                if (buttonIcon) buttonIcon.className = "fa-solid fa-circle-xmark";
+                if (editInputs.length > 0) editInputs[0].focus();
+                
+                saveButton.style.display = "inline-block";
+
+            } else if (buttonText.innerText.trim() === "Cancel") {
+                dataSpans.forEach(dataSpan => dataSpan.style.display = "");
+                editInputs.forEach(editInput => editInput.style.display = "none");
+                
+                buttonText.innerText = "Edit";
+                if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+                saveButton.style.display = "none";
+
+                if (typeof $!== 'undefined' &&$.validator) {
+                    $("#form").validate().resetForm();
                 }
+            }
+        }
 
-                @section ConfirmModalStyles {
-                    <link rel="stylesheet" href="~/css/ConfirmModalStyles.css" />
+        function deleteClickHandler() {
+            const confirmModal = document.querySelector(".modal-overlay");
+            confirmModal.style.display = "block";
+        }
+
+        async function confirmDeleteHandler(machineId) {
+            try {
+                const response = await fetch(`/supplier/machines/${machineId}/delete`, { 
+                    method: "DELETE", 
+                    credentials: "include" 
+                });
+
+                if (response.ok) {
+                    window.location.href = '/supplier/machines';
+                } else {
+                    alert("An error occured while deleting the machine.");
+                    closeModal();
                 }
+            } catch (err) {
+                console.log(err.message);
+                alert(err.message);
+                closeModal();
+            }
+        }
 
-                @section Scripts {
-                    <partial name="_ValidationScriptsPartial" />
-
-                    <script>
-                        async function submitHandler(event) {
-                            event.preventDefault();
-
-                            if (typeof $!== 'undefined' &&$.validator) {
-                                if (!$("#form").valid()) {
-                                    return;
-                                }
-                            }
-
-                            const formData = new FormData(event.target);
-                            const data = Object.fromEntries(formData.entries());
-                            const dataSpans = document.querySelectorAll(".machine-element-data");
-                            const editInputs = document.querySelectorAll(".editable-input");
-                            const editButton = document.querySelector(".edit-button");
-                            const saveButton = document.querySelector(".save-button");
-
-                            dataSpans.forEach(dataSpan => dataSpan.style.display = "");
-                            editInputs.forEach(editInput => editInput.style.display = "none");
-                            editButton.innerText = "Edit";
-                            saveButton.style.display = "none";
-
-                            data.Id = parseInt(data.Id);
-                            data.ProductionYear = parseInt(data.ProductionYear);
-                            data.Quantity = parseInt(data.Quantity);
-                            data.AxisCount = data.AxisCount ? parseInt(data.AxisCount) : null;
-                            data.Price = parseFloat(data.Price);
-
-                            const machineId = data.Id;
-
-                            try {
-                                const response = await fetch(`/supplier/machines/${machineId}/patch`, {
-                                    method: "PATCH",
-                                    body: JSON.stringify(data),
-                                    headers: { "Content-Type": "application/json" },
-                                    credentials: "include"
-                                });
-
-                                if (!response.ok) {
-                                    let errorDetails = "";
-
-                                    try {
-                                        const errorData = await response.json();
-
-                                        if (errorData.errors) {
-                                            const errorMessages = Object.values(errorData.errors).flat();
-                                            errorDetails = errorMessages.join("\n");
-                                        }
-                                        else if (errorData.message) {
-                                            errorDetails = errorData.message;
-                                        }
-                                        else if (errorData.title) {
-                                            errorDetails = errorData.title;
-                                        }
-                                        else {
-                                            errorDetails = JSON.stringify(errorData);
-                                        }
-                                    } catch (parseError) {
-                                        errorDetails = "Server returned a non-JSON error.";
-                                    }
-
-                                    throw new Error(`Submit failed (Status: ${response.status})\n\nDetails:\n${errorDetails}`);
-                                }
-
-                                window.location.reload();
-
-                            } catch (err) {
-                                console.log(err.message);
-                                alert(err.message);
-                            }
-                        }
-
-                        function toggleEditClickHandler() {
-                            const dataSpans = document.querySelectorAll(".machine-element-data");
-                            const editInputs = document.querySelectorAll(".editable-input");
-                            const editButton = document.querySelector(".edit-button");
-                            const saveButton = document.querySelector(".save-button");
-                            const buttonText = editButton.querySelector("span") || editButton;
-                            const buttonIcon = editButton.querySelector("i");
-
-                            if (buttonText.innerText.trim() === "Edit") {
-                                dataSpans.forEach(dataSpan => dataSpan.style.display = "none");
-                                editInputs.forEach(editInput => editInput.style.display = "block");
-                                buttonText.innerText = "Cancel";
-                                if (buttonIcon) buttonIcon.className = "fa-solid fa-circle-xmark";
-                                if (editInputs.length > 0) editInputs[0].focus();
-                                saveButton.style.display = "block";
-
-                            } else if (buttonText.innerText.trim() === "Cancel") {
-                                dataSpans.forEach(dataSpan => dataSpan.style.display = "");
-                                editInputs.forEach(editInput => editInput.style.display = "none");
-                                buttonText.innerText = "Edit";
-                                if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
-                                saveButton.style.display = "none";
-
-                                if (typeof $!== 'undefined' &&$.validator) {
-                                    $("#form").validate().resetForm();
-                                }
-                            }
-                        }
-
-                        function deleteClickHandler() {
-                            const confirmModal = document.querySelector(".modal-overlay");
-                            confirmModal.style.display = "block";
-                        }
-
-                        async function confirmDeleteHandler(machineId) {
-                            try {
-                                const response = await fetch(`/supplier/machines/${machineId}/delete`, { method: "DELETE", credentials: "include" });
-
-                                if (response.ok) {
-                                    window.location.href = '/supplier/machines';
-                                } else {
-                                    alert("An error occured while deleting the supplier machine.");
-                                    closeModal();
-                                }
-                            } catch (err) {
-                                console.log(err.message);
-                                alert(err.message);
-                                closeModal();
-                            }
-                        }
-
-                        function closeModal() {
-                            const confirmModal = document.querySelector(".modal-overlay");
-                            if (confirmModal) confirmModal.style.display = "none";
-                        }
-                    </script>
-                }
+        function closeModal() {
+            const confirmModal = document.querySelector(".modal-overlay");
+            if (confirmModal) confirmModal.style.display = "none";
+        }
+    </script>
+}

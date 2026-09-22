@@ -7,8 +7,8 @@
     string targetAction = isAdmin ? "PurchaserPurchases" : isPurchaser ? "Purchases" : "";
 }
 
-<div class="purchase-list-container">
-    <table class="purchase-table">
+<div class="list-container">
+    <table class="table">
         <thead>
             <tr>
                 <th style="width: 1%; white-space: nowrap;">
@@ -71,7 +71,7 @@
                         <td style="width: 1%; white-space: nowrap;">
                             <a href="@purchase.MachineDetails.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td style="width: 1%; white-space: nowrap;" class="purchase-element-price-data">$@purchase.TotalPurchasedPrice.ToString("N0")</td>
+                        <td style="width: 1%; white-space: nowrap;" class="element-price-data">$@purchase.TotalPurchasedPrice.ToString("N0")</td>
                         <td style="white-space: nowrap;">@purchase.PurchaseDate.ToString("yyyy-MM-dd HH:mm")</td>
                     </tr>
                 }

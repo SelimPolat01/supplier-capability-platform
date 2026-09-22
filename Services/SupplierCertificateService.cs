@@ -94,9 +94,36 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             }
         }
 
-        public async Task<SupplierCertificate?> FetchCertificateAsync(int userId, int certificateId)
+        public async Task<FetchSupplierCertificateGetResponseDTO> FetchCertificateAsync(int userId, int certificateId)
         {
-            return await _supplierCertificateRepository.FetchCertificateAsync(userId, certificateId);
+            try
+            {
+                SupplierCertificate? existingSupplierCertificate = await _supplierCertificateRepository.FetchCertificateAsync(userId, certificateId);
+
+                if (existingSupplierCertificate == null)
+                {
+                    return new FetchSupplierCertificateGetResponseDTO()
+                    {
+                        Message = "Supplier certificate not found.",
+                        IsSuccess = false
+                    };
+                }
+
+                return new FetchSupplierCertificateGetResponseDTO()
+                {
+                    Certificate = existingSupplierCertificate.ToSupplierCertificateDTO(),
+                    Message = "Certificate retrieved successfully.",
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new FetchSupplierCertificateGetResponseDTO()
+                {
+                    Message = $"An error occurred while retrieving the certificate: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
         }
 
         public async Task<EditSupplierCertificatePatchResponseDTO> EditCertificateAsync(EditSupplierCertificatePatchRequestDTO editSupplierCertificatePatchRequestDTO, int userId)

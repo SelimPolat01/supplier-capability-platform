@@ -53,8 +53,8 @@
     };
 }
 
-<div class="add-certificate-container">
-    <div class="add-certificate-wrapper">
+<div class="add-container">
+    <div class="add-wrapper" style="max-width: 500px;">
         <form asp-action="AddCertificate" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" style="color: #ff4d4d; margin-bottom: 15px; font-weight: bold;"></div>
             <div class="half-input-flex-wrapper">
@@ -78,10 +78,6 @@
                             </form>
                         </div>
                     </div>
-
-                    @section AddSupplierCertificateStyles {
-                        <link rel="stylesheet" href="~/css/AddSupplierCertificateStyles.css" />
-                    }
 
                     @section InputStyles {
                         <link rel="stylesheet" href="~/css/InputStyles.css" />

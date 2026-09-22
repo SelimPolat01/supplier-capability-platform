@@ -14,8 +14,8 @@
                           isSupplier ? "Machines" : "";
 }
 
-<div class="machine-list-container">
-    <table class="machine-table">
+<div class="list-container">
+    <table class="table">
         <thead>
             <tr>
                 <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a></th>
@@ -53,7 +53,7 @@
                         <td>@machine.Quantity</td>
                         <td>@(machine.AxisCount?.ToString() ?? "-")</td>
                         <td>@machine.CapacitySpecs</td>                        
-                        <td style="width: 1%; white-space: nowrap;" class="machine-element-price-data">$@machine.Price.ToString("N0")</td>
+                        <td style="width: 1%; white-space: nowrap;" class="element-price-data">$@machine.Price.ToString("N0")</td>
                         <td>
                             <a href="@machine.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>

@@ -1,7 +1,7 @@
 ﻿@model FetchAllQualitiersGetResponseDTO
 
-<div class="qualitier-list-container">
-    <table class="qualitier-table">
+<div class="list-container">
+    <table class="table">
         <thead>
             <tr>
                 <th><a asp-action="AllQualitiers" asp-controller="Admin" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentqualitierSort == "id_asc" ? "↑" : ViewBag.CurrentqualitierSort == "id_desc" ? "↓" : "")</a></th>

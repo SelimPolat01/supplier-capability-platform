@@ -1,7 +1,7 @@
 ﻿@model FetchAllQualitiersGetResponseDTO
 
-<div id="qualitiers-section" class="qualitier-list-container">
-    <table class="qualitier-table">
+<div id="qualitiers-section" class="list-container">
+    <table class="table">
         <thead>
             <tr>
                 <th style="width: 1%; white-space: nowrap;"><a asp-fragment="qualitiers-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" asp-route-qualitierSortBy="@(ViewBag.CurrentQualitierSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentQualitierSort == "id_asc" ? "↑" : ViewBag.CurrentQualitierSort == "id_desc" ? "↓" : "")</a></th>

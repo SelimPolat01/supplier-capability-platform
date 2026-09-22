@@ -1,7 +1,7 @@
 ﻿@model FetchAllPurchasersGetResponseDTO
 
-<div class="purchaser-list-container">
-    <table class="purchaser-table">
+<div class="list-container">
+    <table class="table">
         <thead>
             <tr>
                 <th><a asp-action="AllPurchasers" asp-controller="Admin" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a></th>

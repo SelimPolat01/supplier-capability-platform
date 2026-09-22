@@ -29,41 +29,37 @@
     };
 }
 
-<div class="purchaser-home-container">
-    <div class="wrapper-vertical-flex-1">
-                <div class="purchases-container">
-            <h2 class="all-purchases-text"><i class="fa-solid fa-file-invoice-dollar" style="margin-right: 8px; color: #cbd5e1;"></i> All Purchases</h2>
+<div class="home-container">
+    <div class="wrapper-vertical-flex">
+                <div class="users-container">
+            <h2 class="all-users-text"><i class="fa-solid fa-file-invoice-dollar" style="margin-right: 8px; color: #cbd5e1;"></i> All Purchases</h2>
             <vc:purchaser-all-purchases purchaser-id="@ViewBag.PurchaserId" sort-by="@ViewBag.CurrentPurchaseSort"></vc:purchaser-all-purchases>
-            <div class="purchases-flex-container-1">
+            <div class="flex-container-1">
                 <partial name="_PrimaryButton" model="viewAllPurchasesButtonModel"></partial>
                 </div>
             </div>
         </div>
 
 
-    <div class="wrapper-vertical-flex-2">
-        <div class="supplier-container">
-            <h2 class="all-supplier-text"><i class="fa-solid fa-users" style="margin-right: 8px; color: #cbd5e1;"></i> All Suppliers</h2>
+    <div class="wrapper-vertical-flex">
+        <div class="users-container">
+            <h2 class="all-users-text"><i class="fa-solid fa-users" style="margin-right: 8px; color: #cbd5e1;"></i> All Suppliers</h2>
             <vc:all-suppliers sort-by="@ViewBag.CurrentSupplierSort"></vc:all-suppliers>
-            <div class="supplier-flex-container-1">
+            <div class="flex-container-1">
                 <partial name="_PrimaryButton" model="viewAllSupplierButtonModel"></partial>
                 </div>
             </div>
         </div>
 
-        <div class="wrapper-vertical-flex-3">
-            <div class="machines-container">
-                <h2 class="all-machines-text"><i class="fa-solid fa-gears" style="margin-right: 8px; color: #cbd5e1;"></i> All Machines</h2>
+        <div class="wrapper-vertical-flex">
+            <div class="users-container">
+                <h2 class="all-users-text"><i class="fa-solid fa-gears" style="margin-right: 8px; color: #cbd5e1;"></i> All Machines</h2>
                 <vc:all-suppliers-machines sort-by="@ViewBag.CurrentMachineSort"></vc:all-suppliers-machines>
-                <div class="machines-flex-container-1">
+                <div class="flex-container-1">
                     <partial name="_PrimaryButton" model="viewAllMachinesButtonModel"></partial>
                     </div>
                 </div>
             </div>
-
-            @section PurchaserHomeStyles {
-                <link rel="stylesheet" href="~/css/PurchaserHomeStyles.css" />
-            }
 
             @section PrimaryButtonStyles {
                 <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />

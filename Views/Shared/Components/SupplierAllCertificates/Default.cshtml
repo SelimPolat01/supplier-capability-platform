@@ -1,7 +1,7 @@
 ﻿@model FetchSupplierAllCertificatesGetResponseDTO
 
-<div class="certificate-list-container">
-    <table class="certificate-table">
+<div class="list-container">
+    <table class="table">
         <thead>
             <tr>
                 <th style="width: 1%; white-space: nowrap;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentCertificateSort == "name_asc" ? "↑" : ViewBag.CurrentCertificateSort == "name_desc" ? "↓" : "")</a></th>

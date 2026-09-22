@@ -2,15 +2,23 @@
 
 <div class="supplier-wrapper">
     <div class="supplier-page-title-container">
-        <h1>Supplier Details</h1><span>#@ViewBag.SupplierId</span>
+        <h1><i class="fa-solid fa-building-user" style="margin-right: 8px;"></i>Supplier Details</h1>
+        <span>#@ViewBag.SupplierId</span>
     </div>
+
     <div class="supplier-details-flexbox-1">
         <div class="supplier-id-name-wrapper">
-            <div class="supplier-id-container">
-                <span class="supplier-id-title">Supplier Id: @Model.Data.Id</span>
+            <div class="supplier-info-container">
+                <div class="supplier-id-container">
+                    <span class="supplier-id-title">Supplier ID: @Model.Data.Id</span>
+                </div>
+                <div class="supplier-created-at-container">
+                    <span class="supplier-created-at-title">Created At: @Model.Data.CreatedAt.ToString("yyyy-MM-dd")</span>
+                </div>
             </div>
             <div class="supplier-company-name-container">
-                <h2 class="supplier-company-name-title">@Model.Data.CompanyName</h2>
+                <span class="supplier-company-name-title">Company Name: </span>
+                <span class="supplier-company-name-data">@Model.Data.CompanyName</span>
             </div>
         </div>
         <div class="supplier-info-box-container">
@@ -30,61 +38,166 @@
     </div>
 
     <div class="supplier-details-flexbox-2">
-        <h3 class="supplier-hr-details-title">Human Resources</h3>
-        <div class="supplier-hr-box-container">
-            @if (Model.Data.HumanResources.Any())
+        <h3 class="supplier-details-title">
+            <i class="fa-solid fa-gears" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
+            Machines <span class="count-badge">@(Model.Data.Machines?.Count() ?? 0)</span>
+        </h3>
+        <div class="supplier-box-container">
+            @if (Model.Data.Machines != null && Model.Data.Machines.Any())
+            {
+                foreach (var machine in Model.Data.Machines)
+                {
+                    <div class="supplier-machine-box">
+                        <div class="supplier-machine-info-flex-container">
+                            <span class="supplier-info-title">Group:</span>
+                            <span class="supplier-info-data">@machine.MachineGroup</span>
+                        </div>
+                        <div class="supplier-machine-info-flex-container">
+                            <span class="supplier-info-title">Type:</span>
+                            <span class="supplier-info-data">@machine.MachineType</span>
+                        </div>
+                        <div class="supplier-machine-info-flex-container">
+                            <span class="supplier-info-title">Brand / Model:</span>
+                            <span class="supplier-info-data">@machine.BrandAndModel</span>
+                        </div>
+                        <div class="supplier-machine-info-flex-container">
+                            <span class="supplier-info-title">Year:</span>
+                            <span class="supplier-info-data">@machine.ProductionYear</span>
+                        </div>
+                        <div class="supplier-machine-info-flex-container">
+                            <span class="supplier-info-title">Quantity:</span>
+                            <span class="supplier-info-data">@machine.Quantity</span>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state-message">
+                    <p>No machine information provided for this supplier.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="supplier-details-flexbox-3">
+        <h3 class="supplier-details-title">
+            <i class="fa-solid fa-certificate" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
+            Certificates <span class="count-badge">@(Model.Data.Certificates?.Count() ?? 0)</span>
+        </h3>
+        <div class="supplier-box-container">
+            @if (Model.Data.Certificates != null && Model.Data.Certificates.Any())
+            {
+                foreach (var certificate in Model.Data.Certificates)
+                {
+                    <div class="supplier-certificate-box">
+                        <div class="supplier-certificate-info-flex-container">
+                            <span class="supplier-info-title">Name:</span>
+                            <span class="supplier-info-data">@certificate.Name</span>
+                        </div>
+                        <div class="supplier-certificate-info-flex-container">
+                            <span class="supplier-info-title">Issued By:</span>
+                            <span class="supplier-info-data">@certificate.IssuedBy</span>
+                        </div>
+                        <div class="supplier-certificate-info-flex-container">
+                            <span class="supplier-info-title">Issue Date:</span>
+                            <span class="supplier-info-data">@certificate.IssueDate.ToString("yyyy-MM-dd")</span>
+                        </div>
+                        <div class="supplier-certificate-info-flex-container">
+                            <span class="supplier-info-title">Expiry Date:</span>
+                            <span class="supplier-info-data">@certificate.ExpiryDate?.ToString("yyyy-MM-dd")</span>
+                        </div>
+                        <div class="supplier-certificate-info-flex-container">
+                            <span class="supplier-info-title">Document:</span>
+                            <a href="@certificate.DocumentUrl" target="_blank" rel="noopener noreferrer">
+                                <i class="fa-solid fa-file-pdf" style="margin-right: 4px;"></i> View
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state-message">
+                    <p>No certificate information provided for this supplier.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="supplier-details-flexbox-4">
+        <h3 class="supplier-details-title">
+            <i class="fa-solid fa-users" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
+            Human Resources
+            @if (Model.Data.HumanResources != null && Model.Data.HumanResources.Any())
+            {
+                <i class="fa-solid fa-circle-check" style="color: #2ed573; margin-left: 8px;" title="Available"></i>
+            }
+            else
+            {
+                <i class="fa-solid fa-circle-xmark" style="color: #ff4757; margin-left: 8px;" title="Not Available"></i>
+            }
+        </h3>
+        <div class="supplier-box-container">
+            @if (Model.Data.HumanResources != null && Model.Data.HumanResources.Any())
             {
                 foreach (var humanResource in Model.Data.HumanResources)
                 {
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Total Employee Count</span>
-                        <span class="supplier-hr-info-data">@(humanResource.TotalEmployeeCount?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">Total Employee Count</span>
+                        <span class="supplier-info-data">@(humanResource.TotalEmployeeCount?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">White Collar Count</span>
-                        <span class="supplier-hr-info-data">@(humanResource.WhiteCollarCount?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">White Collar Count</span>
+                        <span class="supplier-info-data">@(humanResource.WhiteCollarCount?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Blue Collar Count</span>
-                        <span class="supplier-hr-info-data">@(humanResource.BlueCollarCount?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">Blue Collar Count</span>
+                        <span class="supplier-info-data">@(humanResource.BlueCollarCount?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Engineer Count</span>
-                        <span class="supplier-hr-info-data">@(humanResource.EngineerCount?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">Engineer Count</span>
+                        <span class="supplier-info-data">@(humanResource.EngineerCount?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Quality Control Staff Count</span>
-                        <span class="supplier-hr-info-data">@(humanResource.QualityControlStaffCount?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">Quality Control Staff Count</span>
+                        <span class="supplier-info-data">@(humanResource.QualityControlStaffCount?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Rnd Staff Count</span>
-                        <span class="supplier-hr-info-data">@(humanResource.RndStaffCount?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">Rnd Staff Count</span>
+                        <span class="supplier-info-data">@(humanResource.RndStaffCount?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Certified Operator Count</span>
-                        <span class="supplier-hr-info-data">@(humanResource.CertifiedOperatorCount?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">Certified Operator Count</span>
+                        <span class="supplier-info-data">@(humanResource.CertifiedOperatorCount?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Shift Count</span>
-                        <span class="supplier-hr-info-data">@(humanResource.ShiftCount?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">Shift Count</span>
+                        <span class="supplier-info-data">@(humanResource.ShiftCount?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Working Days Per Week</span>
-                        <span class="supplier-hr-info-data">@(humanResource.WorkingDaysPerWeek?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">Working Days Per Week</span>
+                        <span class="supplier-info-data">@(humanResource.WorkingDaysPerWeek?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Has Labor Union</span>
-                        <span class="supplier-hr-info-data">@(humanResource.HasLaborUnion ? "Yes" : "No")</span>
+                        <span class="supplier-info-title">Has Labor Union</span>
+                        <span class="supplier-info-data">@(humanResource.HasLaborUnion ? "Yes" : "No")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Employee Turnover Rate</span>
-                        <span class="supplier-hr-info-data">@(humanResource.EmployeeTurnoverRate?.ToString() ?? "-")</span>
+                        <span class="supplier-info-title">Employee Turnover Rate</span>
+                        <span class="supplier-info-data">@(humanResource.EmployeeTurnoverRate?.ToString() ?? "-")</span>
                     </div>
                     <div class="supplier-hr-box">
-                        <span class="supplier-hr-info-title">Last Updated</span>
-                        <span class="supplier-hr-info-data">@humanResource.LastUpdatedDate.ToString("yyyy-MM-dd")</span>
+                        <span class="supplier-info-title">Last Updated</span>
+                        <span class="supplier-info-data">@humanResource.LastUpdatedDate.ToString("yyyy-MM-dd")</span>
                     </div>
                 }
+            }
+            else
+            {
+                <div class="empty-state-message">
+                    <p>No human resource information provided for this supplier.</p>
+                </div>
             }
         </div>
     </div>

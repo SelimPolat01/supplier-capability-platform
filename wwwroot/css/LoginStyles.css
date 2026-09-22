@@ -21,27 +21,6 @@
     color: #ffffff;
 }
 
-    .login-form input {
-        width: 100%;
-        background: rgba(0, 0, 0, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 8px;
-        padding: 12px 15px;
-        color: #ffffff;
-        outline: none;
-        transition: all 0.3s ease;
-    }
-
-        .login-form input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .login-form input:focus {
-            background: rgba(0, 0, 0, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-        }
-
 .login-text-container {
 }
 
@@ -73,11 +52,6 @@
     cursor: pointer;
     font-size: 1rem;
     margin: 3px 0 0 0;
-}
-
-.label {
-    color: rgba(255, 255, 255, 0.85); 
-    display: block;
 }
 
 .login-error-summary {

@@ -35,7 +35,9 @@
             <div class="flex-container-1">
                 <div style="display: flex; align-items: baseline;">
                     <h2 class="human-resource-details-text">Human Resource Details</h2>
-                    <span style="color: rgba(255, 255, 255, 0.4); font-size: 1.2rem; margin-left: 0.5rem;">#@Model.Id</span>
+                    <span style="color: rgba(255, 255, 255, 0.4); font-size: 1.2rem; margin-left: 0.5rem;">
+                        @(Model != null ? $"#{Model.Id}" : "")
+                    </span>
                 </div>
                 
                 @if (!isPurchaser)
@@ -116,7 +118,7 @@
 
                 <div class="human-resource-element-container">
                     <span class="human-resource-element-title">Last Updated</span>
-                    <span class="human-resource-element-data">@(Model?.LastUpdatedDate.ToString("yyyy-MM-dd HH:mm") ?? "-")</span>
+                    <span class="human-resource-element-data">@(Model != null ? Model.LastUpdatedDate.ToString("yyyy-MM-dd HH:mm") : "-")</span>
                 </div>
             </div>
         </form>
@@ -143,7 +145,7 @@
         if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
         if (saveButton) saveButton.style.display = "none";
 
-        data.HasLaborUnion = document.querySelector('input[name="HasLaborUnion"][type="checkbox"]').checked;
+        data.HasLaborUnion = document.querySelector('input[name="HasLaborUnion"][type="checkbox"]')?.checked || false;
         data.TotalEmployeeCount = data.TotalEmployeeCount ? parseInt(data.TotalEmployeeCount) : null;
         data.WhiteCollarCount = data.WhiteCollarCount ? parseInt(data.WhiteCollarCount) : null;
         data.BlueCollarCount = data.BlueCollarCount ? parseInt(data.BlueCollarCount) : null;

@@ -115,24 +115,22 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return View();
         }
 
-        [HttpGet("suppliers/{supplierId:int}/certificates/{certificateId:int}")]
-        public async Task<IActionResult> SupplierCertificate(int certificateId, [FromRoute] int supplierId)
+        [HttpGet("suppliers/{supplierId:int}/machines/{machineId:int}")]
+        public IActionResult SupplierMachine(int machineId, [FromRoute] int supplierId)
         {
-            var certificate = await _supplierCertificateService.FetchCertificateAsync(supplierId, certificateId);
+            ViewBag.SupplierId = supplierId;
+            ViewBag.MachineId = machineId;
 
-            if (certificate == null) return NotFound("Supplier certificate not found.");
-
-            return View(certificate);
+            return View();
         }
 
-        [HttpGet("suppliers/{supplierId:int}/machines/{machineId:int}")]
-        public async Task<IActionResult> SupplierMachine(int machineId, [FromRoute] int supplierId)
+        [HttpGet("suppliers/{supplierId:int}/certificates/{certificateId:int}")]
+        public IActionResult SupplierCertificate(int certificateId, [FromRoute] int supplierId)
         {
-            var machine = await _supplierMachineService.FetchMachineAsync(supplierId, machineId);
+            ViewBag.SupplierId = supplierId;
+            ViewBag.CertificateId = certificateId;
 
-            if (machine == null) return NotFound("Supplier machine not found.");
-
-            return View(machine);
+            return View();
         }
 
         [HttpGet("suppliers/{supplierId:int}/human-resources")]
@@ -160,6 +158,34 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return View();
         }
 
+        [HttpPatch("suppliers/{supplierId:int}/machines/{machineId:int}/patch")]
+        public async Task<IActionResult> PatchMachine([FromRoute] int supplierId, [FromRoute] int machineId, [FromBody] EditSupplierMachinePatchRequestDTO editMachinePatchRequestDTO)
+        {
+            if (editMachinePatchRequestDTO == null) return BadRequest(new { message = "The submitted data format is invalid." });
+            if (machineId != editMachinePatchRequestDTO.Id) return BadRequest("ID mismatch");
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var machineUpdatingResult = await _supplierMachineService.EditMachineAsync(editMachinePatchRequestDTO, supplierId);
+
+            if (!machineUpdatingResult.IsSuccess) return BadRequest(machineUpdatingResult.Message);
+
+            return Ok(new { message = machineUpdatingResult.Message });
+        }
+
+        [HttpPatch("suppliers/{supplierId:int}/certificates/{certificateId:int}/patch")]
+        public async Task<IActionResult> PatchCertificate([FromRoute] int supplierId, [FromRoute] int certificateId, [FromBody] EditSupplierCertificatePatchRequestDTO editCertificatePatchRequestDTO)
+        {
+            if (editCertificatePatchRequestDTO == null) return BadRequest(new { message = "The submitted data format is invalid." });
+            if (editCertificatePatchRequestDTO.Id != certificateId) return BadRequest("ID mismatch");
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var certificateUpdatingResult = await _supplierCertificateService.EditCertificateAsync(editCertificatePatchRequestDTO, supplierId);
+
+            if (!certificateUpdatingResult.IsSuccess) return BadRequest(new { message = certificateUpdatingResult.Message });
+
+            return Ok(new { message = certificateUpdatingResult.Message });
+        }
+
         [HttpPatch("edit-human-resource/patch")]
         public async Task<IActionResult> EditSupplierHumanResource([FromQuery] int supplierId, [FromBody] EditSupplierHumanResourcePatchRequestDTO editSupplierHumanRespourcePostRequestDTO)
         {
@@ -172,22 +198,22 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return Ok(new { message = editSupplierHumanResourcePatchResponseDTO.Message });
         }
 
-        [HttpDelete("certificates/{certificateId:int}/delete")]
-        public async Task<IActionResult> DeleteSupplierCertificate([FromQuery] int userId, [FromRoute] int certificateId)
+        [HttpDelete("suppliers/{supplierId:int}/machines/{machineId:int}/delete")]
+        public async Task<IActionResult> DeleteSupplierMachine([FromRoute] int supplierId, [FromRoute] int machineId)
         {
-            RemoveSupplierCertificateDeleteResponseDTO removeCertificateDeleteResponseDTO = await _supplierCertificateService.RemoveCertificateAsync(userId, certificateId);
-
-            if (removeCertificateDeleteResponseDTO.IsSuccess) return Ok(new { message = removeCertificateDeleteResponseDTO.Message });
-            else return BadRequest(new { message = removeCertificateDeleteResponseDTO.Message });
-        }
-
-        [HttpDelete("machines/{machineId:int}/delete")]
-        public async Task<IActionResult> DeleteSupplierMachine([FromQuery] int userId, [FromRoute] int machineId)
-        {
-            RemoveSupplierMachineDeleteResponseDTO removeMachineDeleteResponseDTO = await _supplierMachineService.RemoveMachineAsync(userId, machineId);
+            RemoveSupplierMachineDeleteResponseDTO removeMachineDeleteResponseDTO = await _supplierMachineService.RemoveMachineAsync(supplierId, machineId);
 
             if (removeMachineDeleteResponseDTO.IsSuccess) return Ok(new { message = removeMachineDeleteResponseDTO.Message });
             else return BadRequest(new { message = removeMachineDeleteResponseDTO.Message });
+        }
+
+        [HttpDelete("suppliers/{supplierId:int}/certificates/{certificateId:int}/delete")]
+        public async Task<IActionResult> DeleteSupplierCertificate([FromRoute] int supplierId, [FromRoute] int certificateId)
+        {
+            RemoveSupplierCertificateDeleteResponseDTO removeCertificateDeleteResponseDTO = await _supplierCertificateService.RemoveCertificateAsync(supplierId, certificateId);
+
+            if (removeCertificateDeleteResponseDTO.IsSuccess) return Ok(new { message = removeCertificateDeleteResponseDTO.Message });
+            else return BadRequest(new { message = removeCertificateDeleteResponseDTO.Message });
         }
     }
 }

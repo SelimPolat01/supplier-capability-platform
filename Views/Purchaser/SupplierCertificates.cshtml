@@ -15,19 +15,15 @@
     };
 }
 
-<div class="all-certificates-container">
-    <div class="flex-container-1">
-        <h2 class="all-certificates-text">
+<div class="all-users-container">
+    <div class="users-flex-container">
+        <h2 class="all-users-text">
             <i class="fa-solid fa-certificate" style="margin-right: 8px; color: #cbd5e1;"></i> All Supplier Certificates
         </h2>            
         <partial name="_SearchBar" model="searchBarModel"></partial>
     </div>
     <vc:supplier-all-certificates-with-pagination user-id="@ViewBag.SupplierId" page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:supplier-all-certificates-with-pagination>
 </div>
-
-@section SupplierCertificatesStyles {
-    <link rel="stylesheet" href="~/css/SupplierCertificatesStyles.css" />
-}
 
 @section SearchBarStyles {
     <link rel="stylesheet" href="~/css/SearchBarStyles.css" />

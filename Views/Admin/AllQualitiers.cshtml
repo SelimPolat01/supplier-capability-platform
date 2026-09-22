@@ -10,19 +10,15 @@
     };
 }
 
-<div class="all-qualitiers-container">
-    <div class="flex-container-1">
-        <h2 class="all-qualitiers-text">
+<div class="all-users-container">
+    <div class="users-flex-container">
+        <h2 class="all-users-text">
             <i class="fa-solid fa-user-check" style="margin-right: 8px; color: #cbd5e1;"></i> All Qualitiers
         </h2>
         <partial name="_SearchBar" model="searchBarModel"></partial>
         </div>
         <vc:all-qualitiers-with-pagination page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:all-qualitiers-with-pagination>
     </div>
-
-    @section AllQualitiersStyles {
-        <link rel="stylesheet" href="~/css/AllQualitiersStyles.css" />
-    }
 
     @section SearchBarStyles {
         <link rel="stylesheet" href="~/css/SearchBarStyles.css" />

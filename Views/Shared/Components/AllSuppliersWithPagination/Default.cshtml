@@ -5,8 +5,8 @@
     string targetController = isAdmin ? "Admin" : "Purchaser";
 }
 
-<div class="supplier-list-container">
-    <table class="supplier-table">
+<div class="list-container">
+    <table class="table">
         <thead>
             <tr>
                 <th style="width: 1%; white-space: nowrap;"><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a></th>
@@ -32,17 +32,17 @@
                         <td style="width: 1%; white-space: nowrap;">@supplier.CompanyName</td>
                         <td style="width: 1%; white-space: nowrap;">@supplier.Email</td>
                         <td style="width: 1%; white-space: nowrap;">
-                            <a asp-controller="Admin" asp-action="SupplierCertificates" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
+                            <a asp-controller="@targetController" asp-action="SupplierCertificates" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
                                 Certificates <span class="count-badge">@supplier.CertificatesCount</span>
                             </a>
                         </td>
                         <td style="width: 1%; white-space: nowrap;">
-                            <a asp-controller="Admin" asp-action="SupplierMachines" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
+                            <a asp-controller="@targetController" asp-action="SupplierMachines" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
                                 Machines <span class="count-badge">@supplier.MachinesCount</span>
                             </a>
                         </td>
                         <td style="width: 1%; white-space: nowrap;">
-                            <a asp-controller="Admin" asp-action="SupplierHumanResources" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
+                            <a asp-controller="@targetController" asp-action="SupplierHumanResources" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
                                 HR 
                                 @if (supplier.HumanResourcesCount > 0)
                                 {

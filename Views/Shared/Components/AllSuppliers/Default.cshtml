@@ -6,8 +6,8 @@
     string targetController = isAdmin ? "Admin" : "Purchaser";
 }
 
-<div id="supplier-section" class="supplier-list-container">
-    <table class="supplier-table">
+<div id="supplier-section" class="list-container">
+    <table class="table">
         <thead>
             <tr>
                 <th style="width: 1%; white-space: nowrap;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSupplierSort == "id_asc" ? "↑" : ViewBag.CurrentSupplierSort == "id_desc" ? "↓" : "")</a></th>

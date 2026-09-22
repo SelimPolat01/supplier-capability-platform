@@ -16,19 +16,15 @@
     };
 }
 
-<div class="all-machines-container">
-    <div class="flex-container-1">
-        <h2 class="all-machines-text">
+<div class="all-users-container">
+    <div class="users-flex-container">
+        <h2 class="all-users-text">
             <i class="fa-solid fa-gears" style="margin-right: 8px; color: #cbd5e1;"></i> All Machines
         </h2>
         <partial name="_SearchBar" model="searchBarModel"></partial>
         </div>
         <vc:supplier-all-machines-with-pagination user-id="@ViewBag.SupplierId" page-number="@ViewBag.CurrentPage" sort-by="@ViewBag.CurrentSort" search-string="@ViewBag.CurrentSearch"></vc:supplier-all-machines-with-pagination>
     </div>
-
-    @section SupplierMachinesStyles {
-        <link rel="stylesheet" href="~/css/SupplierMachinesStyles.css" />
-    }
 
     @section SearchBarStyles {
         <link rel="stylesheet" href="~/css/SearchBarStyles.css" />

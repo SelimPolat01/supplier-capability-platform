@@ -1,5 +1,4 @@
-﻿using SupplierCapabilitiesAndManagementSystem.Entities;
-using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+﻿using SupplierCapabilitiesAndManagementSystem.Models.DTO;
 
 namespace SupplierCapabilitiesAndManagementSystem.Services
 {
@@ -10,7 +9,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
 
         public Task<FetchSupplierAllMachinesGetResponseDTO> FetchAllMachinesAsync(int userId, int pageNumber = 1, int pageSize = 10, string sortBy = "id_asc", string? searchString = null);
 
-        public Task<SupplierMachine?> FetchMachineAsync(int userId, int machineId);
+        public Task<FetchSupplierMachineGetResponseDTO> FetchMachineAsync(int userId, int machineId);
 
         public Task<AddSupplierMachinePostResponseDTO> AddMachineAsync(int userId, AddSupplierMachinePostRequestDTO addMachinePostRequestDTO);
 

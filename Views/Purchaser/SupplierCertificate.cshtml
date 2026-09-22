@@ -1,57 +1,7 @@
-﻿@model SupplierCertificate
-
-<div class="certificate-container">
-    <div class="certificate-element-wrapper">
-        <div class="flex-container-1">
-            <h2 class="certificate-details-text">Supplier Certificate Details</h2>
-        </div>
-        
-        <div class="certificate-flex-wrapper">
-            <div class="certificate-element-container">
-                <span class="certificate-element-title">Id</span>
-                <span class="certificate-element-id-data">@Model.Id</span>
-            </div>
-            
-            <div class="certificate-element-container">
-                <span class="certificate-element-title">Name</span>
-                <span class="certificate-element-data">@Model.Name</span>
-            </div>
-            
-            <div class="certificate-element-container">
-                <span class="certificate-element-title">Issued By</span>
-                <span class="certificate-element-data">@Model.IssuedBy</span>
-            </div>
-            
-            <div class="certificate-element-container">
-                <span class="certificate-element-title">Issue Date</span>
-                <span class="certificate-element-data">@Model.IssueDate.ToString("yyyy-MM-dd")</span>
-            </div>
-            
-            <div class="certificate-element-container">
-                <span class="certificate-element-title">Expiry Date</span>
-                <span class="certificate-element-data">@(Model.ExpiryDate?.ToString("yyyy-MM-dd") ?? "No Expiry")</span>
-            </div>
-            
-            <div class="certificate-element-container">
-                <span class="certificate-element-title">Created At</span>
-                <span class="certificate-element-time-data">@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
-            </div>
-            
-            <div class="image-file-container">
-                <h2 class="certificate-image-file-text">Image File</h2>
-                @if (!string.IsNullOrEmpty(Model.DocumentUrl) && Model.DocumentUrl.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
-                {
-                    <iframe src="@Model.DocumentUrl#toolbar=0&navpanes=0&view=FitH"></iframe>
-                }
-                else
-                {
-                    <img src="@Model.DocumentUrl" alt="@Model.DocumentUrl Image" />
-                }
-            </div>
-        </div>
-    </div>
+﻿<div class="page-content">
+    <vc:supplier-certificate-details user-id="@ViewBag.SupplierId" certificate-id="@ViewBag.CertificateId"></vc:supplier-certificate-details>
 </div>
 
-@section SupplierCertificateStyles {
-    <link rel="stylesheet" href="~/css/SupplierCertificateStyles.css" />
+@section SupplierCertificateMachineStyles {
+    <link rel="stylesheet" href="~/css/SupplierCertificateMachineStyles.css" />
 }

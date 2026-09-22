@@ -1,7 +1,7 @@
 ﻿@model FetchSupplierAllMachinesGetResponseDTO
 
-<div class="machine-list-container">
-    <table class="machine-table">
+<div class="list-container">
+    <table class="table">
         <thead>
             <tr>
                 <th style="width: 1%; white-space: nowrap;">
@@ -44,7 +44,7 @@
                         <td>
                             <a href="@machine.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td style="width: 1%; white-space: nowrap;" class="machine-element-price-data">$@machine.Price.ToString("N0")</td>
+                        <td style="width: 1%; white-space: nowrap;" class="element-price-data">$@machine.Price.ToString("N0")</td>
                         <td style="white-space: nowrap;">@machine.CreatedAt.ToString("yyyy-MM-dd")</td>
                     </tr>
                 }

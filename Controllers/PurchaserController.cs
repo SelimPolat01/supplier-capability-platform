@@ -86,24 +86,22 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return View();
         }
 
-        [HttpGet("suppliers/{supplierId:int}/certificates/{certificateId:int}")]
-        public async Task<IActionResult> SupplierCertificate(int certificateId, [FromRoute] int supplierId)
+        [HttpGet("suppliers/{supplierId:int}/machines/{machineId:int}")]
+        public IActionResult SupplierMachine(int machineId, [FromRoute] int supplierId)
         {
-            var certificate = await _supplierCertificateService.FetchCertificateAsync(supplierId, certificateId);
+            ViewBag.SupplierId = supplierId;
+            ViewBag.MachineId = machineId;
 
-            if (certificate == null) return NotFound("Supplier certificate not found.");
-
-            return View(certificate);
+            return View();
         }
 
-        [HttpGet("suppliers/{supplierId:int}/machines/{machineId:int}")]
-        public async Task<IActionResult> SupplierMachine(int machineId, [FromRoute] int supplierId)
+        [HttpGet("suppliers/{supplierId:int}/certificates/{certificateId:int}")]
+        public IActionResult SupplierCertificate(int certificateId, [FromRoute] int supplierId)
         {
-            var machine = await _supplierMachineService.FetchMachineAsync(supplierId, machineId);
+            ViewBag.SupplierId = supplierId;
+            ViewBag.CertificateId = certificateId;
 
-            if (machine == null) return NotFound("Supplier machine not found.");
-
-            return View(machine);
+            return View();
         }
 
         [HttpGet("suppliers/{supplierId:int}/human-resources")]

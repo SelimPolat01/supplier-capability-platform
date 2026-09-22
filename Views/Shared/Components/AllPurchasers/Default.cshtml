@@ -1,15 +1,15 @@
 ﻿@model FetchAllPurchasersGetResponseDTO
 
-<div id="purchaser-section" class="purchaser-list-container">
-    <table class="purchaser-table">
+<div id="purchaser-section" class="list-container">
+    <table class="table">
         <thead>
             <tr>
-                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentPurchaserSort == "id_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "id_desc" ? "↓" : "")</a></th>
-                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentPurchaserSort == "name_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "name_desc" ? "↓" : "")</a></th>
-                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "surname_asc" ? "surname_desc" : "surname_asc")">Surname @(ViewBag.CurrentPurchaserSort == "surname_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "surname_desc" ? "↓" : "")</a></th>
-                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "email_asc" ? "email_desc" : "email_asc")">Email @(ViewBag.CurrentPurchaserSort == "email_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "email_desc" ? "↓" : "")</a></th>
-                <th><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "purchases_asc" ? "purchases_desc" : "purchases_asc")">Puchases @(ViewBag.CurrentPurchaserSort == "purchases_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "purchases_desc" ? "↓" : "")</a></th>
-                <th style="width: 1%; white-space: nowrap;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "added_asc" ? "added_desc" : "added_asc")">Created At @(ViewBag.CurrentPurchaserSort == "added_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "added_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentPurchaserSort == "id_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "id_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentPurchaserSort == "name_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "name_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "surname_asc" ? "surname_desc" : "surname_asc")">Surname @(ViewBag.CurrentPurchaserSort == "surname_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "surname_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "email_asc" ? "email_desc" : "email_asc")">Email @(ViewBag.CurrentPurchaserSort == "email_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "email_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "purchases_asc" ? "purchases_desc" : "purchases_asc")">Puchases @(ViewBag.CurrentPurchaserSort == "purchases_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "purchases_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="Admin" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@ViewBag.CurrentQualitierSort" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "added_asc" ? "added_desc" : "added_asc")">Created At @(ViewBag.CurrentPurchaserSort == "added_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "added_desc" ? "↓" : "")</a></th>
             </tr>
         </thead>
         <tbody>
@@ -18,11 +18,11 @@
                 foreach (var purchaser in Model.Data)
                 {
                     <tr onclick="window.location.href = '/admin/purchasers/@purchaser.Id'">
-                        <td style="width: 1%; white-space: nowrap;">@purchaser.Id</td>
-                        <td style="width: 1%; white-space: nowrap;">@purchaser.Name</td>
-                        <td style="width: 1%; white-space: nowrap; text-transform: uppercase;">@purchaser.Surname</td>
-                        <td style="width: 1%; white-space: nowrap;">@purchaser.Email</td>
-                        <td>
+                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@purchaser.Id</td>
+                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@purchaser.Name</td>
+                        <td style="width: 1%; white-space: nowrap; text-transform: uppercase; padding: 0.75rem;">@purchaser.Surname</td>
+                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@purchaser.Email</td>
+                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">
                             <a asp-controller="Admin" asp-action="PurchaserPurchases" asp-route-purchaserId="@purchaser.Id" onclick="event.stopPropagation()" class="resource-link">
                                 Purchases 
                                 @if (purchaser.Purchases.Count > 0)
@@ -35,7 +35,7 @@
                                 }
                             </a>
                         </td>
-                        <td style="width: 1%; white-space: nowrap;">@purchaser.CreatedAt.ToString("yyyy-MM-dd")</td>
+                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@purchaser.CreatedAt.ToString("yyyy-MM-dd")</td>
                     </tr>
                 }
             }
