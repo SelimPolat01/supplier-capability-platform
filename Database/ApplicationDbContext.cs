@@ -34,6 +34,22 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
             modelBuilder.Entity<SupplierCertificate>()
                 .HasIndex(certificate => new { certificate.AppUserId, certificate.Name, certificate.IssuedBy, certificate.IssueDate, certificate.ExpiryDate });
 
+            modelBuilder.Entity<SupplierMachine>()
+                .Property(supplierMachine => supplierMachine.QualityScore)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<SupplierMachine>()
+                .HasOne(supplierMachine => supplierMachine.AppUser)
+                .WithMany(user => user.SupplierMachines)
+                .HasForeignKey(supplierMachine => supplierMachine.AppUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SupplierMachine>()
+                .HasOne(supplierMachine => supplierMachine.Qualitier)
+                .WithMany(qualitier => qualitier.QualitierSupplierMachineScores)
+                .HasForeignKey(supplierMachine => supplierMachine.QualitierId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<PurchaserMachinePurchase>()
                 .HasOne(machinePurchase => machinePurchase.Purchaser)
                 .WithMany(purchaser => purchaser.PurchaserMachinePurchases)

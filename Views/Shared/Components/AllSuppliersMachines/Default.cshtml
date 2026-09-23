@@ -115,7 +115,19 @@
                         Capacity @(ViewBag.CurrentMachineSort == "capacity_asc" ? "↑" : ViewBag.CurrentMachineSort == "capacity_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">File</th>
+                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                    <a 
+                       asp-fragment="machines-container"  
+                       asp-action="Home" 
+                       asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
+                       asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
+                       asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
+                       asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "score_asc" ? "score_desc" : "score_asc")">
+                        Score @(ViewBag.CurrentMachineSort == "score_asc" ? "↑" : ViewBag.CurrentMachineSort == "score_desc" ? "↓" : "")
+                    </a>
+                </th>
                 <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
@@ -129,6 +141,7 @@
                         Price @(ViewBag.CurrentMachineSort == "price_asc" ? "↑" : ViewBag.CurrentMachineSort == "price_desc" ? "↓" : "")
                     </a>
                 </th>
+                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">File</th>
                 <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"                          
@@ -177,9 +190,26 @@
                         <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.AxisCount</td>
                         <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.CapacitySpecs</td>
                         <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                            @{
+                                string score = machine.QualityScore?.ToString() ?? "-";
+                                string textColor = score switch
+                                {
+                                    "A" => "color: #4ade80; font-weight: bold;", 
+                                    "B" => "color: #60a5fa; font-weight: bold;",
+                                    "C" => "color: #fbbf24; font-weight: bold;", 
+                                    "D" => "color: #f97316; font-weight: bold;", 
+                                    "F" => "color: #ff3552; font-weight: bold;", 
+                                    _   => "color: inherit;"                    
+                                };
+                            }
+                            <span style="@textColor">
+                                @score
+                            </span>
+                        </td>                        
+                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;" class="element-price-data">$@machine.Price.ToString("N0")</td>
+                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">
                             <a href="@machine.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;" class="element-price-data">$@machine.Price.ToString("N0")</td>
                         <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.AppUserId</td>
                         <td style="white-space: nowrap; padding: 0.75rem;">@machine.CreatedAt.ToString("dd-MM-yyyy")</td>
                     </tr>

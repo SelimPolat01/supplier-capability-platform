@@ -398,6 +398,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("LastScoreUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("MachineGroup")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -412,10 +415,18 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                     b.Property<int>("ProductionYear")
                         .HasColumnType("int");
 
+                    b.Property<int?>("QualitierId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QualityScore")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("QualitierId");
 
                     b.HasIndex("AppUserId", "MachineGroup", "MachineType", "BrandAndModel", "ProductionYear", "CapacitySpecs")
                         .IsUnique();
@@ -523,12 +534,21 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "Qualitier")
+                        .WithMany("QualitierSupplierMachineScores")
+                        .HasForeignKey("QualitierId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("Qualitier");
                 });
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", b =>
                 {
                     b.Navigation("PurchaserMachinePurchases");
+
+                    b.Navigation("QualitierSupplierMachineScores");
 
                     b.Navigation("SupplierCertificates");
 

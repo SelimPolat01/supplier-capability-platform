@@ -1,4 +1,5 @@
-﻿using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+﻿using SupplierCapabilitiesAndManagementSystem.Enums;
+using SupplierCapabilitiesAndManagementSystem.Models.DTO;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,6 +15,11 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
 
         [ForeignKey("AppUserId")]
         public virtual AppUser AppUser { get; set; } = null!;
+
+        public int? QualitierId { get; set; }
+
+        [ForeignKey("QualitierId")]
+        public virtual AppUser? Qualitier { get; set; }
 
         [Required(ErrorMessage = "{0} is required.")]
         [Display(Name = "Price", Prompt = "Enter price in USD")]
@@ -51,6 +57,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
         [Display(Name = "Machine Image File")]
         public string ImageUrl { get; set; } = string.Empty;
 
+        [Display(Name = "Quality Score")]
+        public QualityScore? QualityScore { get; set; }
+
+        public DateTime? LastScoreUpdate { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 
@@ -107,6 +117,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
             return new SupplierMachineDTO()
             {
                 Id = entity.Id,
+                QualitierId = entity.QualitierId,
+                QualityScore = entity.QualityScore,
+                QualitierFullName = entity.Qualitier != null ? $"{entity.Qualitier.Name} {entity.Qualitier.Surname}" : null,
                 SupplierName = entity.AppUser?.Name ?? string.Empty,
                 SupplierSurname = entity.AppUser?.Surname ?? string.Empty,
                 AppUserId = entity.AppUserId,
@@ -119,6 +132,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
                 AxisCount = entity.AxisCount,
                 CapacitySpecs = entity.CapacitySpecs,
                 ImageUrl = entity.ImageUrl,
+                LastScoreUpdate = entity.LastScoreUpdate,
                 CreatedAt = entity.CreatedAt
             };
         }

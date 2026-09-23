@@ -1,20 +1,30 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SupplierCapabilitiesAndManagementSystem.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
 {
     public class SupplierMachineDTO
     {
-        [Display(Name = "Nachine ID")]
+        [Display(Name = "Machine ID")]
         public int Id { get; set; }
 
         [Display(Name = "Supplier ID")]
         public int AppUserId { get; set; }
 
+        [Display(Name = "Qualitier ID")]
+        public int? QualitierId { get; set; }
+
+        [Display(Name = "Quality Score")]
+        public QualityScore? QualityScore { get; set; }
+
+        [Display(Name = "Qualitier Full Name")]
+        public string? QualitierFullName { get; set; }
+
         [Display(Name = "Supplier Name")]
-        public string SupplierName { get; set; }
+        public string SupplierName { get; set; } = string.Empty;
 
         [Display(Name = "Supplier Surname")]
-        public string SupplierSurname { get; set; }
+        public string SupplierSurname { get; set; } = string.Empty;
 
         [Display(Name = "Price")]
         public decimal Price { get; set; }
@@ -42,6 +52,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
 
         [Display(Name = "Image File")]
         public string ImageUrl { get; set; } = string.Empty;
+
+
+        [Display(Name = "Last Score Update")]
+        public DateTime? LastScoreUpdate { get; set; }
 
         [Display(Name = "Added Date")]
         public DateTime CreatedAt { get; set; }

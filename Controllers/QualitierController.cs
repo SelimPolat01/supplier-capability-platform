@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SupplierCapabilitiesAndManagementSystem.Enums;
 using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+using SupplierCapabilitiesAndManagementSystem.Services;
+using System.Security.Claims;
 
 namespace SupplierCapabilitiesAndManagementSystem.Controllers
 {
@@ -8,6 +11,12 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
     [Authorize(Roles = "Qualitier, Admin")]
     public class QualitierController : Controller
     {
+        private readonly IQualitierService _qualitierService;
+        public QualitierController(IQualitierService qualitierService)
+        {
+            _qualitierService = qualitierService;
+        }
+
         [HttpGet("home")]
         public IActionResult Home([FromQuery] int page = 1, [FromQuery] string supplierSortBy = "id_asc", [FromQuery] string purchaserSortBy = "id_asc", [FromQuery] string machineSortBy = "id_asc", [FromQuery] string certificateSortBy = "id_asc")
         {
@@ -142,6 +151,22 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             ViewBag.CurrentSearch = searchString;
 
             return View();
+        }
+
+        [HttpPatch("suppliers/{supplierId:int}/machines/{machineId}")]
+        public async Task<IActionResult> ScoreMachineAsync([FromRoute] int supplierId, [FromRoute] int machineId, [FromQuery] QualityScore? qualityScore)
+        {
+            if (qualityScore == null) return BadRequest(new { message = "Please select a score." });
+
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdString, out var userId) || userId <= 0) return Unauthorized(new { message = "User is not authorized or session expired." });
+
+            EditSupplierMachineQualityPatchResponseDTO responseDTO = await _qualitierService.EditSupplierMachineQualityAsync(userId, machineId, qualityScore);
+
+            if (!responseDTO.IsSuccess) return BadRequest(new { message = responseDTO.Message });
+
+            return Ok(new { message = responseDTO.Message });
         }
     }
 }

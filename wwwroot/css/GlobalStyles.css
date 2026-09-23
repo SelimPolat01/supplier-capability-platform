@@ -415,11 +415,11 @@ h6 {
         box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3), 0 0px 0px rgba(236, 72, 153, 0);
     }
 
-.page-content{
+.page-content {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex:1;
+    flex: 1;
 }
 
 .save-edit-button-container, .delete-button-container, .purchase-button-container, .score-button-container {
@@ -466,6 +466,7 @@ h6 {
 }
 
 .primary-button.score-button {
+    visibility: hidden;
     color: #fbbf24;
 }
 
@@ -494,3 +495,343 @@ h6 {
     ::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.3);
     }
+
+/* --- SUPPLIER & PURCHASER DETAILS KUTU YAPILARI --- */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.page-title-container h1 {
+    color: #fff;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.details-flexbox {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #0B0C27;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.details-title {
+    color: #fff;
+    margin: 0 0 1rem 0;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+}
+
+.id-name-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.info-container, .company-name-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.id-title, .created-at-title, .company-name-title {
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+}
+
+.company-name-data {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.info-box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.info-box {
+    background-color: #030317;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
+    min-width: 200px;
+}
+
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.box {
+    background-color: #030317;
+    padding: 1.2rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 250px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, border 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+    .box:hover {
+        transform: translateY(-3px);
+        background-color: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+.info-flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.info-title {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+.info-data {
+    color: #F5F5DC;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+/* --- ITEM DETAILS YAPILARI (Machine & Certificate Detay) --- */
+.item-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-element-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #0B0C27;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 750px;
+    padding: 1.5rem;
+}
+
+.item-flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.item-element-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    max-width: 239px;
+    background-color: #030317;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.item-details-text {
+    color: rgb(255, 255, 255);
+    margin: 0;
+}
+
+.item-element-title {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.item-element-data, .item-element-id-data, .item-element-time-data {
+    color: #F5F5DC;
+    font-weight: 600;
+}
+
+.item-element-price-data {
+    color: #4ade80;
+}
+
+.item-image-file-text {
+    color: rgb(255, 255, 255);
+    margin: 0 0 1rem 0;
+}
+
+/* --- EDITABLE INPUTS & DİNAMİK FORMLAR --- */
+.editable-input {
+    display: none;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+    border-radius: 4px;
+}
+
+    .editable-input:focus {
+        outline: none;
+        background-color: rgba(0, 255, 255, 0.05);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    }
+
+    .editable-input::-webkit-datetime-edit,
+    .editable-input::-webkit-datetime-edit-fields-wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+        line-height: 16px;
+    }
+
+    .editable-input::-webkit-calendar-picker-indicator {
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 16px;
+    }
+
+input[type="date"].editable-input {
+    max-height: 16px;
+}
+
+input[type="checkbox"].editable-input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.field-validation-valid {
+    display: none !important;
+}
+
+.editable-price-input {
+    color: #4ade80;
+}
+
+.text-danger {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: block;
+}
+
+/* --- CUSTOM SCORE DROPDOWN --- */
+.score-section-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 200px;
+}
+
+.custom-select-display {
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+    .custom-select-display:hover {
+        background: rgba(0, 0, 0, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+.custom-select-options {
+    position: absolute;
+    top: 115%;
+    left: 0;
+    right: 0;
+    background: #0B0C27;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: none;
+    flex-direction: column;
+    z-index: 100;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+    .custom-select-options.show {
+        display: flex;
+    }
+
+    .custom-select-options li {
+        padding: 12px 15px;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        font-size: 0.95rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+        .custom-select-options li:last-child {
+            border-bottom: none;
+        }
+
+        .custom-select-options li:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+.score-a {
+    color: #4ade80;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.score-b {
+    color: #60a5fa;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.score-c {
+    color: #fbbf24;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.score-d {
+    color: #f97316;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.score-f {
+    color: #ff3552;
+    font-weight: bold;
+    margin-right: 8px;
+}

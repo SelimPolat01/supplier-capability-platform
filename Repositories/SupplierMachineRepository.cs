@@ -46,6 +46,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
                 "axis-count_desc" => query.OrderByDescending(mp => mp.AxisCount).ThenByDescending(m => m.Id),
                 "capacity_asc" => query.OrderBy(mp => mp.CapacitySpecs).ThenBy(m => m.Id),
                 "capacity_desc" => query.OrderByDescending(mp => mp.CapacitySpecs).ThenByDescending(m => m.Id),
+                "score_asc" => query.OrderBy(mp => mp.QualityScore).ThenBy(m => m.Id),
+                "score_desc" => query.OrderByDescending(mp => mp.QualityScore).ThenByDescending(m => m.Id),
                 "price_asc" => query.OrderBy(mp => mp.Price).ThenBy(m => m.Id),
                 "price_desc" => query.OrderByDescending(mp => mp.Price).ThenBy(m => m.Id),
                 "supplier-id_asc" => query.OrderBy(mp => mp.AppUserId).ThenBy(m => m.Id),
@@ -100,6 +102,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
                 "axis-count_desc" => query.OrderByDescending(machine => machine.AxisCount).ThenByDescending(m => m.Id),
                 "capacity_asc" => query.OrderBy(machine => machine.CapacitySpecs).ThenBy(m => m.Id),
                 "capacity_desc" => query.OrderByDescending(machine => machine.CapacitySpecs).ThenByDescending(m => m.Id),
+                "score_asc" => query.OrderBy(mp => mp.QualityScore).ThenBy(m => m.Id),
+                "score_desc" => query.OrderByDescending(mp => mp.QualityScore).ThenByDescending(m => m.Id),
                 "added_asc" => query.OrderBy(machine => machine.CreatedAt).ThenBy(m => m.Id),
                 "added_desc" => query.OrderByDescending(machine => machine.CreatedAt).ThenByDescending(m => m.Id),
                 _ => query.OrderBy(machine => machine.Id),
@@ -115,10 +119,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
 
         public async Task<SupplierMachine?> FetchMachineAsync(int machineId, int userId)
         {
-            return await _dbContext
-                .SupplierMachines
+            return await _dbContext.SupplierMachines
+                .Include(supplierMachine => supplierMachine.Qualitier)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(machine => machine.Id == machineId && machine.AppUserId == userId);
+                .FirstOrDefaultAsync(supplierMachine => supplierMachine.Id == machineId && supplierMachine.AppUserId == userId);
         }
 
         public async Task<SupplierMachine> AddMachineAsync(SupplierMachine machine)
@@ -151,9 +155,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
 
         public async Task<bool> RemoveMachineAsync(int machineId, int userId)
         {
-            int deletedRows = await _dbContext
-                .SupplierMachines
-                .Where(machine => machine.Id == machineId && machine.AppUserId == userId)
+            int deletedRows = await _dbContext.SupplierMachines
+                .Where(supplierMacine => supplierMacine.Id == machineId && supplierMacine.AppUserId == userId)
                 .ExecuteDeleteAsync();
 
             return deletedRows > 0;

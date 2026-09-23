@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SupplierCapabilitiesAndManagementSystem.Database;
 using SupplierCapabilitiesAndManagementSystem.Entities;
+using SupplierCapabilitiesAndManagementSystem.Enums;
 
 namespace SupplierCapabilitiesAndManagementSystem.Repositories
 {
@@ -58,6 +59,34 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
                 .ToListAsync();
 
             return (result, totalQualitierCount);
+        }
+
+        public async Task<bool> EditSupplierMachineQualityAsync(int userId, int machineId, QualityScore? qualityScore)
+        {
+            var qualitierRoleId = await _dbContext.Roles
+                .AsNoTracking()
+                .Where(role => role.Name == "Qualitier")
+                .Select(role => role.Id)
+                .FirstOrDefaultAsync();
+
+            if (qualitierRoleId == 0) return false;
+
+            var hasQualitierRole = await _dbContext.UserRoles
+                .AnyAsync(userRoles => userRoles.UserId == userId && userRoles.RoleId == qualitierRoleId);
+
+            if (!hasQualitierRole) return false;
+
+            var machine = await _dbContext.SupplierMachines.FirstOrDefaultAsync(supplierMachine => supplierMachine.Id == machineId);
+
+            if (machine == null) return false;
+
+            machine.QualityScore = qualityScore;
+            machine.QualitierId = userId;
+            machine.LastScoreUpdate = DateTime.UtcNow;
+
+            var result = await _dbContext.SaveChangesAsync();
+
+            return result > 0;
         }
     }
 }
