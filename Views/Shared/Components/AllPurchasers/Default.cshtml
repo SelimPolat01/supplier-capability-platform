@@ -4,7 +4,7 @@
     bool isAdmin = User.IsInRole("Admin");
     bool isQualitier = User.IsInRole("Qualitier");
 
-    string targetController = isAdmin ? "Admin" : isQualitier ? "Qualitier" : "";
+    string targetController = isAdmin ? "admin" : isQualitier ? "qualitier" : "";
 }
 
 <div id="purchaser-section" class="list-container">
@@ -42,7 +42,7 @@
                                 }
                             </a>
                         </td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@purchaser.CreatedAt.ToString("yyyy-MM-dd")</td>
+                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@purchaser.CreatedAt.ToString("dd-MM-yyyy")</td>
                     </tr>
                 }
             }

@@ -7,11 +7,33 @@
     bool isSupplier = User.IsInRole("Supplier");
 
     string rolePrefix = isAdmin ? "admin" : isQualitier ? "qualitier" : isPurchaser ? "purchaser" : "";
+
+    PrimaryButtonModel scoreButtonModel = new() 
+    { 
+        Type = "button", 
+        Text = "Submit Score", 
+        OnClick = "scoreClickHandler()", 
+        CssClass = "score-button", 
+        IconClass = "fa-solid fa-ranking-star" 
+    };
+
+    ConfirmModalModel confirmModalModel = new()
+    {
+        Title = "Rate Supplier",
+        Message = "Are you sure you want to submit score for this supplier?",
+        OnConfirm = $"confirmScoreHandler({Model?.Data?.Id ?? 0})",
+        ConfirmButtonText = "Yes, Submit Score",
+        ConfirmButtonIcon = "fa-solid fa-check",
+        CancelButtonText = "Cancel",
+        CancelButtonIcon = "fa-solid fa-circle-xmark"
+    };
 }
 
 @if (Model != null && Model.IsSuccess && Model.Data != null)
 {
     <div class="wrapper">
+        <partial name="_ConfirmModal" model="confirmModalModel"></partial>
+        
         <div class="page-title-container">
             <h1><i class="fa-solid fa-building-user" style="margin-right: 8px;"></i>Supplier Details <span style="display: inline-flex; align-items: center; color: rgba(255, 255, 255, 0.4); font-size: 2rem; margin: 0;">
                         @(Model != null ? $"#{Model.Data.Id}" : "")
@@ -20,13 +42,25 @@
 
         <div class="details-flexbox">
             <div class="id-name-wrapper">
-                <div class="info-container">
-                    <div class="id-container">
-                        <span class="id-title">Supplier ID: @Model.Data.Id</span>
+                <div class="info-container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div style="display: flex; gap: 1.5rem;">
+                        <div class="id-container">
+                            <span class="id-title">Supplier ID: @Model.Data.Id</span>
+                        </div>
+                        <div class="created-at-container">
+                            <span class="created-at-title">Created At: @Model.Data.CreatedAt.ToString("dd-MM-yyyy")</span>
+                        </div>
                     </div>
-                    <div class="created-at-container">
-                        <span class="created-at-title">Created At: @Model.Data.CreatedAt.ToString("yyyy-MM-dd")</span>
-                    </div>
+                    
+                    @if (isQualitier)
+                    {
+                        <div>
+                            <div class="score-button-container">
+                                <partial name="_PrimaryButton" model="scoreButtonModel"></partial>
+                            </div>
+                            <span id="score-error-message" class="text-danger" style="display: none; margin-top: 0.5rem; font-weight: 500;"></span>
+                        </div>
+                    }
                 </div>
                 <div class="company-name-container">
                     <span class="company-name-title">Company Name: </span>
@@ -121,11 +155,11 @@
                             </div>
                             <div class="info-flex-container">
                                 <span class="info-title">Issue Date:</span>
-                                <span class="info-data">@certificate.IssueDate.ToString("yyyy-MM-dd")</span>
+                                <span class="info-data">@certificate.IssueDate.ToString("dd-MM-yyyy")</span>
                             </div>
                             <div class="info-flex-container">
                                 <span class="info-title">Expiry Date:</span>
-                                <span class="info-data">@certificate.ExpiryDate?.ToString("yyyy-MM-dd")</span>
+                                <span class="info-data">@certificate.ExpiryDate?.ToString("dd-MM-yyyy")</span>
                             </div>
                             <div class="info-flex-container" onclick="event.stopPropagation()">
                                 <span class="info-title">Document:</span>
@@ -213,7 +247,7 @@
                         </div>
                         <div class="box" onclick="window.location.href='@hrUrl'">
                             <span class="info-title">Last Updated</span>
-                            <span class="info-data">@humanResource.LastUpdatedDate.ToString("yyyy-MM-dd")</span>
+                            <span class="info-data">@humanResource.LastUpdatedDate.ToString("dd-MM-yyyy")</span>
                         </div>
                     }
                 }

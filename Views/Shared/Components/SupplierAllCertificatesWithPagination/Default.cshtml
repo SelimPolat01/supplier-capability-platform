@@ -49,12 +49,12 @@
                         <td>@certificate.Id</td>
                         <td>@certificate.Name</td>
                         <td>@certificate.IssuedBy</td>
-                        <td>@certificate.IssueDate.ToString("yyyy-MM-dd")</td>
-                        <td>@(certificate.ExpiryDate.HasValue ? certificate.ExpiryDate.Value.ToString("yyyy-MM-dd") : "-")</td>
+                        <td>@certificate.IssueDate.ToString("dd-MM-yyyy")</td>
+                        <td>@(certificate.ExpiryDate.HasValue ? certificate.ExpiryDate.Value.ToString("dd-MM-yyyy") : "-")</td>
                         <td>
                             <a href="@certificate.DocumentUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td>@certificate.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@certificate.CreatedAt.ToString("dd-MM-yyyy HH:mm")</td>
                     </tr>
                 }
             }

@@ -28,9 +28,30 @@
         CssClass = "save-button",
         IconClass = "fa-solid fa-circle-check"
     };
+
+    PrimaryButtonModel scoreButtonModel = new() 
+    { 
+        Type = "button", 
+        Text = "Submit Score", 
+        OnClick = "scoreClickHandler()", 
+        CssClass = "score-button", 
+        IconClass = "fa-solid fa-ranking-star" 
+    };
+
+    ConfirmModalModel confirmModalModel = new()
+    {
+        Title = "Rate Supplier Human Resources",
+        Message = "Are you sure you want to submit score for this human resources record?",
+        OnConfirm = $"confirmScoreHandler({Model?.Id ?? 0})",
+        ConfirmButtonText = "Yes, Submit Score",
+        ConfirmButtonIcon = "fa-solid fa-check",
+        CancelButtonText = "Cancel",
+        CancelButtonIcon = "fa-solid fa-circle-xmark"
+    };
 }
 
 <div class="item-container">
+    <partial name="_ConfirmModal" model="confirmModalModel"></partial>
     <div class="item-element-wrapper">
         <form onsubmit="submitHandler(event)" id="form">
             <div class="flex-container-1">
@@ -45,6 +66,15 @@
                     <div class="save-edit-button-container">
                         <partial name="_PrimaryButton" model="saveButtonModel"></partial>
                         <partial name="_PrimaryButton" model="editButtonModel"></partial>
+                    </div>
+                }
+                else if (isQualitier)
+                {
+                    <div>
+                        <div class="score-button-container">
+                            <partial name="_PrimaryButton" model="scoreButtonModel"></partial>
+                        </div>
+                        <span id="score-error-message" class="text-danger" style="display: none; margin-top: 0.5rem; font-weight: 500;"></span>
                     </div>
                 }
             </div>
@@ -151,7 +181,7 @@
 
                 <div class="item-element-container">
                     <span class="item-element-title">Last Updated</span>
-                    <span class="item-element-data">@(Model != null ? Model.LastUpdatedDate.ToString("yyyy-MM-dd HH:mm") : "-")</span>
+                    <span class="item-element-data">@(Model != null ? Model.LastUpdatedDate.ToString("dd-MM-yyyy HH:mm") : "-")</span>
                 </div>
             </div>
         </form>

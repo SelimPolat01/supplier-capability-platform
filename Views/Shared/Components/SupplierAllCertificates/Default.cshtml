@@ -17,11 +17,11 @@
                 {
                     <tr onclick="window.location.href = '/supplier/certificates/@certificate.Id'">
                         <td style="width: 1%; white-space: nowrap;">@certificate.Name</td>
-                        <td style="white-space: nowrap;">@(certificate.ExpiryDate?.ToString("yyyy-MM-dd") ?? "-")</td>
+                        <td style="white-space: nowrap;">@(certificate.ExpiryDate?.ToString("dd-MM-yyyy") ?? "-")</td>
                         <td>
                             <a href="@certificate.DocumentUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td style="white-space: nowrap;">@certificate.CreatedAt.ToString("yyyy-MM-dd")</td>
+                        <td style="white-space: nowrap;">@certificate.CreatedAt.ToString("dd-MM-yyyy")</td>
                     </tr>
                 }
             }
