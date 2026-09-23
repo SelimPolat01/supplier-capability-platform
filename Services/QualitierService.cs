@@ -94,5 +94,55 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
                 };
             }
         }
+
+        public async Task<EditSupplierCertificateQualityPatchResponseDTO> EditSupplierCertificateQualityAsync(int userId, int certificateId, QualityScore? qualityScore)
+        {
+            if (certificateId <= 0)
+            {
+                return new EditSupplierCertificateQualityPatchResponseDTO()
+                {
+                    Message = "Invalid certificate ID.",
+                    IsSuccess = false
+                };
+            }
+
+            if (qualityScore == null)
+            {
+                return new EditSupplierCertificateQualityPatchResponseDTO()
+                {
+                    Message = "Quality score cannot be empty.",
+                    IsSuccess = false
+                };
+            }
+
+            try
+            {
+                bool result = await _qualitierRepository.EditSupplierCertificateQualityAsync(userId, certificateId, qualityScore);
+
+                if (!result)
+                {
+                    return new EditSupplierCertificateQualityPatchResponseDTO()
+                    {
+                        Message = "Failed to update the certificate's quality score. The certificate might not exist or the user is not authorized.",
+                        IsSuccess = false
+                    };
+                }
+
+                return new EditSupplierCertificateQualityPatchResponseDTO()
+                {
+                    Message = "Certificate quality score updated successfully.",
+                    IsSuccess = true,
+                    EditedCertificateId = certificateId
+                };
+            }
+            catch (Exception ex)
+            {
+                return new EditSupplierCertificateQualityPatchResponseDTO()
+                {
+                    Message = $"An error occurred while updating the quality score: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
+        }
     }
 }

@@ -24,6 +24,9 @@
                 <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentSort == "name_asc" ? "↑" : ViewBag.CurrentSort == "name_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "issued-by_asc" ? "issued-by_desc" : "issued-by_asc")">Issued By @(ViewBag.CurrentSort == "issued-by_asc" ? "↑" : ViewBag.CurrentSort == "issued-by_desc" ? "↓" : "")</a></th>
+                <th>
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "score_asc" ? "score_desc" : "score_asc")">Score @(ViewBag.CurrentSort == "score_asc" ? "↑" : ViewBag.CurrentSort == "score_desc" ? "↓" : "")</a>
+                </th>
                 <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "issue-date_asc" ? "issue-date_desc" : "issue-date_asc")">Issue Date @(ViewBag.CurrentSort == "issue-date_asc" ? "↑" : ViewBag.CurrentSort == "issue-date_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "expiry-date_asc" ? "expiry-date_desc" : "expiry-date_asc")">Expiry Date @(ViewBag.CurrentSort == "expiry-date_asc" ? "↑" : ViewBag.CurrentSort == "expiry-date_desc" ? "↓" : "")</a></th>
                 <th>File</th>
@@ -49,6 +52,23 @@
                         <td>@certificate.Id</td>
                         <td>@certificate.Name</td>
                         <td>@certificate.IssuedBy</td>
+                            <td>
+                            @{
+                                string score = certificate.QualityScore?.ToString() ?? "-";
+                                string textColor = score switch
+                                {
+                                    "A" => "color: #4ade80; font-weight: bold;", 
+                                    "B" => "color: #60a5fa; font-weight: bold;",
+                                    "C" => "color: #fbbf24; font-weight: bold;", 
+                                    "D" => "color: #f97316; font-weight: bold;", 
+                                    "F" => "color: #ff3552; font-weight: bold;", 
+                                    _   => "color: inherit;"                    
+                                };
+                            }
+                            <span style="@textColor">
+                                @score
+                            </span>
+                        </td>         
                         <td>@certificate.IssueDate.ToString("dd-MM-yyyy")</td>
                         <td>@(certificate.ExpiryDate.HasValue ? certificate.ExpiryDate.Value.ToString("dd-MM-yyyy") : "-")</td>
                         <td>
@@ -61,7 +81,7 @@
             else
             {
                 <tr>
-                    <td colspan="7">
+                    <td colspan="@(isSupplier ? 7 : 8)">
                         <div class="empty-state-message">
                             <p>No certificates are registered in the system yet.</p>
                         </div>

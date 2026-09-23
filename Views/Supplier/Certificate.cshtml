@@ -18,147 +18,154 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        async function submitHandler(event) {
-            event.preventDefault();
+    async function submitHandler(event) {
+        event.preventDefault();
 
-            if (typeof $!== 'undefined' &&$.validator) {
-                if (!$("#form").valid()) {
-                    return;
+        if (typeof $!== 'undefined' &&$.validator) {
+            if (!$("#form").valid()) {
+                return;
+            }
+        }
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        const dataSpans = document.querySelectorAll(".item-element-data");
+        const editInputs = document.querySelectorAll(".editable-input");
+        const editButton = document.querySelector(".edit-button");
+        const saveButton = document.querySelector(".save-button");
+
+        dataSpans.forEach(dataSpan => {
+            dataSpan.style.removeProperty("display");
+        });
+
+        editInputs.forEach(editInput => {
+            editInput.style.setProperty("display", "none", "important");
+        });
+        
+        const buttonText = editButton.querySelector("span");
+        const buttonIcon = editButton.querySelector("i");
+        if (buttonText) buttonText.innerText = "Edit";
+        if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+        
+        saveButton.style.display = "none";
+
+        data.Id = parseInt(data.Id);
+        const certificateId = data.Id;
+        const supplierId = '@ViewBag.SupplierId'; 
+        
+        const patchUrl = `/supplier/certificates/${certificateId}/patch`;
+
+        try {
+            const response = await fetch(patchUrl, {
+                method: "PATCH",
+                body: JSON.stringify(data),
+                headers: { "Content-Type": "application/json" },
+                credentials: "include"
+            });
+
+            if (!response.ok) {
+                let errorDetails = "";
+                try {
+                    const errorData = await response.json();
+                    if (errorData.errors) {
+                        const errorMessages = Object.values(errorData.errors).flat();
+                        errorDetails = errorMessages.join("\n");
+                    } else if (errorData.message) {
+                        errorDetails = errorData.message;
+                    } else if (errorData.title) {
+                        errorDetails = errorData.title;
+                    } else {
+                        errorDetails = JSON.stringify(errorData);
+                    }
+                } catch (parseError) {
+                    errorDetails = "Server returned a non-JSON error.";
                 }
+                throw new Error(`Submit failed (Status: ${response.status})\n\nDetails:\n${errorDetails}`);
             }
 
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
-            
-            const dataSpans = document.querySelectorAll(".item-element-data");
-            const editInputs = document.querySelectorAll(".editable-input");
-            const editButton = document.querySelector(".edit-button");
-            const saveButton = document.querySelector(".save-button");
+            window.location.reload();
 
-            dataSpans.forEach(dataSpan => dataSpan.style.display = "");
-            editInputs.forEach(editInput => editInput.style.display = "none");
+        } catch (err) {
+            console.log(err.message);
+            alert(err.message);
+        }
+    }
+
+    function toggleEditClickHandler() {
+        const dataSpans = document.querySelectorAll(".item-element-data");
+        const editInputs = document.querySelectorAll(".editable-input");
+        const editButton = document.querySelector(".edit-button");
+        const saveButton = document.querySelector(".save-button");
+        
+        const buttonText = editButton.querySelector("span");
+        const buttonIcon = editButton.querySelector("i");
+
+        if (buttonText.innerText.trim() === "Edit") {
             
-            const buttonText = editButton.querySelector("span");
-            const buttonIcon = editButton.querySelector("i");
-            if (buttonText) buttonText.innerText = "Edit";
+            dataSpans.forEach(dataSpan => {
+                const parent = dataSpan.parentElement;
+                if (parent && parent.querySelector(".editable-input")) {
+                    dataSpan.style.setProperty("display", "none", "important");
+                }
+            });
+            
+            editInputs.forEach(editInput => editInput.style.setProperty("display", "block", "important"));
+            
+            buttonText.innerText = "Cancel";
+            if (buttonIcon) buttonIcon.className = "fa-solid fa-circle-xmark";
+            
+            if (editInputs.length > 0) editInputs[0].focus();
+            saveButton.style.display = "inline-flex";
+
+        } else if (buttonText.innerText.trim() === "Cancel") {
+            
+            dataSpans.forEach(dataSpan => dataSpan.style.removeProperty("display"));
+            editInputs.forEach(editInput => editInput.style.setProperty("display", "none", "important"));
+            
+            buttonText.innerText = "Edit";
             if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
             
             saveButton.style.display = "none";
 
-            data.Id = parseInt(data.Id);
-            const certificateId = data.Id;
+            if (typeof $!== 'undefined' &&$.validator) {
+                $("#form").validate().resetForm();
+            }
+        }
+    }
+
+    function deleteClickHandler() {
+        const confirmModal = document.querySelector(".modal-overlay");
+        if (confirmModal) confirmModal.style.display = "block";
+    }
+
+    async function confirmDeleteHandler(certificateId) {
+        try {
             const supplierId = '@ViewBag.SupplierId'; 
             
-            const isAdmin = @((User.IsInRole("Admin")).ToString().ToLower());
-            const patchUrl = isAdmin 
-                ? `/admin/suppliers/${supplierId}/certificates/${certificateId}/patch`
-                : `/supplier/certificates/${certificateId}/patch`;
+            const deleteUrl = `/supplier/certificates/${certificateId}/delete`; 
 
-            try {
-                const response = await fetch(patchUrl, {
-                    method: "PATCH",
-                    body: JSON.stringify(data),
-                    headers: { "Content-Type": "application/json" },
-                    credentials: "include"
-                });
+            const response = await fetch(deleteUrl, { 
+                method: "DELETE", 
+                credentials: "include" 
+            });
 
-                if (!response.ok) {
-                    let errorDetails = "";
-                    try {
-                        const errorData = await response.json();
-                        if (errorData.errors) {
-                            const errorMessages = Object.values(errorData.errors).flat();
-                            errorDetails = errorMessages.join("\n");
-                        } else if (errorData.message) {
-                            errorDetails = errorData.message;
-                        } else if (errorData.title) {
-                            errorDetails = errorData.title;
-                        } else {
-                            errorDetails = JSON.stringify(errorData);
-                        }
-                    } catch (parseError) {
-                        errorDetails = "Server returned a non-JSON error.";
-                    }
-                    throw new Error(`Submit failed (Status: ${response.status})\n\nDetails:\n${errorDetails}`);
-                }
-
-                window.location.reload();
-
-            } catch (err) {
-                console.log(err.message);
-                alert(err.message);
-            }
-        }
-
-        function toggleEditClickHandler() {
-            const dataSpans = document.querySelectorAll(".item-element-data");
-            const editInputs = document.querySelectorAll(".editable-input");
-            const editButton = document.querySelector(".edit-button");
-            const saveButton = document.querySelector(".save-button");
-            
-            const buttonText = editButton.querySelector("span");
-            const buttonIcon = editButton.querySelector("i");
-
-            if (buttonText.innerText.trim() === "Edit") {
-                dataSpans.forEach(dataSpan => dataSpan.style.setProperty("display", "none", "important"));
-                editInputs.forEach(editInput => editInput.style.setProperty("display", "block", "important"));
-                
-                buttonText.innerText = "Cancel";
-                if (buttonIcon) buttonIcon.className = "fa-solid fa-circle-xmark";
-                
-                if (editInputs.length > 0) editInputs[0].focus();
-                saveButton.style.display = "inline-flex";
-
-            } else if (buttonText.innerText.trim() === "Cancel") {
-                dataSpans.forEach(dataSpan => dataSpan.style.removeProperty("display"));
-                editInputs.forEach(editInput => editInput.style.setProperty("display", "none", "important"));
-                
-                buttonText.innerText = "Edit";
-                if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
-                
-                saveButton.style.display = "none";
-
-                if (typeof $!== 'undefined' &&$.validator) {
-                    $("#form").validate().resetForm();
-                }
-            }
-        }
-
-        function deleteClickHandler() {
-            const confirmModal = document.querySelector(".modal-overlay");
-            if (confirmModal) confirmModal.style.display = "block";
-        }
-
-        async function confirmDeleteHandler(certificateId) {
-            try {
-                const supplierId = '@ViewBag.SupplierId'; 
-                const isAdmin = @((User.IsInRole("Admin")).ToString().ToLower());
-                
-                const deleteUrl = isAdmin 
-                    ? `/admin/suppliers/${supplierId}/certificates/${certificateId}/delete`
-                    : `/supplier/certificates/${certificateId}/delete`; 
-
-                const response = await fetch(deleteUrl, { 
-                    method: "DELETE", 
-                    credentials: "include" 
-                });
-
-                if (response.ok) {
-                    window.location.href = isAdmin ? `/admin/suppliers/${supplierId}/certificates` : `/supplier/certificates`;
-                } else {
-                    alert("An error occured while deleting the supplier certificate.");
-                    closeModal();
-                }
-            } catch (err) {
-                console.log(err.message);
-                alert(err.message);
+            if (response.ok) {
+                window.location.href = "/supplier/certificates";
+            } else {
+                alert("An error occured while deleting the supplier certificate.");
                 closeModal();
             }
+        } catch (err) {
+            console.log(err.message);
+            alert(err.message);
+            closeModal();
         }
+    }
 
-        function closeModal() {
-            const confirmModal = document.querySelector(".modal-overlay");
-            if (confirmModal) confirmModal.style.display = "none";
-        }
-    </script>
+    function closeModal() {
+        const confirmModal = document.querySelector(".modal-overlay");
+        if (confirmModal) confirmModal.style.display = "none";
+    }
+</script>
 }

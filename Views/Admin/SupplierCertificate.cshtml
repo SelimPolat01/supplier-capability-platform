@@ -35,8 +35,12 @@
             const editButton = document.querySelector(".edit-button");
             const saveButton = document.querySelector(".save-button");
 
-            dataSpans.forEach(dataSpan => dataSpan.style.display = "");
-            editInputs.forEach(editInput => editInput.style.display = "none");
+            dataSpans.forEach(dataSpan => {
+                dataSpan.style.removeProperty("display");
+            });
+            editInputs.forEach(editInput => {
+                editInput.style.setProperty("display", "none", "important");
+            });
             
             const buttonText = editButton.querySelector("span");
             const buttonIcon = editButton.querySelector("i");
@@ -49,10 +53,7 @@
             const certificateId = data.Id;
             const supplierId = '@ViewBag.SupplierId'; 
             
-            const isAdmin = @((User.IsInRole("Admin")).ToString().ToLower());
-            const patchUrl = isAdmin 
-                ? `/admin/suppliers/${supplierId}/certificates/${certificateId}/patch`
-                : `/supplier/certificates/${certificateId}/patch`;
+            const patchUrl = `/admin/suppliers/${supplierId}/certificates/${certificateId}/patch`;
 
             try {
                 const response = await fetch(patchUrl, {
@@ -100,7 +101,13 @@
             const buttonIcon = editButton.querySelector("i");
 
             if (buttonText.innerText.trim() === "Edit") {
-                dataSpans.forEach(dataSpan => dataSpan.style.setProperty("display", "none", "important"));
+                dataSpans.forEach(dataSpan => {
+                    const parent = dataSpan.parentElement;
+                    if (parent && parent.querySelector(".editable-input")) {
+                        dataSpan.style.setProperty("display", "none", "important");
+                    }
+                });
+                
                 editInputs.forEach(editInput => editInput.style.setProperty("display", "block", "important"));
                 
                 buttonText.innerText = "Cancel";
@@ -132,11 +139,8 @@
         async function confirmDeleteHandler(certificateId) {
             try {
                 const supplierId = '@ViewBag.SupplierId'; 
-                const isAdmin = @((User.IsInRole("Admin")).ToString().ToLower());
                 
-                const deleteUrl = isAdmin 
-                    ? `/admin/suppliers/${supplierId}/certificates/${certificateId}/delete`
-                    : `/supplier/certificates/${certificateId}/delete`; 
+                const deleteUrl = `/admin/suppliers/${supplierId}/certificates/${certificateId}/delete`; 
 
                 const response = await fetch(deleteUrl, { 
                     method: "DELETE", 
@@ -144,7 +148,7 @@
                 });
 
                 if (response.ok) {
-                    window.location.href = isAdmin ? `/admin/suppliers/${supplierId}/certificates` : `/supplier/certificates`;
+                    window.location.href = `/admin/suppliers/${supplierId}/certificates`;
                 } else {
                     alert("An error occured while deleting the supplier certificate.");
                     closeModal();

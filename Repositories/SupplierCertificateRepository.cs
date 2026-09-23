@@ -34,6 +34,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
                 "name_desc" => query.OrderByDescending(certificate => certificate.Name).ThenByDescending(c => c.Id),
                 "issued-by_asc" => query.OrderBy(certificate => certificate.IssuedBy).ThenBy(c => c.Id),
                 "issued-by_desc" => query.OrderByDescending(certificate => certificate.IssuedBy).ThenByDescending(c => c.Id),
+                "score_asc" => query.OrderBy(certificate => certificate.QualityScore).ThenBy(c => c.Id),
+                "score_desc" => query.OrderByDescending(certificate => certificate.QualityScore).ThenByDescending(c => c.Id),
                 "issue-date_asc" => query.OrderBy(certificate => certificate.IssueDate).ThenBy(c => c.Id),
                 "issue-date_desc" => query.OrderByDescending(certificate => certificate.IssueDate).ThenByDescending(c => c.Id),
                 "expiry-date_asc" => query.OrderBy(certificate => certificate.ExpiryDate).ThenBy(c => c.Id),
@@ -73,6 +75,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
                 "id_desc" => query.OrderByDescending(certificate => certificate.Id),
                 "name_asc" => query.OrderBy(certificate => certificate.Name).ThenBy(c => c.Id),
                 "name_desc" => query.OrderByDescending(certificate => certificate.Name).ThenByDescending(c => c.Id),
+                "score_asc" => query.OrderBy(certificate => certificate.QualityScore).ThenBy(c => c.Id),
+                "score_desc" => query.OrderByDescending(certificate => certificate.QualityScore).ThenByDescending(c => c.Id),
                 "issued-by_asc" => query.OrderBy(certificate => certificate.IssuedBy).ThenBy(c => c.Id),
                 "issued-by_desc" => query.OrderByDescending(certificate => certificate.IssuedBy).ThenByDescending(c => c.Id),
                 "issue-date_asc" => query.OrderBy(certificate => certificate.IssueDate).ThenBy(c => c.Id),
@@ -95,8 +99,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
         public async Task<SupplierCertificate?> FetchCertificateAsync(int userId, int certificateId)
         {
             SupplierCertificate? existingCertificate = await _dbContext.SupplierCertificates
+                .Include(supplierCertificate => supplierCertificate.Qualitier)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == certificateId && c.AppUserId == userId);
+                .FirstOrDefaultAsync(supplierCertificate => supplierCertificate.Id == certificateId && supplierCertificate.AppUserId == userId);
 
             if (existingCertificate == null)
             {

@@ -38,6 +38,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
                 .Property(supplierMachine => supplierMachine.QualityScore)
                 .HasConversion<string>();
 
+            modelBuilder.Entity<SupplierCertificate>()
+                .Property(supplierCertificate => supplierCertificate.QualityScore)
+                .HasConversion<string>();
+
             modelBuilder.Entity<SupplierMachine>()
                 .HasOne(supplierMachine => supplierMachine.AppUser)
                 .WithMany(user => user.SupplierMachines)
@@ -48,6 +52,12 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
                 .HasOne(supplierMachine => supplierMachine.Qualitier)
                 .WithMany(qualitier => qualitier.QualitierSupplierMachineScores)
                 .HasForeignKey(supplierMachine => supplierMachine.QualitierId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SupplierCertificate>()
+                .HasOne(supplierCertificate => supplierCertificate.Qualitier)
+                .WithMany(qualitier => qualitier.QualitierSupplierCertificateScores)
+                .HasForeignKey(supplierCertificate => supplierCertificate.QualitierId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PurchaserMachinePurchase>()

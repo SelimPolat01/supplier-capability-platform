@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SupplierCapabilitiesAndManagementSystem.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
 {
@@ -7,6 +8,15 @@ namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
         public int Id { get; set; }
 
         public int AppUserId { get; set; }
+
+        [Display(Name = "Qualitier ID")]
+        public int? QualitierId { get; set; }
+
+        [Display(Name = "Quality Score")]
+        public QualityScore? QualityScore { get; set; }
+
+        [Display(Name = "Qualitier Full Name")]
+        public string? QualitierFullName { get; set; }
 
         [Display(Name = "Certificate Name")]
         public string Name { get; set; } = string.Empty;
@@ -22,6 +32,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
 
         [Display(Name = "Certificate File")]
         public string DocumentUrl { get; set; } = string.Empty;
+
+        [Display(Name = "Last Score Update")]
+        public DateTime? LastScoreUpdate { get; set; }
 
         [Display(Name = "Added Date")]
         public DateTime CreatedAt { get; set; }

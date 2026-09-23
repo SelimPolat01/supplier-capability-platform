@@ -36,8 +36,12 @@
             const buttonIcon = editButton.querySelector("i");
             const buttonText = editButton.querySelector("span") || editButton;
 
-            dataSpans.forEach(dataSpan => dataSpan.style.display = "");
-            editInputs.forEach(editInput => editInput.style.display = "none");
+            dataSpans.forEach(dataSpan => {
+                dataSpan.style.removeProperty("display");
+            });
+            editInputs.forEach(editInput => {
+                editInput.style.setProperty("display", "none", "important");
+            });
             
             buttonText.innerText = "Edit";
             if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
@@ -103,8 +107,14 @@
             const buttonIcon = editButton.querySelector("i");
 
             if (buttonText.innerText.trim() === "Edit") {
-                dataSpans.forEach(dataSpan => dataSpan.style.display = "none");
-                editInputs.forEach(editInput => editInput.style.display = "block");
+                dataSpans.forEach(dataSpan => {
+                    const parent = dataSpan.parentElement;
+                    if (parent && parent.querySelector(".editable-input")) {
+                        dataSpan.style.setProperty("display", "none", "important");
+                    }
+                });
+                
+                editInputs.forEach(editInput => editInput.style.setProperty("display", "block", "important"));
                 
                 buttonText.innerText = "Cancel";
                 if (buttonIcon) buttonIcon.className = "fa-solid fa-circle-xmark";
@@ -113,8 +123,8 @@
                 saveButton.style.display = "inline-block";
 
             } else if (buttonText.innerText.trim() === "Cancel") {
-                dataSpans.forEach(dataSpan => dataSpan.style.display = "");
-                editInputs.forEach(editInput => editInput.style.display = "none");
+                dataSpans.forEach(dataSpan => dataSpan.style.removeProperty("display"));
+                editInputs.forEach(editInput => editInput.style.setProperty("display", "none", "important"));
                 
                 buttonText.innerText = "Edit";
                 if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";

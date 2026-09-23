@@ -88,5 +88,33 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
 
             return result > 0;
         }
+
+        public async Task<bool> EditSupplierCertificateQualityAsync(int userId, int certificateId, QualityScore? qualityScore)
+        {
+            var qualitierRoleId = await _dbContext.Roles
+                .AsNoTracking()
+                .Where(role => role.Name == "Qualitier")
+                .Select(role => role.Id)
+                .FirstOrDefaultAsync();
+
+            if (qualitierRoleId == 0) return false;
+
+            var hasQualitierRole = await _dbContext.UserRoles
+                .AnyAsync(userRoles => userRoles.UserId == userId && userRoles.RoleId == qualitierRoleId);
+
+            if (!hasQualitierRole) return false;
+
+            var certificate = await _dbContext.SupplierCertificates.FirstOrDefaultAsync(supplierCertificate => supplierCertificate.Id == certificateId);
+
+            if (certificate == null) return false;
+
+            certificate.QualityScore = qualityScore;
+            certificate.QualitierId = userId;
+            certificate.LastScoreUpdate = DateTime.UtcNow;
+
+            var result = await _dbContext.SaveChangesAsync();
+
+            return result > 0;
+        }
     }
 }

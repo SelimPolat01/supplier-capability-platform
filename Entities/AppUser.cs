@@ -28,6 +28,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
         public virtual ICollection<PurchaserMachinePurchase> PurchaserMachinePurchases { get; set; } = new List<PurchaserMachinePurchase>();
 
         public virtual ICollection<SupplierMachine> QualitierSupplierMachineScores { get; set; } = new List<SupplierMachine>();
+
+        public virtual ICollection<SupplierCertificate> QualitierSupplierCertificateScores { get; set; } = new List<SupplierCertificate>();
+
     }
 
     public static class AppUserExtensions

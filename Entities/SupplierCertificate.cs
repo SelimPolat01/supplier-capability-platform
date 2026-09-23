@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using SupplierCapabilitiesAndManagementSystem.Enums;
 using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SupplierCapabilitiesAndManagementSystem.Entities
 {
@@ -14,6 +15,11 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
 
         [ForeignKey("AppUserId")]
         public virtual AppUser AppUser { get; set; } = null!;
+
+        public int? QualitierId { get; set; }
+
+        [ForeignKey("QualitierId")]
+        public virtual AppUser? Qualitier { get; set; }
 
         [Required(ErrorMessage = "{0} is required.")]
         [Display(Name = "Name")]
@@ -35,6 +41,11 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
         [Required(ErrorMessage = "{0} is required.")]
         [Display(Name = "Certificate File")]
         public string DocumentUrl { get; set; } = string.Empty;
+
+        [Display(Name = "Quality Score")]
+        public QualityScore? QualityScore { get; set; }
+
+        public DateTime? LastScoreUpdate { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
@@ -85,11 +96,15 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
             {
                 Id = entity.Id,
                 AppUserId = entity.AppUserId,
+                QualitierId = entity.QualitierId,
+                QualityScore = entity.QualityScore,
+                QualitierFullName = entity.Qualitier != null ? $"{entity.Qualitier.Name} {entity.Qualitier.Surname}" : null,
                 Name = entity.Name,
                 IssuedBy = entity.IssuedBy,
                 IssueDate = entity.IssueDate,
                 ExpiryDate = entity.ExpiryDate,
                 DocumentUrl = entity.DocumentUrl,
+                LastScoreUpdate = entity.LastScoreUpdate,
                 CreatedAt = entity.CreatedAt
             };
         }

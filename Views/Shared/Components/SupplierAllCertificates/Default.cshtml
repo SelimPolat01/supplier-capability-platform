@@ -4,10 +4,11 @@
     <table class="table">
         <thead>
             <tr>
-                <th style="width: 1%; white-space: nowrap;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentCertificateSort == "name_asc" ? "↑" : ViewBag.CurrentCertificateSort == "name_desc" ? "↓" : "")</a></th>
-                <th style="width: 1%; white-space: nowrap;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "expiry-date_asc" ? "expiry-date_desc" : "expiry-date_asc")">Expiry Date @(ViewBag.CurrentCertificateSort == "expiry-date_asc" ? "↑" : ViewBag.CurrentCertificateSort == "expiry-date_desc" ? "↓" : "")</a></th>
-                <th>Document</th>
-                <th style="width: 1%; white-space: nowrap;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "added_asc" ? "added_desc" : "added_asc")">Added @(ViewBag.CurrentCertificateSort == "added_asc" ? "↑" : ViewBag.CurrentCertificateSort == "added_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentCertificateSort == "name_asc" ? "↑" : ViewBag.CurrentCertificateSort == "name_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "issued-by_asc" ? "issued-by_desc" : "issued-by_asc")">Issued By @(ViewBag.CurrentCertificateSort == "issued-by_asc" ? "↑" : ViewBag.CurrentCertificateSort == "issued-by_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "score_asc" ? "score_desc" : "score_asc")">Score @(ViewBag.CurrentCertificateSort == "score_asc" ? "↑" : ViewBag.CurrentCertificateSort == "score_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "expiry-date_asc" ? "expiry-date_desc" : "expiry-date_asc")">Expiry Date @(ViewBag.CurrentCertificateSort == "expiry-date_asc" ? "↑" : ViewBag.CurrentCertificateSort == "expiry-date_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;">Document</th>
             </tr>
         </thead>
         <tbody>
@@ -16,19 +17,36 @@
                 foreach (var certificate in Model.Data)
                 {
                     <tr onclick="window.location.href = '/supplier/certificates/@certificate.Id'">
-                        <td style="width: 1%; white-space: nowrap;">@certificate.Name</td>
-                        <td style="white-space: nowrap;">@(certificate.ExpiryDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                        <td style="padding: 0.75rem;">@certificate.Name</td>
+                        <td style="padding: 0.75rem;">@certificate.IssuedBy</td>
                         <td>
+                            @{
+                                string score = certificate.QualityScore?.ToString() ?? "-";
+                                string textColor = score switch
+                                {
+                                    "A" => "color: #4ade80; font-weight: bold;", 
+                                    "B" => "color: #60a5fa; font-weight: bold;",
+                                    "C" => "color: #fbbf24; font-weight: bold;", 
+                                    "D" => "color: #f97316; font-weight: bold;", 
+                                    "F" => "color: #ff3552; font-weight: bold;", 
+                                    _   => "color: inherit;"                    
+                                };
+                            }
+                            <span style="@textColor">
+                                @score
+                            </span>
+                        </td>
+                        <td style="padding: 0.75rem;">@(certificate.ExpiryDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                        <td style="padding: 0.75rem;">
                             <a href="@certificate.DocumentUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td style="white-space: nowrap;">@certificate.CreatedAt.ToString("dd-MM-yyyy")</td>
                     </tr>
                 }
             }
             else
             {
                 <tr>
-                    <td colspan="4">
+                    <td colspan="5">
                         <div class="empty-state-message">
                             <p>No certificates are registered in the system yet.</p>
                         </div>

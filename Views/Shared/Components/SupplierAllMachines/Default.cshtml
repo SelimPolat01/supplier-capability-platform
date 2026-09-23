@@ -4,32 +4,32 @@
     <table class="table">
         <thead>
             <tr>
-                <th style="width: 1%; white-space: nowrap;">
+                <th style="padding: 0.75rem;">
                     <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "group_asc" ? "group_desc" : "group_asc")">
                         Group @(ViewBag.CurrentMachineSort == "group_asc" ? "↑" : ViewBag.CurrentMachineSort == "group_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap;">
+                <th style="padding: 0.75rem;">
                     <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "type_asc" ? "type_desc" : "type_asc")">
                         Type @(ViewBag.CurrentMachineSort == "type_asc" ? "↑" : ViewBag.CurrentMachineSort == "type_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap;">
+                <th style="padding: 0.75rem;">
                     <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "brand-model_asc" ? "brand-model_desc" : "brand-model_asc")">
                         Brand @(ViewBag.CurrentMachineSort == "brand-model_asc" ? "↑" : ViewBag.CurrentMachineSort == "brand-model_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th>File</th>
-                <th style="width: 1%; white-space: nowrap;">
+                <th style="padding: 0.75rem;">
+                    <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "score_asc" ? "score_desc" : "score_asc")">
+                        Score @(ViewBag.CurrentMachineSort == "score_asc" ? "↑" : ViewBag.CurrentMachineSort == "score_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th style="padding: 0.75rem;">
                     <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "price_asc" ? "price_desc" : "price_asc")">
                         Price @(ViewBag.CurrentMachineSort == "price_asc" ? "↑" : ViewBag.CurrentMachineSort == "price_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap;">
-                    <a asp-action="Home" asp-controller="Supplier" asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "added_asc" ? "added_desc" : "added_asc")">
-                        Added @(ViewBag.CurrentMachineSort == "added_asc" ? "↑" : ViewBag.CurrentMachineSort == "added_desc" ? "↓" : "")
-                    </a>
-                </th>
+                <th style="padding: 0.75rem;">File</th>
             </tr>
         </thead>
         <tbody>
@@ -38,14 +38,30 @@
                 foreach (var machine in Model.Data)
                 {
                     <tr onclick="window.location.href = '/supplier/machines/@machine.Id'">
-                        <td style="width: 1%; white-space: nowrap;">@machine.MachineGroup</td>
-                        <td style="width: 1%; white-space: nowrap;">@machine.MachineType</td>
-                        <td style="width: 1%; white-space: nowrap;">@machine.BrandAndModel</td>
+                        <td style="padding: 0.75rem;">@machine.MachineGroup</td>
+                        <td style="padding: 0.75rem;">@machine.MachineType</td>
+                        <td style="padding: 0.75rem;">@machine.BrandAndModel</td>
                         <td>
+                            @{
+                                string score = machine.QualityScore?.ToString() ?? "-";
+                                string textColor = score switch
+                                {
+                                    "A" => "color: #4ade80; font-weight: bold;", 
+                                    "B" => "color: #60a5fa; font-weight: bold;",
+                                    "C" => "color: #fbbf24; font-weight: bold;", 
+                                    "D" => "color: #f97316; font-weight: bold;", 
+                                    "F" => "color: #ff3552; font-weight: bold;", 
+                                    _   => "color: inherit;"                    
+                                };
+                            }
+                            <span style="@textColor">
+                                @score
+                            </span>
+                        </td>
+                        <td style="padding: 0.75rem;" class="element-price-data">$@machine.Price.ToString("N0")</td>
+                        <td style="padding: 0.75rem;">
                             <a href="@machine.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td style="width: 1%; white-space: nowrap;" class="element-price-data">$@machine.Price.ToString("N0")</td>
-                        <td style="white-space: nowrap;">@machine.CreatedAt.ToString("dd-MM-yyyy")</td>
                     </tr>
                 }
             }

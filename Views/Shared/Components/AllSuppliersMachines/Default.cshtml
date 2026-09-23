@@ -12,7 +12,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container" 
                        asp-action="Home" 
@@ -25,7 +25,7 @@
                         Id @(ViewBag.CurrentMachineSort == "id_asc" ? "↑" : ViewBag.CurrentMachineSort == "id_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
@@ -38,7 +38,7 @@
                         Group @(ViewBag.CurrentMachineSort == "group_asc" ? "↑" : ViewBag.CurrentMachineSort == "group_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
@@ -51,7 +51,7 @@
                         Type @(ViewBag.CurrentMachineSort == "type_asc" ? "↑" : ViewBag.CurrentMachineSort == "type_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
@@ -63,7 +63,7 @@
                         Brand @(ViewBag.CurrentMachineSort == "brand-model_asc" ? "↑" : ViewBag.CurrentMachineSort == "brand-model_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
@@ -76,7 +76,7 @@
                         Year @(ViewBag.CurrentMachineSort == "year_asc" ? "↑" : ViewBag.CurrentMachineSort == "year_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
@@ -89,7 +89,7 @@
                         Quantity @(ViewBag.CurrentMachineSort == "quantity_asc" ? "↑" : ViewBag.CurrentMachineSort == "quantity_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
@@ -102,7 +102,7 @@
                         Axis Count @(ViewBag.CurrentMachineSort == "axis-count_asc" ? "↑" : ViewBag.CurrentMachineSort == "axis-count_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
@@ -115,7 +115,7 @@
                         Capacity @(ViewBag.CurrentMachineSort == "capacity_asc" ? "↑" : ViewBag.CurrentMachineSort == "capacity_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
@@ -128,7 +128,7 @@
                         Score @(ViewBag.CurrentMachineSort == "score_asc" ? "↑" : ViewBag.CurrentMachineSort == "score_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
@@ -141,8 +141,8 @@
                         Price @(ViewBag.CurrentMachineSort == "price_asc" ? "↑" : ViewBag.CurrentMachineSort == "price_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">File</th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">File</th>
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"                          
                        asp-action="Home" 
@@ -155,7 +155,7 @@
                         Supplier Id @(ViewBag.CurrentMachineSort == "supplier-id_asc" ? "↑" : ViewBag.CurrentMachineSort == "supplier-id_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"                        
                        asp-action="Home" 
@@ -181,15 +181,15 @@
                         : isPurchaser ? $"/purchaser/suppliers/{machine.AppUserId}/machines/{machine.Id}" : "#";
 
                     <tr onclick="window.location.href = '@rowUrl'">                        
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.Id</td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.MachineGroup</td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.MachineType</td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.BrandAndModel</td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.ProductionYear</td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.Quantity</td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.AxisCount</td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.CapacitySpecs</td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                        <td style="padding: 0.75rem;">@machine.Id</td>
+                        <td style="padding: 0.75rem;">@machine.MachineGroup</td>
+                        <td style="padding: 0.75rem;">@machine.MachineType</td>
+                        <td style="padding: 0.75rem;">@machine.BrandAndModel</td>
+                        <td style="padding: 0.75rem;">@machine.ProductionYear</td>
+                        <td style="padding: 0.75rem;">@machine.Quantity</td>
+                        <td style="padding: 0.75rem;">@machine.AxisCount</td>
+                        <td style="padding: 0.75rem;">@machine.CapacitySpecs</td>
+                        <td style="padding: 0.75rem;">
                             @{
                                 string score = machine.QualityScore?.ToString() ?? "-";
                                 string textColor = score switch
@@ -206,19 +206,19 @@
                                 @score
                             </span>
                         </td>                        
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;" class="element-price-data">$@machine.Price.ToString("N0")</td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">
+                        <td style="padding: 0.75rem;" class="element-price-data">$@machine.Price.ToString("N0")</td>
+                        <td style="padding: 0.75rem;">
                             <a href="@machine.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.AppUserId</td>
-                        <td style="white-space: nowrap; padding: 0.75rem;">@machine.CreatedAt.ToString("dd-MM-yyyy")</td>
+                        <td style="padding: 0.75rem;">@machine.AppUserId</td>
+                        <td style="padding: 0.75rem;">@machine.CreatedAt.ToString("dd-MM-yyyy")</td>
                     </tr>
                 }
             }
             else
             {
                 <tr>
-                    <td colspan="12">
+                    <td colspan="13">
                         <div class="empty-state-message">
                             <p>No suppliers machines are registered in the system yet.</p>
                         </div>

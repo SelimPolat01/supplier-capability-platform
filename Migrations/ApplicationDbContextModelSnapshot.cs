@@ -304,11 +304,22 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime?>("LastScoreUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("QualitierId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QualityScore")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("QualitierId");
 
                     b.HasIndex("AppUserId", "Name", "IssuedBy", "IssueDate", "ExpiryDate");
 
@@ -512,7 +523,14 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "Qualitier")
+                        .WithMany("QualitierSupplierCertificateScores")
+                        .HasForeignKey("QualitierId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("Qualitier");
                 });
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierHumanResource", b =>
@@ -547,6 +565,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", b =>
                 {
                     b.Navigation("PurchaserMachinePurchases");
+
+                    b.Navigation("QualitierSupplierCertificateScores");
 
                     b.Navigation("QualitierSupplierMachineScores");
 
