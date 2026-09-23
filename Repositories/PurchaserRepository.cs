@@ -23,8 +23,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
 
             if (purchaserRoleId == 0) return (new List<AppUser>(), 0);
 
-            var query = _dbContext.Users.
-                Include(user => user.PurchaserMachinePurchases)
+            var query = _dbContext.Users
+                .Include(user => user.PurchaserMachinePurchases)
                 .ThenInclude(machinePurchase => machinePurchase.SupplierMachine)
                 .AsNoTracking()
                 .Where(user => _dbContext.UserRoles.Any(role => role.RoleId == purchaserRoleId && role.UserId == user.Id))
@@ -66,16 +66,19 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             return await _dbContext.Users.
                 Include(user => user.PurchaserMachinePurchases)
                 .ThenInclude(purchase => purchase.SupplierMachine)
+                .ThenInclude(supplierMachine => supplierMachine.AppUser)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(user => user.Id == purchaserId);
         }
 
-        public async Task<(List<PurchaserMachinePurchase> Data, int TotalCount)> FetchPurchaserAllPurchaseAsync(int purchaserId, string sortBy, int pageNumber, int pageSize, string? searchString = null)
+        public async Task<(List<PurchaserMachinePurchase> Data, int TotalCount)> FetchPurchasersAllPurchaseAsync(int purchaserId, string sortBy, int pageNumber, int pageSize, string? searchString = null)
         {
             var query = _dbContext.PurchaserMachinePurchases
-                .Include(machinePurchase => machinePurchase.SupplierMachine)
-                .AsNoTracking()
-                .Where(machinePurchase => machinePurchase.PurchaserId == purchaserId);
+           .Include(machinePurchase => machinePurchase.Purchaser)
+           .Include(machinePurchase => machinePurchase.SupplierMachine)
+           .ThenInclude(supplierMachine => supplierMachine.AppUser)
+           .AsNoTracking()
+           .Where(machinePurchase => machinePurchase.PurchaserId == purchaserId);
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -121,6 +124,16 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
                 .ToListAsync();
 
             return (result, totalMachinePurchaseCount);
+        }
+
+        public async Task<PurchaserMachinePurchase?> FetchPurchaserPurchaseAsync(int purchaseId)
+        {
+            return await _dbContext.PurchaserMachinePurchases
+                .Include(machinePurchase => machinePurchase.Purchaser)
+                .Include(machinePurchase => machinePurchase.SupplierMachine)
+                .ThenInclude(supplierMachine => supplierMachine.AppUser)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(machinePurchase => machinePurchase.Id == purchaseId);
         }
 
         public async Task<(int PurchaseId, string ErrorMessage)> AddPurchaserMachinePurchaseAsync(int purchaserId, int machineId, int quantity = 1)

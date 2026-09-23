@@ -13,7 +13,14 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<SupplierHumanResource> EditHumanResourcesAsync(SupplierHumanResource supplierHumanResource, int userId)
+        public async Task<SupplierHumanResource?> FetchSupplierHumanResourcesAsync(int userId)
+        {
+            return await _dbContext.SupplierHumanResources
+                .AsNoTracking()
+                .FirstOrDefaultAsync(humanResource => humanResource.UserId == userId);
+        }
+
+        public async Task<SupplierHumanResource> EditSupplierHumanResourcesAsync(SupplierHumanResource supplierHumanResource, int userId)
         {
             var existingResource = await _dbContext.SupplierHumanResources
                 .FirstOrDefaultAsync(humanResources => humanResources.UserId == userId);
@@ -43,13 +50,6 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             await _dbContext.SaveChangesAsync();
 
             return existingResource;
-        }
-
-        public async Task<SupplierHumanResource?> FetchSupplierHumanResourcesAsync(int userId)
-        {
-            return await _dbContext.SupplierHumanResources
-                .AsNoTracking()
-                .FirstOrDefaultAsync(humanResource => humanResource.UserId == userId);
         }
     }
 }

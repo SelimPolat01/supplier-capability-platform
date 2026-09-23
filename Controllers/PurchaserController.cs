@@ -64,8 +64,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return View();
         }
 
-        [HttpGet("all-supplier-machines")]
-        public IActionResult AllSupplierMachines([FromRoute] int supplierId, [FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", string? searchString = null)
+        [HttpGet("all-suppliers-machines")]
+        public IActionResult AllSuppliersMachines([FromRoute] int supplierId, [FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", string? searchString = null)
         {
             ViewBag.SupplierId = supplierId;
             ViewBag.CurrentPage = page;
@@ -127,8 +127,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         }
 
         [HttpGet("purchases/{purchaseId}")]
-        public IActionResult Purchase()
+        public IActionResult Purchase([FromRoute] int purchaseId)
         {
+            ViewBag.PurchaseId = purchaseId;
+
             return View();
         }
 

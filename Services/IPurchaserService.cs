@@ -8,7 +8,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
 
         public Task<FetchPurchaserGetResponseDTO> FetchPurchaserAsync(int purchaserId);
 
-        public Task<FetchPurchaserAllPurchasesGetResponseDTO> FetchPurchaserAllPurchasesAsync(int purhcaserId, string sortBy = "id_asc", int pageNumber = 1, int pageSize = 10, string? searchString = null);
+        public Task<FetchPurchaserAllPurchasesGetResponseDTO> FetchPurchaserAllPurchasesAsync(int purchaserId, string sortBy = "id_asc", int pageNumber = 1, int pageSize = 10, string? searchString = null);
+
+        public Task<FetchPurchaserPurchaseGetResponseDTO> FetchPurchaserPurchaseAsync(int purchaseId);
 
         public Task<AddPurchaserMachinePurchasePostResponseDTO> AddPurchaserMachinePurchaseAsync(int purchaserId, int machineId, int quantity);
     }

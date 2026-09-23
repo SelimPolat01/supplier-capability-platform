@@ -6,7 +6,8 @@
     background: transparent; 
     border: none; 
     box-shadow: none; 
-    min-width: 297px;
+    max-width: 297px;
+    box-sizing: border-box;
 }
 
     .wrapper-vertical-completed-flex:hover {

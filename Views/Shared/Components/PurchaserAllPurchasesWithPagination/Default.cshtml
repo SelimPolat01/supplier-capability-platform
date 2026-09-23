@@ -2,9 +2,11 @@
 
 @{
     bool isAdmin = User.IsInRole("Admin");
+    bool isQualitier = User.IsInRole("Qualitier");
     bool isPurchaser = User.IsInRole("Purchaser");
-    string targetController = isAdmin ? "Admin" : isPurchaser ? "Purchaser" : "";
-    string targetAction = isAdmin ? "PurchaserPurchases" : isPurchaser ? "Purchases" : "";
+
+    string targetController = isAdmin ? "Admin" : isQualitier ? "Qualitier" : isPurchaser ? "Purchaser" : "";
+    string targetAction = isAdmin ? "PurchaserPurchases" : isQualitier ? "PurchaserPurchases" : isPurchaser ? "Purchases" : "";
 }
 
 <div class="list-container">
@@ -54,9 +56,8 @@
                 {
                     string rowUrl = isAdmin 
                         ? $"/admin/purchasers/{ViewBag.PurchaserId}/purchases/{purchase.Id}" 
-                        : isPurchaser 
-                            ? $"/purchaser/purchases/{purchase.Id}" 
-                            : "#";
+                        : isQualitier ? $"/qualitier/purchasers/{ViewBag.PurchaserId}/purchases/{purchase.Id}" 
+                        : isPurchaser ? $"/purchaser/purchases/{purchase.Id}" : "#";
 
                     <tr onclick="window.location.href = '@rowUrl'">
                         <td style="width: 1%; white-space: nowrap;">@purchase.Id</td>

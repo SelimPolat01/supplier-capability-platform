@@ -2,7 +2,10 @@
 
 @{
     bool isAdmin = User.IsInRole("Admin");
-    string targetController = isAdmin ? "Admin" : "Purchaser";
+    bool isQualitier = User.IsInRole("Qualitier");
+    bool isPurchaser = User.IsInRole("Purchaser");
+
+    string targetController = isAdmin ? "Admin" : isQualitier ? "Qualitier" : isPurchaser ? "Purchaser" : "";
 }
 
 <div class="list-container">
@@ -76,7 +79,7 @@
         <div class="pagination-container">
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
-                <a asp-action="AllSuppliers" asp-controller="Admin" asp-route-page="@i" asp-route-sortBy="@ViewBag.CurrentSort" asp-route-searchString="@ViewBag.CurrentSearch" class="pagination-button @(Model.CurrentPage == i ? "active-page" : "")">
+                <a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-page="@i" asp-route-sortBy="@ViewBag.CurrentSort" asp-route-searchString="@ViewBag.CurrentSearch" class="pagination-button @(Model.CurrentPage == i ? "active-page" : "")">
                     @i
                 </a>
             }

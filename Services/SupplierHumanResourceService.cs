@@ -18,7 +18,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             try
             {
                 SupplierHumanResource supplierHumanResource = addSupplierHumanRespourcePostRequestDTO.ToSupplierHumanResource(userId);
-                SupplierHumanResource addedSupplierHumanResource = await _supplierHumanResourceRepository.EditHumanResourcesAsync(supplierHumanResource, userId);
+                SupplierHumanResource addedSupplierHumanResource = await _supplierHumanResourceRepository.EditSupplierHumanResourcesAsync(supplierHumanResource, userId);
 
                 return addedSupplierHumanResource.ToEditSupplierHumanResourcePatchResponseDTO(message: "Supplier human resources saved successfully.", isSuccess: true);
             }

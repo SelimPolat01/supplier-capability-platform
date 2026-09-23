@@ -72,7 +72,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
                 Name = purchaser.Name,
                 Surname = purchaser.Surname,
                 Email = purchaser.Email ?? string.Empty,
-                Purchases = purchaser.PurchaserMachinePurchases?.Select(machinePurchase => machinePurchase.ToMachinePurchaseDTO()).ToList() ?? new List<PurchaserMachinePurchaseDTO>(),
+                Purchases = purchaser.PurchaserMachinePurchases?.Select(machinePurchase => machinePurchase.ToPurchaserMachinePurchaseDTO()).ToList() ?? new List<PurchaserMachinePurchaseDTO>(),
                 CreatedAt = purchaser.CreatedAt,
             };
         }

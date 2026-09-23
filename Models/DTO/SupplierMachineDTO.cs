@@ -4,9 +4,17 @@ namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
 {
     public class SupplierMachineDTO
     {
+        [Display(Name = "Nachine ID")]
         public int Id { get; set; }
 
+        [Display(Name = "Supplier ID")]
         public int AppUserId { get; set; }
+
+        [Display(Name = "Supplier Name")]
+        public string SupplierName { get; set; }
+
+        [Display(Name = "Supplier Surname")]
+        public string SupplierSurname { get; set; }
 
         [Display(Name = "Price")]
         public decimal Price { get; set; }

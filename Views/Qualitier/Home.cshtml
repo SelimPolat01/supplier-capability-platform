@@ -1,1 +1,85 @@
-﻿<h1>QUALITY HOME</h1>
+﻿@using SupplierCapabilitiesAndManagementSystem.Models
+
+@{
+    PrimaryButtonModel viewAllSuppliersButtonModel = new()
+    {
+        Text = "View All",
+        Type = "button",
+        OnClick = "location.href='/qualitier/all-suppliers'",
+        IconClass = "fa-solid fa-arrow-right",
+        CssClass = "view-all-button"
+    };
+
+    PrimaryButtonModel viewAllPurchaserButtonModel = new()
+    {
+        Text = "View All",
+        Type = "button",
+        OnClick = "location.href='/qualitier/all-purchasers'",
+        IconClass = "fa-solid fa-arrow-right",
+        CssClass = "view-all-button"
+    };
+
+    PrimaryButtonModel viewAllMachinesButtonModel = new()
+    {
+        Text = "View All",
+        Type = "button",
+        OnClick = "location.href='/qualitier/all-suppliers-machines'",
+        IconClass = "fa-solid fa-arrow-right",
+        CssClass = "view-all-button"
+    };
+
+    PrimaryButtonModel viewAllCertificatesButtonModel = new()
+    {
+        Text = "View All",
+        Type = "button",
+        OnClick = "location.href='/qualitier/all-suppliers-certificates'",
+        IconClass = "fa-solid fa-arrow-right",
+        CssClass = "view-all-button"
+    };
+}
+
+<div class="home-container">
+    <div class="wrapper-vertical-flex">
+        <div class="users-container">
+            <h2 class="all-users-text"><i class="fa-solid fa-users" style="margin-right: 8px; color: #cbd5e1;"></i> All Suppliers</h2>
+            <vc:all-suppliers sort-by="@ViewBag.CurrentSupplierSort"></vc:all-suppliers>
+            <div class="flex-container-1">
+                <partial name="_PrimaryButton" model="viewAllSuppliersButtonModel"></partial>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper-vertical-flex" style="width: fit-content;">
+            <div class="users-container">
+                <h2 class="all-users-text"><i class="fa-solid fa-user-tag" style="margin-right: 8px; color: #cbd5e1;"></i> All Purchasers</h2>
+                <vc:all-purchasers sort-by="@ViewBag.CurrentPurchaserSort"></vc:all-purchasers>
+                <div class="flex-container-1">
+                    <partial name="_PrimaryButton" model="viewAllPurchaserButtonModel"></partial>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wrapper-vertical-flex">
+                <div class="users-container">
+                    <h2 class="all-users-text"><i class="fa-solid fa-gears" style="margin-right: 8px; color: #cbd5e1;"></i> All Suppliers Machines</h2>
+                    <vc:all-suppliers-machines sort-by="@ViewBag.CurrentMachineSort"></vc:all-suppliers-machines>
+                    <div class="flex-container-1">
+                        <partial name="_PrimaryButton" model="viewAllMachinesButtonModel"></partial>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wrapper-vertical-flex">
+                    <div class="users-container">
+                        <h2 class="all-users-text"><i class="fa-solid fa-certificate" style="margin-right: 8px; color: #cbd5e1;"></i> All Suppliers Certificates</h2>
+                        <vc:all-suppliers-certificates sort-by="@ViewBag.CurrentCertificateSort"></vc:all-suppliers-certificates>
+                        <div class="flex-container-1">
+                            <partial name="_PrimaryButton" model="viewAllCertificatesButtonModel"></partial>
+                            </div>
+                        </div>
+                    </div>
+
+                    @section PrimaryButtonStyles {
+                        <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+                    }
+                </div>

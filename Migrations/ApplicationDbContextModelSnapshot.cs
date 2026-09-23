@@ -167,6 +167,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CompanyName")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -240,7 +241,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.MachinePurchase", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.PurchaserMachinePurchase", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -272,7 +273,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
                     b.HasIndex("SupplierMachineId");
 
-                    b.ToTable("PurchaserMachinePurchases", (string)null);
+                    b.ToTable("PurchaserMachinePurchases");
                 });
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierCertificate", b =>
@@ -311,7 +312,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
                     b.HasIndex("AppUserId", "Name", "IssuedBy", "IssueDate", "ExpiryDate");
 
-                    b.ToTable("SupplierCertificates", (string)null);
+                    b.ToTable("SupplierCertificates");
                 });
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierHumanResource", b =>
@@ -365,7 +366,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SupplierHumanResources", (string)null);
+                    b.ToTable("SupplierHumanResources");
                 });
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierMachine", b =>
@@ -419,7 +420,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                     b.HasIndex("AppUserId", "MachineGroup", "MachineType", "BrandAndModel", "ProductionYear", "CapacitySpecs")
                         .IsUnique();
 
-                    b.ToTable("SupplierMachines", (string)null);
+                    b.ToTable("SupplierMachines");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -473,10 +474,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.MachinePurchase", b =>
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.PurchaserMachinePurchase", b =>
                 {
                     b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "Purchaser")
-                        .WithMany("MachinePurchases")
+                        .WithMany("PurchaserMachinePurchases")
                         .HasForeignKey("PurchaserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -495,7 +496,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierCertificate", b =>
                 {
                     b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "AppUser")
-                        .WithMany("Certificates")
+                        .WithMany("SupplierCertificates")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -506,7 +507,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierHumanResource", b =>
                 {
                     b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "User")
-                        .WithMany("HumanResources")
+                        .WithMany("SupplierHumanResources")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -517,7 +518,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierMachine", b =>
                 {
                     b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "AppUser")
-                        .WithMany("Machines")
+                        .WithMany("SupplierMachines")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -527,13 +528,13 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", b =>
                 {
-                    b.Navigation("Certificates");
+                    b.Navigation("PurchaserMachinePurchases");
 
-                    b.Navigation("HumanResources");
+                    b.Navigation("SupplierCertificates");
 
-                    b.Navigation("MachinePurchases");
+                    b.Navigation("SupplierHumanResources");
 
-                    b.Navigation("Machines");
+                    b.Navigation("SupplierMachines");
                 });
 #pragma warning restore 612, 618
         }

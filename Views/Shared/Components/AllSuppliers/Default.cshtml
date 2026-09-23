@@ -3,7 +3,9 @@
 @{
     bool isAdmin = User.IsInRole("Admin");
     bool isPurchaser = User.IsInRole("Purchaser");
-    string targetController = isAdmin ? "Admin" : "Purchaser";
+    bool isQualitier = User.IsInRole("Qualitier");
+
+    string targetController = isAdmin ? "Admin" : isQualitier ? "Qualitier" : isPurchaser ? "Purchaser" : "";
 }
 
 <div id="supplier-section" class="list-container">

@@ -2,8 +2,10 @@
 
 @{
     bool isAdmin = User.IsInRole("Admin");
+    bool isQualitier = User.IsInRole("Qualitier");
     bool isPurchaser = User.IsInRole("Purchaser");
-    string targetController = isAdmin ? "Admin" : isPurchaser ? "Purchaser" : "";
+
+    string targetController = isAdmin ? "Admin" : isQualitier ? "Qualitier" : isPurchaser ? "Purchaser" : "";
 }
 
 <div  id="machines-container" class="list-container">
@@ -14,10 +16,11 @@
                     <a 
                        asp-fragment="machines-container" 
                        asp-action="Home" 
-                       asp-controller="@targetController" 
+                       asp-controller="@targetController"
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "id_asc" ? "id_desc" : "id_asc")">
                         Id @(ViewBag.CurrentMachineSort == "id_asc" ? "↑" : ViewBag.CurrentMachineSort == "id_desc" ? "↓" : "")
                     </a>
@@ -27,9 +30,10 @@
                        asp-fragment="machines-container"  
                        asp-action="Home" 
                        asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "group_asc" ? "group_desc" : "group_asc")">
                         Group @(ViewBag.CurrentMachineSort == "group_asc" ? "↑" : ViewBag.CurrentMachineSort == "group_desc" ? "↓" : "")
                     </a>
@@ -39,9 +43,10 @@
                        asp-fragment="machines-container"  
                        asp-action="Home" 
                        asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "type_asc" ? "type_desc" : "type_asc")">
                         Type @(ViewBag.CurrentMachineSort == "type_asc" ? "↑" : ViewBag.CurrentMachineSort == "type_desc" ? "↓" : "")
                     </a>
@@ -50,10 +55,10 @@
                     <a 
                        asp-fragment="machines-container"  
                        asp-action="Home" 
-                       asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "brand-model_asc" ? "brand-model_desc" : "brand-model_asc")">
                         Brand @(ViewBag.CurrentMachineSort == "brand-model_asc" ? "↑" : ViewBag.CurrentMachineSort == "brand-model_desc" ? "↓" : "")
                     </a>
@@ -63,9 +68,10 @@
                        asp-fragment="machines-container"  
                        asp-action="Home" 
                        asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "year_asc" ? "year_desc" : "year_asc")">
                         Year @(ViewBag.CurrentMachineSort == "year_asc" ? "↑" : ViewBag.CurrentMachineSort == "year_desc" ? "↓" : "")
                     </a>
@@ -75,11 +81,12 @@
                        asp-fragment="machines-container"  
                        asp-action="Home" 
                        asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "quantity_asc" ? "quantity_desc" : "quantity_asc")">
-                        Quantity @(ViewBag.CurrentMachineSort == "quantity_asc" ? "↑" : ViewBag.CurrentMachineSort == "quantity_asc" ? "↓" : "")
+                        Quantity @(ViewBag.CurrentMachineSort == "quantity_asc" ? "↑" : ViewBag.CurrentMachineSort == "quantity_desc" ? "↓" : "")
                     </a>
                 </th>
                 <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
@@ -87,11 +94,12 @@
                        asp-fragment="machines-container"  
                        asp-action="Home" 
                        asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "axis-count_asc" ? "axis-count_desc" : "axis-count_asc")">
-                        Brand @(ViewBag.CurrentMachineSort == "axis-count_asc" ? "↑" : ViewBag.CurrentMachineSort == "axis-count_desc" ? "↓" : "")
+                        Axis Count @(ViewBag.CurrentMachineSort == "axis-count_asc" ? "↑" : ViewBag.CurrentMachineSort == "axis-count_desc" ? "↓" : "")
                     </a>
                 </th>
                 <th style="width: 1%; white-space: nowrap; padding: 0.75rem;">
@@ -99,10 +107,11 @@
                        asp-fragment="machines-container"  
                        asp-action="Home" 
                        asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
-                       asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "capacity_asc" ? "capacity_asc" : "capacity_asc")">
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
+                       asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "capacity_asc" ? "capacity_desc" : "capacity_asc")">
                         Capacity @(ViewBag.CurrentMachineSort == "capacity_asc" ? "↑" : ViewBag.CurrentMachineSort == "capacity_desc" ? "↓" : "")
                     </a>
                 </th>
@@ -112,9 +121,10 @@
                        asp-fragment="machines-container"  
                        asp-action="Home" 
                        asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "price_asc" ? "price_desc" : "price_asc")">
                         Price @(ViewBag.CurrentMachineSort == "price_asc" ? "↑" : ViewBag.CurrentMachineSort == "price_desc" ? "↓" : "")
                     </a>
@@ -124,9 +134,10 @@
                        asp-fragment="machines-container"                          
                        asp-action="Home" 
                        asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort"  
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "supplier-id_asc" ? "supplier-id_desc" : "supplier-id_asc")">
                         Supplier Id @(ViewBag.CurrentMachineSort == "supplier-id_asc" ? "↑" : ViewBag.CurrentMachineSort == "supplier-id_desc" ? "↓" : "")
                     </a>
@@ -136,9 +147,10 @@
                        asp-fragment="machines-container"                        
                        asp-action="Home" 
                        asp-controller="@targetController" 
+                       asp-route-certificateSortBy="@ViewBag.CurrentCertificateSort"
                        asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" 
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
-                       asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" 
+                       asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "added_asc" ? "added_desc" : "added_asc")">
                         Added @(ViewBag.CurrentMachineSort == "added_asc" ? "↑" : ViewBag.CurrentMachineSort == "added_desc" ? "↓" : "")
                     </a>
@@ -152,9 +164,8 @@
                 {
                     string rowUrl = isAdmin 
                         ? $"/admin/suppliers/{machine.AppUserId}/machines/{machine.Id}" 
-                        : isPurchaser 
-                            ? $"/purchaser/suppliers/{machine.AppUserId}/machines/{machine.Id}" 
-                            : "#";
+                        : isQualitier ? $"/qualitier/suppliers/{machine.AppUserId}/machines/{machine.Id}" 
+                        : isPurchaser ? $"/purchaser/suppliers/{machine.AppUserId}/machines/{machine.Id}" : "#";
 
                     <tr onclick="window.location.href = '@rowUrl'">                        
                         <td style="width: 1%; white-space: nowrap; padding: 0.75rem;">@machine.Id</td>
@@ -179,7 +190,7 @@
                 <tr>
                     <td colspan="12">
                         <div class="empty-state-message">
-                            <p>No machines are registered in the system yet.</p>
+                            <p>No suppliers machines are registered in the system yet.</p>
                         </div>
                     </td>
                 </tr>

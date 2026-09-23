@@ -1,5 +1,14 @@
 ﻿@model FetchAllPurchasersGetResponseDTO
 
+
+@{
+    bool isAdmin = User.IsInRole("Admin");
+    bool isQualitier = User.IsInRole("Qualitier");
+
+    string targetController = isAdmin ? "Admin" : isQualitier ? "Qualitier" : "";
+}
+
+
 <div class="list-container">
     <table class="table">
         <thead>
@@ -17,13 +26,13 @@
             {
                 foreach (var purchaser in Model.Data)
                 {
-                    <tr onclick="window.location.href = '/admin/purchasers/@purchaser.Id'">
+                    <tr onclick="window.location.href = '/@targetController/purchasers/@purchaser.Id'">
                         <td>@purchaser.Id</td>
                         <td>@purchaser.Name</td>
                         <td>@purchaser.Surname</td>
                         <td>@purchaser.Email</td>
                         <td>
-                            <a asp-controller="Admin" asp-action="PurchaserPurchases" asp-route-purchaserId="@purchaser.Id" onclick="event.stopPropagation()" class="resource-link">
+                            <a asp-controller="@targetController" asp-action="PurchaserPurchases" asp-route-purchaserId="@purchaser.Id" onclick="event.stopPropagation()" class="resource-link">
                                 Purchases 
                                 @if (purchaser.Purchases != null && purchaser.Purchases.Count > 0)
                                 {
@@ -58,7 +67,7 @@
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
                 <a asp-action="AllPurchasers"
-                   asp-controller="Admin"
+                   asp-controller="@targetController"
                    asp-route-page="@i"
                    asp-route-sortBy="@ViewBag.CurrentSort"
                    asp-route-searchString="@ViewBag.CurrentSearch"

@@ -12,12 +12,43 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
         {
             _dbContext = dbContext;
         }
-        public async Task<SupplierCertificate> AddCertificateAsync(SupplierCertificate certificate)
-        {
-            await _dbContext.SupplierCertificates.AddAsync(certificate);
-            await _dbContext.SaveChangesAsync();
 
-            return certificate;
+        public async Task<(List<SupplierCertificate> Data, int TotalCount)> FetchAllSuppliersCertificatesAsync(int pageNumber, int pageSize, string sortBy, string? searchString = null)
+        {
+            var query = _dbContext.SupplierCertificates.AsNoTracking();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(supplierCertificate =>
+                supplierCertificate.Name.Contains(searchString) ||
+                supplierCertificate.IssuedBy.Contains(searchString));
+            }
+
+            int totalSupplierCertificateCount = await query.CountAsync();
+
+            query = sortBy switch
+            {
+                "id_asc" => query.OrderBy(certificate => certificate.Id),
+                "id_desc" => query.OrderByDescending(certificate => certificate.Id),
+                "name_asc" => query.OrderBy(certificate => certificate.Name).ThenBy(c => c.Id),
+                "name_desc" => query.OrderByDescending(certificate => certificate.Name).ThenByDescending(c => c.Id),
+                "issued-by_asc" => query.OrderBy(certificate => certificate.IssuedBy).ThenBy(c => c.Id),
+                "issued-by_desc" => query.OrderByDescending(certificate => certificate.IssuedBy).ThenByDescending(c => c.Id),
+                "issue-date_asc" => query.OrderBy(certificate => certificate.IssueDate).ThenBy(c => c.Id),
+                "issue-date_desc" => query.OrderByDescending(certificate => certificate.IssueDate).ThenByDescending(c => c.Id),
+                "expiry-date_asc" => query.OrderBy(certificate => certificate.ExpiryDate).ThenBy(c => c.Id),
+                "expiry-date_desc" => query.OrderByDescending(certificate => certificate.ExpiryDate).ThenByDescending(c => c.Id),
+                "added_asc" => query.OrderBy(certificate => certificate.CreatedAt).ThenBy(c => c.Id),
+                "added_desc" => query.OrderByDescending(certificate => certificate.CreatedAt).ThenByDescending(c => c.Id),
+                _ => query.OrderBy(certificate => certificate.Id)
+            };
+
+            var result = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (result, totalSupplierCertificateCount);
         }
 
         public async Task<(List<SupplierCertificate> Data, int TotalCount)> FetchAllCertificatesAsync(int userId, int pageNumber, int pageSize, string sortBy, string? searchString = null)
@@ -73,6 +104,14 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             }
 
             return existingCertificate;
+        }
+
+        public async Task<SupplierCertificate> AddCertificateAsync(SupplierCertificate certificate)
+        {
+            await _dbContext.SupplierCertificates.AddAsync(certificate);
+            await _dbContext.SaveChangesAsync();
+
+            return certificate;
         }
 
         public async Task<SupplierCertificate?> EditCertificateAsync(SupplierCertificate certificate, int userId)

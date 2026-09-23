@@ -2,8 +2,8 @@
     <vc:supplier-certificate-details user-id="@ViewBag.UserId" certificate-id="@ViewBag.CertificateId"></vc:supplier-certificate-details>
 </div>
 
-@section SupplierCertificateMachineHumanStyles {
-    <link rel="stylesheet" href="~/css/SupplierCertificateMachineHumanStyles.css" />
+@section SupplierCertificateMachineHumanPurchaseStyles {
+    <link rel="stylesheet" href="~/css/SupplierCertificateMachineHumanPurchaseStyles.css" />
 }
 
 @section PrimaryButtonStyles {
@@ -29,21 +29,33 @@
 
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
-            const dataSpans = document.querySelectorAll(".certificate-element-data");
+            
+            const dataSpans = document.querySelectorAll(".item-element-data");
             const editInputs = document.querySelectorAll(".editable-input");
             const editButton = document.querySelector(".edit-button");
             const saveButton = document.querySelector(".save-button");
 
             dataSpans.forEach(dataSpan => dataSpan.style.display = "");
             editInputs.forEach(editInput => editInput.style.display = "none");
-            editButton.innerText = "Edit";
+            
+            const buttonText = editButton.querySelector("span");
+            const buttonIcon = editButton.querySelector("i");
+            if (buttonText) buttonText.innerText = "Edit";
+            if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+            
             saveButton.style.display = "none";
 
             data.Id = parseInt(data.Id);
             const certificateId = data.Id;
+            const supplierId = '@ViewBag.SupplierId'; 
+            
+            const isAdmin = @((User.IsInRole("Admin")).ToString().ToLower());
+            const patchUrl = isAdmin 
+                ? `/admin/suppliers/${supplierId}/certificates/${certificateId}/patch`
+                : `/supplier/certificates/${certificateId}/patch`;
 
             try {
-                const response = await fetch(`/supplier/certificates/${certificateId}/patch`, {
+                const response = await fetch(patchUrl, {
                     method: "PATCH",
                     body: JSON.stringify(data),
                     headers: { "Content-Type": "application/json" },
@@ -79,26 +91,31 @@
         }
 
         function toggleEditClickHandler() {
-            const dataSpans = document.querySelectorAll(".certificate-element-data");
+            const dataSpans = document.querySelectorAll(".item-element-data");
             const editInputs = document.querySelectorAll(".editable-input");
             const editButton = document.querySelector(".edit-button");
             const saveButton = document.querySelector(".save-button");
-            const buttonText = editButton.querySelector("span") || editButton;
+            
+            const buttonText = editButton.querySelector("span");
             const buttonIcon = editButton.querySelector("i");
 
             if (buttonText.innerText.trim() === "Edit") {
-                dataSpans.forEach(dataSpan => dataSpan.style.display = "none");
-                editInputs.forEach(editInput => editInput.style.display = "block");
+                dataSpans.forEach(dataSpan => dataSpan.style.setProperty("display", "none", "important"));
+                editInputs.forEach(editInput => editInput.style.setProperty("display", "block", "important"));
+                
                 buttonText.innerText = "Cancel";
                 if (buttonIcon) buttonIcon.className = "fa-solid fa-circle-xmark";
+                
                 if (editInputs.length > 0) editInputs[0].focus();
-                saveButton.style.display = "block";
+                saveButton.style.display = "inline-flex";
 
             } else if (buttonText.innerText.trim() === "Cancel") {
-                dataSpans.forEach(dataSpan => dataSpan.style.display = "");
-                editInputs.forEach(editInput => editInput.style.display = "none");
+                dataSpans.forEach(dataSpan => dataSpan.style.removeProperty("display"));
+                editInputs.forEach(editInput => editInput.style.setProperty("display", "none", "important"));
+                
                 buttonText.innerText = "Edit";
                 if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+                
                 saveButton.style.display = "none";
 
                 if (typeof $!== 'undefined' &&$.validator) {
@@ -109,15 +126,25 @@
 
         function deleteClickHandler() {
             const confirmModal = document.querySelector(".modal-overlay");
-            confirmModal.style.display = "block";
+            if (confirmModal) confirmModal.style.display = "block";
         }
 
         async function confirmDeleteHandler(certificateId) {
             try {
-                const response = await fetch(`/supplier/certificates/${certificateId}/delete`, { method: "DELETE", credentials: "include" });
+                const supplierId = '@ViewBag.SupplierId'; 
+                const isAdmin = @((User.IsInRole("Admin")).ToString().ToLower());
+                
+                const deleteUrl = isAdmin 
+                    ? `/admin/suppliers/${supplierId}/certificates/${certificateId}/delete`
+                    : `/supplier/certificates/${certificateId}/delete`; 
+
+                const response = await fetch(deleteUrl, { 
+                    method: "DELETE", 
+                    credentials: "include" 
+                });
 
                 if (response.ok) {
-                    window.location.href = '/supplier/certificates';
+                    window.location.href = isAdmin ? `/admin/suppliers/${supplierId}/certificates` : `/supplier/certificates`;
                 } else {
                     alert("An error occured while deleting the supplier certificate.");
                     closeModal();

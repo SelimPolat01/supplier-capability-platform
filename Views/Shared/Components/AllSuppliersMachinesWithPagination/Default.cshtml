@@ -2,33 +2,33 @@
 
 @{
     bool isAdmin = User.IsInRole("Admin");
+    bool isQualitier = User.IsInRole("Qualitier");
     bool isPurchaser = User.IsInRole("Purchaser");
-    bool isSupplier = User.IsInRole("Supplier");
 
-    string targetController = isAdmin ? "Admin" : 
-                              isPurchaser ? "Purchaser" : 
-                              isSupplier ? "Supplier" : "";
+    string targetController = isAdmin ? "Admin" :
+                              isQualitier ? "Qualitier" :
+                              isPurchaser ? "Purchaser" : "";
 
-    string targetAction = isAdmin ? "AllSupplierMachines" : 
-                          isPurchaser ? "AllSupplierMachines" : 
-                          isSupplier ? "Machines" : "";
+    string targetAction = isAdmin ? "AllSuppliersMachines" :
+                          isQualitier ? "AllSuppliersMachines" :
+                          isPurchaser ? "AllSuppliersMachines" : "";
 }
 
 <div class="list-container">
     <table class="table">
         <thead>
             <tr>
-                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a></th>
-                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "group_asc" ? "group_desc" : "group_asc")">Group @(ViewBag.CurrentSort == "group_asc" ? "↑" : ViewBag.CurrentSort == "group_desc" ? "↓" : "")</a></th>
-                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "type_asc" ? "type_desc" : "type_asc")">Type @(ViewBag.CurrentSort == "type_asc" ? "↑" : ViewBag.CurrentSort == "type_desc" ? "↓" : "")</a></th>
-                <th style="width: 1%; white-space: nowrap;"><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "brand-model_asc" ? "brand-model_desc" : "brand-model_asc")">Brand @(ViewBag.CurrentSort == "brand-model_asc" ? "↑" : ViewBag.CurrentSort == "brand-model_desc" ? "↓" : "")</a></th>
-                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "year_asc" ? "year_desc" : "year_asc")">Year @(ViewBag.CurrentSort == "year_asc" ? "↑" : ViewBag.CurrentSort == "year_desc" ? "↓" : "")</a></th>
-                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "quantity_asc" ? "quantity_desc" : "quantity_asc")">Quantity @(ViewBag.CurrentSort == "quantity_asc" ? "↑" : ViewBag.CurrentSort == "quantity_desc" ? "↓" : "")</a></th>
-                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "axis-count_asc" ? "axis-count_desc" : "axis-count_asc")">Axis Count @(ViewBag.CurrentSort == "axis-count_asc" ? "↑" : ViewBag.CurrentSort == "axis-count_desc" ? "↓" : "")</a></th>
-                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "capacity_asc" ? "capacity_desc" : "capacity_asc")">Capacity @(ViewBag.CurrentSort == "capacity_asc" ? "↑" : ViewBag.CurrentSort == "capacity_desc" ? "↓" : "")</a></th>
-                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "price_asc" ? "price_desc" : "price_asc")">Price @(ViewBag.CurrentSort == "price_asc" ? "↑" : ViewBag.CurrentSort == "price_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "id_asc" ? "id_desc" : "id_asc")">Id @(ViewBag.CurrentSort == "id_asc" ? "↑" : ViewBag.CurrentSort == "id_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "group_asc" ? "group_desc" : "group_asc")">Group @(ViewBag.CurrentSort == "group_asc" ? "↑" : ViewBag.CurrentSort == "group_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "type_asc" ? "type_desc" : "type_asc")">Type @(ViewBag.CurrentSort == "type_asc" ? "↑" : ViewBag.CurrentSort == "type_desc" ? "↓" : "")</a></th>
+                <th style="width: 1%; white-space: nowrap;"><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "brand-model_asc" ? "brand-model_desc" : "brand-model_asc")">Brand @(ViewBag.CurrentSort == "brand-model_asc" ? "↑" : ViewBag.CurrentSort == "brand-model_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "year_asc" ? "year_desc" : "year_asc")">Year @(ViewBag.CurrentSort == "year_asc" ? "↑" : ViewBag.CurrentSort == "year_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "quantity_asc" ? "quantity_desc" : "quantity_asc")">Quantity @(ViewBag.CurrentSort == "quantity_asc" ? "↑" : ViewBag.CurrentSort == "quantity_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "axis-count_asc" ? "axis-count_desc" : "axis-count_asc")">Axis Count @(ViewBag.CurrentSort == "axis-count_asc" ? "↑" : ViewBag.CurrentSort == "axis-count_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "capacity_asc" ? "capacity_desc" : "capacity_asc")">Capacity @(ViewBag.CurrentSort == "capacity_asc" ? "↑" : ViewBag.CurrentSort == "capacity_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "price_asc" ? "price_desc" : "price_asc")">Price @(ViewBag.CurrentSort == "price_asc" ? "↑" : ViewBag.CurrentSort == "price_desc" ? "↓" : "")</a></th>
                 <th>File</th>
-                <th style="white-space: nowrap;"><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Added @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a></th>
+                <th style="white-space: nowrap;"><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@ViewBag.SupplierId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Added @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a></th>
             </tr>
         </thead>
         <tbody>
@@ -37,12 +37,12 @@
                 foreach (var machine in Model.Data)
                 {
                     string rowUrl = "";
-                    if (isAdmin) 
+                    if (isAdmin)
                         rowUrl = $"/admin/suppliers/{machine.AppUserId}/machines/{machine.Id}";
-                    else if (isPurchaser) 
+                    else if (isQualitier)
+                        rowUrl = $"/qualitier/suppliers/{machine.AppUserId}/machines/{machine.Id}";
+                    else if (isPurchaser)
                         rowUrl = $"/purchaser/suppliers/{machine.AppUserId}/machines/{machine.Id}";
-                    else if (isSupplier) 
-                        rowUrl = $"/supplier/machines/{machine.Id}";
 
                     <tr onclick="window.location.href = '@rowUrl'">
                         <td>@machine.Id</td>
@@ -66,7 +66,7 @@
                 <tr>
                     <td colspan="11">
                         <div class="empty-state-message">
-                            <p>No machines are registered in the system yet.</p>
+                            <p>No suppliers machines are registered in the system yet.</p>
                         </div>
                     </td>
                 </tr>
@@ -81,7 +81,7 @@
             {
                 <a asp-action="@targetAction"
                    asp-controller="@targetController"
-                   asp-route-supplierId="@(isAdmin || isPurchaser ? ViewBag.SupplierId : null)"
+                   asp-route-supplierId="@ViewBag.SupplierId"
                    asp-route-page="@i"
                    asp-route-sortBy="@ViewBag.CurrentSort"
                    asp-route-searchString="@ViewBag.CurrentSearch"

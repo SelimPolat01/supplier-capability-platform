@@ -22,12 +22,13 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         }
 
         [HttpGet("home")]
-        public IActionResult Home([FromQuery] int page = 1, [FromQuery] string supplierSortBy = "id_asc", [FromQuery] string purchaserSortBy = "id_asc", [FromQuery] string qualitierSortBy = "id_asc", [FromQuery] string machineSortBy = "id_asc")
+        public IActionResult Home([FromQuery] int page = 1, [FromQuery] string supplierSortBy = "id_asc", [FromQuery] string purchaserSortBy = "id_asc", [FromQuery] string qualitierSortBy = "id_asc", [FromQuery] string machineSortBy = "id_asc", [FromQuery] string certificateSortBy = "id_asc")
         {
             ViewBag.CurrentSupplierSort = supplierSortBy;
             ViewBag.CurrentQualitierSort = qualitierSortBy;
             ViewBag.CurrentPurchaserSort = purchaserSortBy;
             ViewBag.CurrentMachineSort = machineSortBy;
+            ViewBag.CurrentCertificateSort = certificateSortBy;
 
             return View();
         }
@@ -61,8 +62,18 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return View();
         }
 
-        [HttpGet("all-supplier-machines")]
-        public IActionResult AllSupplierMachines([FromRoute] int supplierId, [FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", string? searchString = null)
+        [HttpGet("all-suppliers-certificates")]
+        public IActionResult AllSuppliersCertificates([FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", string? searchString = null)
+        {
+            ViewBag.CurrentPage = page;
+            ViewBag.CurrentSort = sortBy;
+            ViewBag.CurrentSearch = searchString;
+
+            return View();
+        }
+
+        [HttpGet("all-suppliers-machines")]
+        public IActionResult AllSuppliersMachines([FromRoute] int supplierId, [FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", string? searchString = null)
         {
             ViewBag.SupplierId = supplierId;
             ViewBag.CurrentPage = page;
@@ -73,7 +84,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         }
 
         [HttpGet("suppliers/{supplierId:int}/machines")]
-        public IActionResult SupplierMachines([FromRoute] int supplierId, [FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", string? searchString = null)
+        public IActionResult SupplierMachines([FromRoute] int supplierId, [FromQuery] int page = 1, [FromQuery] string sortBy = "id_asc", [FromQuery] string? searchString = null)
         {
             ViewBag.SupplierId = supplierId;
             ViewBag.CurrentPage = page;
@@ -157,6 +168,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         [HttpGet("purchasers/{purchaserId:int}/purchases/{purchaseId:int}")]
         public IActionResult PurchaserPurchase([FromRoute] int purchaserId, [FromRoute] int purchaseId)
         {
+            ViewBag.PurchaseId = purchaseId;
+
             return View();
         }
 

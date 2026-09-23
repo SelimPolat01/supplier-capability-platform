@@ -4,11 +4,13 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
 {
     public interface ISupplierCertificateService
     {
-        public Task<AddSupplierCertificatePostResponseDTO> AddCertificateAsync(int userId, AddSupplierCertificatePostRequestDTO addCertificatePostRequestDTO);
+        public Task<FetchAllSuppliersCertificatesGetResponseDTO> FetchAllSuppliersCertificatesAsync(int pageNumber = 1, int pageSize = 10, string sortBy = "id_asc", string? searchString = null);
 
         public Task<FetchSupplierAllCertificatesGetResponseDTO> FetchAllCertificatesAsync(int userId, int pageNumber = 1, int pageSize = 10, string sortBy = "id_asc", string? searchString = null);
 
         public Task<FetchSupplierCertificateGetResponseDTO> FetchCertificateAsync(int userId, int certificateId);
+
+        public Task<AddSupplierCertificatePostResponseDTO> AddCertificateAsync(int userId, AddSupplierCertificatePostRequestDTO addCertificatePostRequestDTO);
 
         public Task<EditSupplierCertificatePatchResponseDTO> EditCertificateAsync(EditSupplierCertificatePatchRequestDTO editCertificatePatchRequestDTO, int userId);
 

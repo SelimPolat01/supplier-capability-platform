@@ -78,38 +78,16 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             }
         }
 
-        public async Task<FetchPurchaserAllPurchasesGetResponseDTO> FetchPurchaserAllPurchasesAsync(int purhcaserId, string sortBy = "id_asc", int pageNumber = 1, int pageSize = 10, string? searchString = null)
+        public async Task<FetchPurchaserAllPurchasesGetResponseDTO> FetchPurchaserAllPurchasesAsync(int purchaserId, string sortBy = "id_asc", int pageNumber = 1, int pageSize = 10, string? searchString = null)
         {
             if (pageNumber < 1) pageNumber = 1;
             if (pageSize < 1) pageSize = 10;
 
             try
             {
-                (List<PurchaserMachinePurchase> Data, int TotalCount) result = await _purchaserRepository.FetchPurchaserAllPurchaseAsync(purhcaserId, sortBy, pageNumber, pageSize, searchString);
+                (List<PurchaserMachinePurchase> Data, int TotalCount) result = await _purchaserRepository.FetchPurchasersAllPurchaseAsync(purchaserId, sortBy, pageNumber, pageSize, searchString);
                 int totalPages = (int)Math.Ceiling(result.TotalCount / (double)pageSize);
-                var mappedData = result.Data.Select(machinePurchase => new PurchaserMachinePurchaseDTO()
-                {
-                    Id = machinePurchase.Id,
-                    Quantity = machinePurchase.Quantity,
-                    TotalPurchasedPrice = machinePurchase.TotalPurchasedPrice,
-                    PurchasedPrice = machinePurchase.PurchasedPrice,
-                    PurchaseDate = machinePurchase.PurchaseDate,
-                    MachineDetails = new SupplierMachineDTO()
-                    {
-                        Id = machinePurchase.SupplierMachine.Id,
-                        AppUserId = machinePurchase.SupplierMachine.AppUserId,
-                        Price = machinePurchase.SupplierMachine.Price,
-                        MachineGroup = machinePurchase.SupplierMachine.MachineGroup,
-                        MachineType = machinePurchase.SupplierMachine.MachineType,
-                        BrandAndModel = machinePurchase.SupplierMachine.BrandAndModel,
-                        ProductionYear = machinePurchase.SupplierMachine.ProductionYear,
-                        Quantity = machinePurchase.SupplierMachine.Quantity,
-                        AxisCount = machinePurchase.SupplierMachine.AxisCount,
-                        CapacitySpecs = machinePurchase.SupplierMachine.CapacitySpecs,
-                        ImageUrl = machinePurchase.SupplierMachine.ImageUrl,
-                        CreatedAt = machinePurchase.SupplierMachine.CreatedAt
-                    }
-                }).ToList();
+                var mappedData = result.Data.Select(machinePurchase => machinePurchase.ToPurchaserMachinePurchaseDTO()).ToList();
 
                 return new FetchPurchaserAllPurchasesGetResponseDTO()
                 {
@@ -125,7 +103,39 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             {
                 return new FetchPurchaserAllPurchasesGetResponseDTO()
                 {
-                    Message = $"An error occurred while retrieving the purchasers: {ex.Message}",
+                    Message = $"An error occurred while retrieving the purchases: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
+        }
+
+        public async Task<FetchPurchaserPurchaseGetResponseDTO> FetchPurchaserPurchaseAsync(int purchaseId)
+        {
+            try
+            {
+                PurchaserMachinePurchase? existingPurchaserPurchase = await _purchaserRepository.FetchPurchaserPurchaseAsync(purchaseId);
+
+                if (existingPurchaserPurchase == null)
+                {
+                    return new FetchPurchaserPurchaseGetResponseDTO()
+                    {
+                        Message = "Purchase not found.",
+                        IsSuccess = false
+                    };
+                }
+
+                return new FetchPurchaserPurchaseGetResponseDTO()
+                {
+                    Data = existingPurchaserPurchase.ToPurchaserMachinePurchaseDTO(),
+                    Message = "Purchase retrieved successfully.",
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new FetchPurchaserPurchaseGetResponseDTO()
+                {
+                    Message = $"An error occurred while retrieving the purchase details: {ex.Message}",
                     IsSuccess = false
                 };
             }

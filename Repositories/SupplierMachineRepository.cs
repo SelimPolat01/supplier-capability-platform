@@ -13,7 +13,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<(List<SupplierMachine> Data, int TotalCount)> FetchAllSupplierMachinesAsync(int pageNumber, int pageSize, string sortBy, string? searchString = null)
+        public async Task<(List<SupplierMachine> Data, int TotalCount)> FetchAllSuppliersMachinesAsync(int pageNumber, int pageSize, string sortBy, string? searchString = null)
         {
             var query = _dbContext.SupplierMachines.AsNoTracking();
 

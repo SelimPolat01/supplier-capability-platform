@@ -22,7 +22,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
 
             try
             {
-                (List<SupplierMachine> Data, int TotalCount) result = await _supplierMachineRepository.FetchAllSupplierMachinesAsync(pageNumber, pageSize, sortBy, searchString);
+                (List<SupplierMachine> Data, int TotalCount) result = await _supplierMachineRepository.FetchAllSuppliersMachinesAsync(pageNumber, pageSize, sortBy, searchString);
                 int totalPages = (int)Math.Ceiling(result.TotalCount / (double)pageSize);
                 var mappedData = result.Data.Select(supplierMachine => supplierMachine.ToSupplierMachineDTO()).ToList();
 
@@ -32,7 +32,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
                     TotalCount = result.TotalCount,
                     TotalPages = totalPages,
                     CurrentPage = pageNumber,
-                    Message = "All supplier machines retrieved successfully.",
+                    Message = "All suppliers machines retrieved successfully.",
                     IsSuccess = true
                 };
             }
@@ -40,7 +40,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             {
                 return new FetchAllSuppliersMachinesGetResponseDTO()
                 {
-                    Message = $"An error occurred while retrieving the supplier machines: {ex.Message}",
+                    Message = $"An error occurred while retrieving the suppliers machines: {ex.Message}",
                     IsSuccess = false
                 };
             }

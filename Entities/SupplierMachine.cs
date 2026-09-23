@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SupplierCapabilitiesAndManagementSystem.Models.DTO;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SupplierCapabilitiesAndManagementSystem.Models.DTO;
 
 namespace SupplierCapabilitiesAndManagementSystem.Entities
 {
@@ -107,6 +107,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
             return new SupplierMachineDTO()
             {
                 Id = entity.Id,
+                SupplierName = entity.AppUser?.Name ?? string.Empty,
+                SupplierSurname = entity.AppUser?.Surname ?? string.Empty,
                 AppUserId = entity.AppUserId,
                 Price = entity.Price,
                 MachineGroup = entity.MachineGroup,

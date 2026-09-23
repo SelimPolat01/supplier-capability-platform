@@ -2,6 +2,7 @@
 
 @{
     bool isAdmin = User.IsInRole("Admin");
+    bool isQualitier = User.IsInRole("Qualitier");
     bool isPurchaser = User.IsInRole("Purchaser");
     bool isSupplier = User.IsInRole("Supplier");
 
@@ -29,19 +30,17 @@
     };
 }
 
-<!-- Ortak class'lar kullanıldı (item-container vb.) -->
 <div class="item-container">
     <div class="item-element-wrapper">
         <form onsubmit="submitHandler(event)" id="form">
             <div class="flex-container-1">
-                <div style="display: flex; align-items: baseline;">
-                    <h2 class="item-details-text">Human Resource Details</h2>
-                    <span style="color: rgba(255, 255, 255, 0.4); font-size: 1.2rem; margin-left: 0.5rem;">
+                <div style="display: flex;">
+                    <h2 class="item-details-text"><i class="fa-solid fa-users" style="margin-right: 8px; color: #cbd5e1;"></i>Supplier Human Resources <span style="display: inline-flex; align-items: center; color: rgba(255, 255, 255, 0.4); font-size: 24px; margin: 0;">
                         @(Model != null ? $"#{Model.Id}" : "")
-                    </span>
+                    </span></h2>
                 </div>
                 
-                @if (!isPurchaser)
+                @if (!isPurchaser && !isQualitier)
                 {
                     <div class="save-edit-button-container">
                         <partial name="_PrimaryButton" model="saveButtonModel"></partial>
@@ -54,68 +53,101 @@
                 <div class="item-element-container">
                     <span class="item-element-title">Total Employee Count</span>
                     <span class="item-element-data">@(Model?.TotalEmployeeCount?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" class="editable-input editable-input" asp-for="TotalEmployeeCount" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="number" class="editable-input" asp-for="TotalEmployeeCount" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">White Collar Count</span>
                     <span class="item-element-data">@(Model?.WhiteCollarCount?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" class="editable-input editable-input" asp-for="WhiteCollarCount" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="number" class="editable-input" asp-for="WhiteCollarCount" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">Blue Collar Count</span>
                     <span class="item-element-data">@(Model?.BlueCollarCount?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" class="editable-input editable-input" asp-for="BlueCollarCount" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="number" class="editable-input" asp-for="BlueCollarCount" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">Engineer Count</span>
                     <span class="item-element-data">@(Model?.EngineerCount?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" class="editable-input editable-input" asp-for="EngineerCount" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="number" class="editable-input" asp-for="EngineerCount" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">Quality Control Staff Count</span>
                     <span class="item-element-data">@(Model?.QualityControlStaffCount?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" class="editable-input editable-input" asp-for="QualityControlStaffCount" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="number" class="editable-input" asp-for="QualityControlStaffCount" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">Rnd Staff Count</span>
                     <span class="item-element-data">@(Model?.RndStaffCount?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" class="editable-input editable-input" asp-for="RndStaffCount" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="number" class="editable-input" asp-for="RndStaffCount" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">Certified Operator Count</span>
                     <span class="item-element-data">@(Model?.CertifiedOperatorCount?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" class="editable-input editable-input" asp-for="CertifiedOperatorCount" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="number" class="editable-input" asp-for="CertifiedOperatorCount" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">Shift Count</span>
                     <span class="item-element-data">@(Model?.ShiftCount?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" class="editable-input editable-input" asp-for="ShiftCount" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="number" class="editable-input" asp-for="ShiftCount" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">Working Days Per Week</span>
                     <span class="item-element-data">@(Model?.WorkingDaysPerWeek?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" class="editable-input editable-input" asp-for="WorkingDaysPerWeek" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="number" class="editable-input" asp-for="WorkingDaysPerWeek" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">Has Labor Union</span>
                     <span class="item-element-data">@(Model?.HasLaborUnion == true ? "Yes" : (Model?.HasLaborUnion == false ? "No" : "-"))</span>
-                    @if (!isPurchaser) { <input type="checkbox" class="editable-input editable-input" asp-for="HasLaborUnion" /> }
+                    @if (!isPurchaser && !isQualitier) 
+                    { 
+                        <input type="checkbox" class="editable-input" asp-for="HasLaborUnion" /> 
+                    }
                 </div>
                 
                 <div class="item-element-container">
                     <span class="item-element-title">Employee Turnover Rate</span>
                     <span class="item-element-data">@(Model?.EmployeeTurnoverRate?.ToString() ?? "-")</span>
-                    @if (!isPurchaser) { <input type="number" step="any" class="editable-input editable-input" asp-for="EmployeeTurnoverRate" /> }
-                </div>
+                        @if (!isPurchaser && !isQualitier)
+                        {
+                            <input type="number" step="any" class="editable-input" name="EmployeeTurnoverRate" value="@(Model?.EmployeeTurnoverRate?.ToString(System.Globalization.CultureInfo.InvariantCulture))" style="display:none;" />                
+                        }
+                    </div>
 
                 <div class="item-element-container">
                     <span class="item-element-title">Last Updated</span>
@@ -132,7 +164,6 @@
 
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
-        // JS seçicisi güncellendi:
         const dataSpans = document.querySelectorAll(".item-element-data");
         const editInputs = document.querySelectorAll(".editable-input");
         const editButton = document.querySelector(".edit-button");
@@ -202,7 +233,6 @@
     }
 
     function toggleEditClickHandler() {
-        // JS seçicisi güncellendi:
         const dataSpans = document.querySelectorAll(".item-element-data");
         const editInputs = document.querySelectorAll(".editable-input");
         const editButton = document.querySelector(".edit-button");
