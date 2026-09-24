@@ -49,22 +49,24 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             {
                 "id_asc" => query.OrderBy(u => u.Id),
                 "id_desc" => query.OrderByDescending(u => u.Id),
-                "name_asc" => query.OrderBy(u => u.Name),
-                "name_desc" => query.OrderByDescending(u => u.Name),
-                "surname_asc" => query.OrderBy(u => u.Surname),
-                "surname_desc" => query.OrderByDescending(u => u.Surname),
-                "company-name_asc" => query.OrderBy(u => u.CompanyName),
-                "company-name_desc" => query.OrderByDescending(u => u.CompanyName),
-                "email_asc" => query.OrderBy(u => u.Email),
-                "email_desc" => query.OrderByDescending(u => u.Email),
-                "certificates_asc" => query.OrderBy(u => u.SupplierCertificates.Count),
-                "certificates_desc" => query.OrderByDescending(u => u.SupplierCertificates.Count),
-                "machines_asc" => query.OrderBy(u => u.SupplierMachines.Count),
-                "machines_desc" => query.OrderByDescending(u => u.SupplierMachines.Count),
-                "human-resources_asc" => query.OrderBy(u => u.SupplierHumanResources.Count),
+                "name_asc" => query.OrderBy(u => u.Name).ThenBy(u => u.Id),
+                "name_desc" => query.OrderByDescending(u => u.Name).ThenByDescending(u => u.Id),
+                "surname_asc" => query.OrderBy(u => u.Surname).ThenBy(u => u.Id),
+                "surname_desc" => query.OrderByDescending(u => u.Surname).ThenByDescending(u => u.Id),
+                "company-name_asc" => query.OrderBy(u => u.CompanyName).ThenBy(u => u.Id),
+                "company-name_desc" => query.OrderByDescending(u => u.CompanyName).ThenByDescending(u => u.Id),
+                "email_asc" => query.OrderBy(u => u.Email).ThenBy(u => u.Id),
+                "email_desc" => query.OrderByDescending(u => u.Email).ThenByDescending(u => u.Id),
+                "score_asc" => query.OrderBy(u => u.QualityScore).ThenBy(u => u.Id),
+                "score_desc" => query.OrderByDescending(u => u.QualityScore).ThenByDescending(u => u.Id),
+                "certificates_asc" => query.OrderBy(u => u.SupplierCertificates.Count).ThenBy(u => u.Id),
+                "certificates_desc" => query.OrderByDescending(u => u.SupplierCertificates.Count).ThenByDescending(u => u.Id),
+                "machines_asc" => query.OrderBy(u => u.SupplierMachines.Count).ThenBy(u => u.Id),
+                "machines_desc" => query.OrderByDescending(u => u.SupplierMachines.Count).ThenByDescending(u => u.Id),
+                "human-resources_asc" => query.OrderBy(u => u.SupplierHumanResources.Count).ThenBy(u => u.Id),
                 "human-resources_desc" => query.OrderByDescending(u => u.SupplierHumanResources.Count),
-                "added_asc" => query.OrderBy(u => u.CreatedAt),
-                "added_desc" => query.OrderByDescending(u => u.CreatedAt),
+                "added_asc" => query.OrderBy(u => u.CreatedAt).ThenBy(u => u.Id).ThenByDescending(u => u.Id),
+                "added_desc" => query.OrderByDescending(u => u.CreatedAt).ThenByDescending(u => u.Id),
                 _ => query.OrderBy(u => u.Id)
             };
 
@@ -81,6 +83,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             return await _dbContext.Users
                 .AsNoTracking()
                 .AsSplitQuery()
+                .Include(user => user.Qualitier)
                 .Include(user => user.SupplierMachines)
                 .Include(user => user.SupplierCertificates)
                 .Include(user => user.SupplierHumanResources)

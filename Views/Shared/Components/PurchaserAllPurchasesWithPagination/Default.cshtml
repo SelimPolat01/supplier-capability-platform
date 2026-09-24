@@ -26,7 +26,7 @@
                     <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "brand-model_asc" ? "brand-model_desc" : "brand-model_asc")">Brand @(ViewBag.CurrentSort == "brand-model_asc" ? "↑" : ViewBag.CurrentSort == "brand-model_desc" ? "↓" : "")</a>
                 </th>
                 <th>
-                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "production-year_asc" ? "production-year_desc" : "production-year_asc")">Production Year @(ViewBag.CurrentSort == "production-year_asc" ? "↑" : ViewBag.CurrentSort == "production-year_desc" ? "↓" : "")</a>
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "production-year_asc" ? "production-year_desc" : "production-year_asc")">Prod. Year @(ViewBag.CurrentSort == "production-year_asc" ? "↑" : ViewBag.CurrentSort == "production-year_desc" ? "↓" : "")</a>
                 </th>
                 <th>
                     <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "quantity_asc" ? "quantity_desc" : "quantity_asc")">Quantity @(ViewBag.CurrentSort == "quantity_asc" ? "↑" : ViewBag.CurrentSort == "quantity_desc" ? "↓" : "")</a>
@@ -40,12 +40,15 @@
                <th>
                     <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "supplier-id_asc" ? "supplier-id_desc" : "supplier-id_asc")">Supplier Id @(ViewBag.CurrentSort == "supplier-id_asc" ? "↑" : ViewBag.CurrentSort == "supplier-id_desc" ? "↓" : "")</a>
                 </th>
-                <th>Machine File</th>
                 <th>
                     <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "cost_asc" ? "cost_desc" : "cost_asc")">Total Cost @(ViewBag.CurrentSort == "cost_asc" ? "↑" : ViewBag.CurrentSort == "cost_desc" ? "↓" : "")</a>
                 </th>
                 <th>
-                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "purchase-date_asc" ? "purchase-date_desc" : "purchase-date_asc")">Purchase Date @(ViewBag.CurrentSort == "purchase-date_asc" ? "↑" : ViewBag.CurrentSort == "purchase-date_desc" ? "↓" : "")</a>
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "cost_asc" ? "cost_desc" : "cost_asc")">Score @(ViewBag.CurrentSort == "score_asc" ? "↑" : ViewBag.CurrentSort == "cost_desc" ? "↓" : "")</a>
+                </th>
+                <th>Image</th>
+                <th>
+                    <a asp-action="@targetAction" asp-controller="@targetController" asp-route-purchaserId="@ViewBag.PurchaserId" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Date Added @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a>
                 </th>
             </tr>
         </thead>
@@ -69,10 +72,27 @@
                         <td>@purchase.MachineDetails.AxisCount</td>
                         <td>@purchase.MachineDetails.CapacitySpecs</td>
                         <td>@purchase.MachineDetails.AppUserId</td>
+                        <td class="element-price-data">$@purchase.TotalPurchasedPrice.ToString("N0")</td>
+                        <td>
+                            @{
+                                string score = purchase.QualityScore?.ToString() ?? "-";
+                                string textColor = score switch
+                                {
+                                    "A" => "color: #4ade80; font-weight: bold;", 
+                                    "B" => "color: #60a5fa; font-weight: bold;",
+                                    "C" => "color: #fbbf24; font-weight: bold;", 
+                                    "D" => "color: #f97316; font-weight: bold;", 
+                                    "F" => "color: #ff3552; font-weight: bold;", 
+                                    _   => "color: inherit;"                    
+                                };
+                            }
+                            <span style="@textColor">
+                                @score
+                            </span>
+                        </td>
                         <td>
                             <a href="@purchase.MachineDetails.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td class="element-price-data">$@purchase.TotalPurchasedPrice.ToString("N0")</td>
                         <td>@purchase.PurchaseDate.ToString("dd-MM-yyyy HH:mm")</td>
                     </tr>
                 }
@@ -80,7 +100,7 @@
             else
             {
                 <tr>
-                    <td colspan="12">
+                    <td colspan="13">
                         <div class="empty-state-message">
                             <p>No purchases are registered in the system yet.</p>
                         </div>

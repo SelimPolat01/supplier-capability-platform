@@ -17,10 +17,11 @@
                 <th><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "surname_asc" ? "surname_desc" : "surname_asc")">Surname @(ViewBag.CurrentSort == "surname_asc" ? "↑" : ViewBag.CurrentSort == "surname_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "company-name_asc" ? "company-name_desc" : "company-name_asc")">Company Name @(ViewBag.CurrentSort == "company-name_asc" ? "↑" : ViewBag.CurrentSort == "company-name_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "email_asc" ? "email_desc" : "email_asc")">Email @(ViewBag.CurrentSort == "email_asc" ? "↑" : ViewBag.CurrentSort == "email_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "score_asc" ? "score_esc" : "score_asc")">Score @(ViewBag.CurrentSort == "score_asc" ? "↑" : ViewBag.CurrentSort == "score_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "certificates_asc" ? "certificates_desc" : "certificates_asc")">Certificates @(ViewBag.CurrentSort == "certificates_asc" ? "↑" : ViewBag.CurrentSort == "certificates_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "machines_asc" ? "machines_desc" : "machines_asc")">Machines @(ViewBag.CurrentSort == "machines_asc" ? "↑" : ViewBag.CurrentSort == "machines_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "human-resources_asc" ? "human-resources_desc" : "human-resources_asc")">Human Resources @(ViewBag.CurrentSort == "human-resources_asc" ? "↑" : ViewBag.CurrentSort == "human-resources_desc" ? "↓" : "")</a></th>
-                <th><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Added @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="AllSuppliers" asp-controller="@targetController" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Date Added @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a></th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +35,23 @@
                         <td style="text-transform: uppercase;">@supplier.Surname</td>
                         <td>@supplier.CompanyName</td>
                         <td>@supplier.Email</td>
+                        <td>
+                            @{
+                                string score = supplier.QualityScore?.ToString() ?? "-";
+                                string textColor = score switch
+                                {
+                                    "A" => "color: #4ade80; font-weight: bold;", 
+                                    "B" => "color: #60a5fa; font-weight: bold;",
+                                    "C" => "color: #fbbf24; font-weight: bold;", 
+                                    "D" => "color: #f97316; font-weight: bold;", 
+                                    "F" => "color: #ff3552; font-weight: bold;", 
+                                    _   => "color: inherit;"                    
+                                };
+                            }
+                            <span style="@textColor">
+                                @score
+                            </span>
+                        </td>
                         <td>
                             <a asp-controller="@targetController" asp-action="SupplierCertificates" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
                                 Certificates <span class="count-badge">@supplier.Certificates.Count</span>

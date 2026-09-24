@@ -146,8 +146,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return View();
         }
 
-        [HttpGet("suppliers/{supplierId:int}/human-resources")]
-        public IActionResult SupplierHumanResources([FromRoute] int supplierId)
+        [HttpGet("suppliers/{supplierId:int}/human-resource")]
+        public IActionResult SupplierHumanResource([FromRoute] int supplierId)
         {
             ViewBag.SupplierId = supplierId;
 
@@ -202,7 +202,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         }
 
         [HttpPatch("edit-human-resource/patch")]
-        public async Task<IActionResult> EditSupplierHumanResource([FromQuery] int supplierId, [FromBody] EditSupplierHumanResourcePatchRequestDTO editSupplierHumanRespourcePostRequestDTO)
+        public async Task<IActionResult> PatchSupplierHumanResource([FromQuery] int supplierId, [FromBody] EditSupplierHumanResourcePatchRequestDTO editSupplierHumanRespourcePostRequestDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

@@ -79,8 +79,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return View();
         }
 
-        [HttpGet("suppliers/{supplierId:int}/human-resources")]
-        public IActionResult SupplierHumanResources([FromRoute] int supplierId)
+        [HttpGet("suppliers/{supplierId:int}/human-resource")]
+        public IActionResult SupplierHumanResource([FromRoute] int supplierId)
         {
             ViewBag.SupplierId = supplierId;
 
@@ -185,7 +185,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return Ok(new { message = responseDTO.Message });
         }
 
-        [HttpPatch("suppliers/{supplierId:int}/human-resources/{humanResource:int}")]
+        [HttpPatch("suppliers/{supplierId:int}/human-resource/{humanResourceId:int}")]
         public async Task<IActionResult> ScoreHumanResourceAsync([FromRoute] int supplierId, [FromRoute] int humanResourceId, [FromQuery] QualityScore? qualityScore)
         {
             if (qualityScore == null) return BadRequest(new { message = "Please select a score." });
@@ -195,6 +195,54 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             if (!int.TryParse(userIdString, out var userId) || userId <= 0) return Unauthorized(new { message = "User is not authorized or session expired." });
 
             EditSupplierHumanResourceQualityPatchResponseDTO responseDTO = await _qualitierService.EditSupplierHumanResourceQualityAsync(userId, humanResourceId, qualityScore);
+
+            if (!responseDTO.IsSuccess) return BadRequest(new { message = responseDTO.Message });
+
+            return Ok(new { message = responseDTO.Message });
+        }
+
+        [HttpPatch("suppliers/{supplierId:int}")]
+        public async Task<IActionResult> ScoreSupplierAsync([FromRoute] int supplierId, [FromQuery] QualityScore? qualityScore)
+        {
+            if (qualityScore == null) return BadRequest(new { message = "Please select a score." });
+
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdString, out var userId) || userId <= 0) return Unauthorized(new { message = "User is not authorized or session expired." });
+
+            EditSupplierQualityPatchResponseDTO responseDTO = await _qualitierService.EditSupplierQualityAsync(userId, supplierId, qualityScore);
+
+            if (!responseDTO.IsSuccess) return BadRequest(new { message = responseDTO.Message });
+
+            return Ok(new { message = responseDTO.Message });
+        }
+
+        [HttpPatch("purchasers/{purchaserId:int}")]
+        public async Task<IActionResult> ScorePurchaserAsync([FromRoute] int purchaserId, [FromQuery] QualityScore? qualityScore)
+        {
+            if (qualityScore == null) return BadRequest(new { message = "Please select a score." });
+
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdString, out var userId) || userId <= 0) return Unauthorized(new { message = "User is not authorized or session expired." });
+
+            EditPurchaserQualityPatchResponseDTO responseDTO = await _qualitierService.EditPurchaserQualityAsync(userId, purchaserId, qualityScore);
+
+            if (!responseDTO.IsSuccess) return BadRequest(new { message = responseDTO.Message });
+
+            return Ok(new { message = responseDTO.Message });
+        }
+
+        [HttpPatch("purchasers/{purchaserId:int}/purchases/{purchaseId:int}")]
+        public async Task<IActionResult> ScorePurchaserPurchaseAsync([FromRoute] int purchaserId, [FromRoute] int purchaseId, [FromQuery] QualityScore? qualityScore)
+        {
+            if (qualityScore == null) return BadRequest(new { message = "Please select a score." });
+
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdString, out var userId) || userId <= 0) return Unauthorized(new { message = "User is not authorized or session expired." });
+
+            EditPurchaserPurchaseQualityPatchResponseDTO responseDTO = await _qualitierService.EditPurchaserPurchaseQualityAsync(userId, purchaseId, qualityScore);
 
             if (!responseDTO.IsSuccess) return BadRequest(new { message = responseDTO.Message });
 

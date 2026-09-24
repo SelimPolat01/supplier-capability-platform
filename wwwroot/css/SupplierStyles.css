@@ -63,6 +63,7 @@
 
 .id-title {
     font-size: 0.75rem;
+    color: rgb(0, 244, 255);
 }
 
 .info-container{
@@ -81,6 +82,7 @@
 
 .created-at-title {
     font-size: 0.75rem;
+    color: rgb(255, 161, 46);
 }
 
 .company-name-title {
@@ -112,7 +114,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1rem;
     box-sizing: border-box;
-    flex: 1;
+    flex: 1 1 calc(33.333% - 1rem); 
     border-radius: 0.75rem;
 }
 

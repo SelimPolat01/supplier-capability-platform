@@ -141,7 +141,7 @@
                         Price @(ViewBag.CurrentMachineSort == "price_asc" ? "↑" : ViewBag.CurrentMachineSort == "price_desc" ? "↓" : "")
                     </a>
                 </th>
-                <th style="padding: 0.75rem;">File</th>
+                <th style="padding: 0.75rem;">Image</th>
                 <th style="padding: 0.75rem;">
                     <a 
                        asp-fragment="machines-container"                          
@@ -165,7 +165,7 @@
                        asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" 
                        asp-route-purchaserSortBy="@ViewBag.CurrentPurchaserSort" 
                        asp-route-machineSortBy="@(ViewBag.CurrentMachineSort == "added_asc" ? "added_desc" : "added_asc")">
-                        Added @(ViewBag.CurrentMachineSort == "added_asc" ? "↑" : ViewBag.CurrentMachineSort == "added_desc" ? "↓" : "")
+                        Date Added @(ViewBag.CurrentMachineSort == "added_asc" ? "↑" : ViewBag.CurrentMachineSort == "added_desc" ? "↓" : "")
                     </a>
                 </th>
             </tr>

@@ -15,8 +15,9 @@
                 <th style="padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="@targetController" asp-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentPurchaserSort == "name_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "name_desc" ? "↓" : "")</a></th>
                 <th style="padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="@targetController" asp-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "surname_asc" ? "surname_desc" : "surname_asc")">Surname @(ViewBag.CurrentPurchaserSort == "surname_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "surname_desc" ? "↓" : "")</a></th>
                 <th style="padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="@targetController" asp-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "email_asc" ? "email_desc" : "email_asc")">Email @(ViewBag.CurrentPurchaserSort == "email_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "email_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="@targetController" asp-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "score_asc" ? "score_desc" : "score_asc")">Score @(ViewBag.CurrentPurchaserSort == "score_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "score_desc" ? "↓" : "")</a></th>
                 <th style="padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="@targetController" asp-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "purchases_asc" ? "purchases_desc" : "purchases_asc")">Puchases @(ViewBag.CurrentPurchaserSort == "purchases_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "purchases_desc" ? "↓" : "")</a></th>
-                <th style="padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="@targetController" asp-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "added_asc" ? "added_desc" : "added_asc")">Created At @(ViewBag.CurrentPurchaserSort == "added_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "added_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;"><a asp-fragment="purchaser-section" asp-action="Home" asp-controller="@targetController" asp-certificateSortBy="@ViewBag.CurrentCertificateSort" asp-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(ViewBag.CurrentPurchaserSort == "added_asc" ? "added_desc" : "added_asc")">Date Added @(ViewBag.CurrentPurchaserSort == "added_asc" ? "↑" : ViewBag.CurrentPurchaserSort == "added_desc" ? "↓" : "")</a></th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,23 @@
                         <td style="padding: 0.75rem;">@purchaser.Name</td>
                         <td style="text-transform: uppercase; padding: 0.75rem;">@purchaser.Surname</td>
                         <td style="padding: 0.75rem;">@purchaser.Email</td>
+                        <td style="padding: 0.75rem;">
+                            @{
+                                string score = purchaser.QualityScore?.ToString() ?? "-";
+                                string textColor = score switch
+                                {
+                                    "A" => "color: #4ade80; font-weight: bold;", 
+                                    "B" => "color: #60a5fa; font-weight: bold;",
+                                    "C" => "color: #fbbf24; font-weight: bold;", 
+                                    "D" => "color: #f97316; font-weight: bold;", 
+                                    "F" => "color: #ff3552; font-weight: bold;", 
+                                    _   => "color: inherit;"                    
+                                };
+                            }
+                            <span style="@textColor">
+                                @score
+                            </span>
+                        </td>
                         <td style="padding: 0.75rem;">
                             <a asp-controller="@targetController" asp-action="PurchaserPurchases" asp-route-purchaserId="@purchaser.Id" onclick="event.stopPropagation()" class="resource-link">
                                 Purchases 
@@ -49,7 +67,7 @@
             else
             {
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         <div class="empty-state-message">
                             <p>No purchasers are registered in the system yet.</p>
                         </div>

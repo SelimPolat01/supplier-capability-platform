@@ -194,5 +194,155 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
                 };
             }
         }
+
+        public async Task<EditSupplierQualityPatchResponseDTO> EditSupplierQualityAsync(int userId, int supplierId, QualityScore? qualityScore)
+        {
+            if (supplierId <= 0)
+            {
+                return new EditSupplierQualityPatchResponseDTO()
+                {
+                    Message = "Invalid supplier ID.",
+                    IsSuccess = false
+                };
+            }
+
+            if (qualityScore == null)
+            {
+                return new EditSupplierQualityPatchResponseDTO()
+                {
+                    Message = "Quality score cannot be empty.",
+                    IsSuccess = false
+                };
+            }
+
+            try
+            {
+                bool result = await _qualitierRepository.EditSupplierQualityAsync(userId, supplierId, qualityScore);
+
+                if (!result)
+                {
+                    return new EditSupplierQualityPatchResponseDTO()
+                    {
+                        Message = "Failed to update the supplier's quality score. The supplier might not exist or the user is not authorized.",
+                        IsSuccess = false
+                    };
+                }
+
+                return new EditSupplierQualityPatchResponseDTO()
+                {
+                    Message = "Supplier quality score updated successfully.",
+                    IsSuccess = true,
+                    EditedSupplierId = supplierId
+                };
+            }
+            catch (Exception ex)
+            {
+                return new EditSupplierQualityPatchResponseDTO()
+                {
+                    Message = $"An error occurred while updating the quality score: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
+        }
+
+        public async Task<EditPurchaserQualityPatchResponseDTO> EditPurchaserQualityAsync(int userId, int purchaserId, QualityScore? qualityScore)
+        {
+            if (purchaserId <= 0)
+            {
+                return new EditPurchaserQualityPatchResponseDTO()
+                {
+                    Message = "Invalid purchaser ID.",
+                    IsSuccess = false
+                };
+            }
+
+            if (qualityScore == null)
+            {
+                return new EditPurchaserQualityPatchResponseDTO()
+                {
+                    Message = "Quality score cannot be empty.",
+                    IsSuccess = false
+                };
+            }
+
+            try
+            {
+                bool result = await _qualitierRepository.EditPurchaserQualityAsync(userId, purchaserId, qualityScore);
+
+                if (!result)
+                {
+                    return new EditPurchaserQualityPatchResponseDTO()
+                    {
+                        Message = "Failed to update the purchaser's quality score. The purchaser might not exist or the user is not authorized.",
+                        IsSuccess = false
+                    };
+                }
+
+                return new EditPurchaserQualityPatchResponseDTO()
+                {
+                    Message = "Purchaser quality score updated successfully.",
+                    IsSuccess = true,
+                    EditedPurchaserId = purchaserId
+                };
+            }
+            catch (Exception ex)
+            {
+                return new EditPurchaserQualityPatchResponseDTO()
+                {
+                    Message = $"An error occurred while updating the quality score: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
+        }
+
+        public async Task<EditPurchaserPurchaseQualityPatchResponseDTO> EditPurchaserPurchaseQualityAsync(int userId, int purchaseId, QualityScore? qualityScore)
+        {
+            if (purchaseId <= 0)
+            {
+                return new EditPurchaserPurchaseQualityPatchResponseDTO()
+                {
+                    Message = "Invalid purchase ID.",
+                    IsSuccess = false
+                };
+            }
+
+            if (qualityScore == null)
+            {
+                return new EditPurchaserPurchaseQualityPatchResponseDTO()
+                {
+                    Message = "Quality score cannot be empty.",
+                    IsSuccess = false
+                };
+            }
+
+            try
+            {
+                bool result = await _qualitierRepository.EditPurchaserPurchaseQualityAsync(userId, purchaseId, qualityScore);
+
+                if (!result)
+                {
+                    return new EditPurchaserPurchaseQualityPatchResponseDTO()
+                    {
+                        Message = "Failed to update the purchase's quality score. The purchase might not exist or the user is not authorized.",
+                        IsSuccess = false
+                    };
+                }
+
+                return new EditPurchaserPurchaseQualityPatchResponseDTO()
+                {
+                    Message = "Purchase quality score updated successfully.",
+                    IsSuccess = true,
+                    EditedPurchaserPurchaseId = purchaseId
+                };
+            }
+            catch (Exception ex)
+            {
+                return new EditPurchaserPurchaseQualityPatchResponseDTO()
+                {
+                    Message = $"An error occurred while updating the quality score: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
+        }
     }
 }

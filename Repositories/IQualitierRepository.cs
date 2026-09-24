@@ -13,5 +13,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
 
         public Task<bool> EditSupplierHumanResourceQualityAsync(int userId, int humanResourceId, QualityScore? qualityScore);
 
+        public Task<bool> EditSupplierQualityAsync(int userId, int supplierId, QualityScore? qualityScore);
+
+        public Task<bool> EditPurchaserQualityAsync(int userId, int purchaserId, QualityScore? qualityScore);
+
+        public Task<bool> EditPurchaserPurchaseQualityAsync(int userId, int purchaseId, QualityScore? qualityScore);
     }
 }

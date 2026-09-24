@@ -104,8 +104,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             return View();
         }
 
-        [HttpGet("suppliers/{supplierId:int}/human-resources")]
-        public IActionResult SupplierHumanResources([FromRoute] int supplierId)
+        [HttpGet("suppliers/{supplierId:int}/human-resource")]
+        public IActionResult SupplierHumanResource([FromRoute] int supplierId)
         {
             ViewBag.SupplierId = supplierId;
 

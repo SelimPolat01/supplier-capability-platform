@@ -63,7 +63,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
 
                 return new FetchSupplierGetResponseDTO()
                 {
-                    Data = mappedData,
+                    Supplier = mappedData,
                     Message = "Supplier details retrieved successfully.",
                     IsSuccess = true
                 };

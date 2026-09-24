@@ -8,7 +8,7 @@
                 <th><a asp-action="AllQualitiers" asp-controller="Admin" asp-route-sortBy="@(ViewBag.CurrentSort == "name_asc" ? "name_desc" : "name_asc")">Name @(ViewBag.CurrentqualitierSort == "name_asc" ? "↑" : ViewBag.CurrentqualitierSort == "name_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="AllQualitiers" asp-controller="Admin" asp-route-sortBy="@(ViewBag.CurrentSort == "surname_asc" ? "surname_desc" : "surname_asc")">Surname @(ViewBag.CurrentqualitierSort == "surname_asc" ? "↑" : ViewBag.CurrentqualitierSort == "surname_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="AllQualitiers" asp-controller="Admin" asp-route-sortBy="@(ViewBag.CurrentSort == "email_asc" ? "email_desc" : "email_asc")">Email @(ViewBag.CurrentqualitierSort == "email_asc" ? "↑" : ViewBag.CurrentqualitierSort == "email_desc" ? "↓" : "")</a></th>
-                <th><a asp-action="AllQualitiers" asp-controller="Admin" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Created At @(ViewBag.CurrentqualitierSort == "added_asc" ? "↑" : ViewBag.CurrentqualitierSort == "added_desc" ? "↓" : "")</a></th>
+                <th><a asp-action="AllQualitiers" asp-controller="Admin" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Date Added @(ViewBag.CurrentqualitierSort == "added_asc" ? "↑" : ViewBag.CurrentqualitierSort == "added_desc" ? "↓" : "")</a></th>
             </tr>
         </thead>
         <tbody>

@@ -181,7 +181,7 @@
         function selectScore(value, text, inputId) {
             const selectDisplay = document.querySelector("#select-display");
             const scoreDropdownList = document.querySelector("#scoreDropdownList");
-            const scoreInput = document.getElementById(inputId); 
+            const scoreInput = document.getElementById("certificateScoreInput"); 
             const scoreButton = document.querySelector(".score-button");
             const icon = document.querySelector("#custom-select-icon");
 
@@ -209,7 +209,7 @@
             const wrapper = document.getElementById('scoreDropdownWrapper');
             if (!wrapper) return;
 
-            const scoreInput = wrapper.querySelector('input[type="hidden"]');
+            const scoreInput = wrapper.querySelector("certificateScoreInput");
             const scoreValue = scoreInput ? scoreInput.value : "";
 
             if (!scoreValue) {

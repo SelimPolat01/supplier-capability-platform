@@ -28,12 +28,15 @@
                 <th style="padding: 0.75rem;">
                     <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "capacity_asc" ? "capacity_desc" : "capacity_asc")">Capacity @(ViewBag.CurrentPurchaseSort == "capacity_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "capacity_desc" ? "↓" : "")</a>
                 </th>
-                <th style="padding: 0.75rem;">Machine File</th>
                 <th style="nowrap; padding: 0.75rem;">
                     <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "cost_asc" ? "cost_desc" : "cost_asc")">Total Cost @(ViewBag.CurrentPurchaseSort == "cost_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "cost_desc" ? "↓" : "")</a>
                 </th>
+                <th style="nowrap; padding: 0.75rem;">
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "score_asc" ? "score_desc" : "score_asc")">Score @(ViewBag.CurrentPurchaseSort == "score_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "score_desc" ? "↓" : "")</a>
+                </th>
+                <th style="padding: 0.75rem;">Machine File</th>
                 <th style="padding: 0.75rem;">
-                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "purchase-date_asc" ? "purchase-date_desc" : "purchase-date_asc")">Purchase Date @(ViewBag.CurrentPurchaseSort == "purchase-date_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "purchase-date_desc" ? "↓" : "")</a>
+                    <a asp-fragment="purchases-list-container" asp-action="Home" asp-controller="Purchaser" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-supplierSortBy="@ViewBag.CurrentSupplierSort" asp-route-purchaseSortBy="@(ViewBag.CurrentPurchaseSort == "added_asc" ? "added_desc" : "added_asc")">Date Added @(ViewBag.CurrentPurchaseSort == "added_asc" ? "↑" : ViewBag.CurrentPurchaseSort == "added_desc" ? "↓" : "")</a>
                 </th>
             </tr>
         </thead>
@@ -51,10 +54,27 @@
                         <td style="padding: 0.75rem;">@purchase.Quantity</td>
                         <td style="padding: 0.75rem;">@purchase.MachineDetails.AxisCount</td>
                         <td style="padding: 0.75rem;">@purchase.MachineDetails.CapacitySpecs</td>
+                        <td style="padding: 0.75rem;" class="element-price-data">$@purchase.TotalPurchasedPrice.ToString("N0")</td>
+                        <td style="padding: 0.75rem;">
+                            @{
+                                string score = purchase.QualityScore?.ToString() ?? "-";
+                                string textColor = score switch
+                                {
+                                    "A" => "color: #4ade80; font-weight: bold;", 
+                                    "B" => "color: #60a5fa; font-weight: bold;",
+                                    "C" => "color: #fbbf24; font-weight: bold;", 
+                                    "D" => "color: #f97316; font-weight: bold;", 
+                                    "F" => "color: #ff3552; font-weight: bold;", 
+                                    _   => "color: inherit;"                    
+                                };
+                            }
+                            <span style="@textColor">
+                                @score
+                            </span>
+                        </td>
                         <td style="padding: 0.75rem;">
                             <a href="@purchase.MachineDetails.ImageUrl" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View</a>
                         </td>
-                        <td style="padding: 0.75rem;" class="element-price-data">$@purchase.TotalPurchasedPrice.ToString("N0")</td>
                         <td style="padding: 0.75rem;">@purchase.PurchaseDate.ToString("dd-MM-yyyy")</td>
                     </tr>
                 }
@@ -62,7 +82,7 @@
             else
             {
                 <tr>
-                    <td colspan="11">
+                    <td colspan="12">
                         <div class="empty-state-message">
                             <p>No purchases are registered in the system yet.</p>
                         </div>

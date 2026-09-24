@@ -21,22 +21,22 @@
     {
         Title = "Rate Supplier",
         Message = "Are you sure you want to submit score for this supplier?",
-        OnConfirm = $"confirmScoreHandler({Model?.Data?.Id ?? 0})",
-        ConfirmButtonText = "Yes, Submit Score",
+        OnConfirm = $"confirmScoreHandler({Model?.Supplier.Id})",
+        ConfirmButtonText = "Yes, Submit",
         ConfirmButtonIcon = "fa-solid fa-check",
         CancelButtonText = "Cancel",
         CancelButtonIcon = "fa-solid fa-circle-xmark"
     };
 }
 
-@if (Model != null && Model.IsSuccess && Model.Data != null)
+@if (Model != null && Model.IsSuccess && Model.Supplier != null)
 {
     <div class="wrapper">
         <partial name="_ConfirmModal" model="confirmModalModel"></partial>
         
         <div class="page-title-container">
             <h1><i class="fa-solid fa-building-user" style="margin-right: 8px;"></i>Supplier Details <span style="display: inline-flex; align-items: center; color: rgba(255, 255, 255, 0.4); font-size: 2rem; margin: 0;">
-                        @(Model != null ? $"#{Model.Data.Id}" : "")
+                        @(Model != null ? $"#{Model.Supplier.Id}" : "")
                     </span></h1>
         </div>
 
@@ -45,40 +45,86 @@
                 <div class="info-container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                     <div style="display: flex; gap: 1.5rem;">
                         <div class="id-container">
-                            <span class="id-title">Supplier ID: @Model.Data.Id</span>
+                            <span class="id-title">Supplier ID: @Model?.Supplier.Id</span>
                         </div>
                         <div class="created-at-container">
-                            <span class="created-at-title">Created At: @Model.Data.CreatedAt.ToString("dd-MM-yyyy")</span>
+                            <span class="created-at-title">Created At: @Model?.Supplier.CreatedAt.ToString("dd-MM-yyyy")</span>
                         </div>
                     </div>
                     
-                    @if (isQualitier)
+                @if (isQualitier)
                     {
                         <div>
-                            <div class="score-button-container">
-                                <partial name="_PrimaryButton" model="scoreButtonModel"></partial>
+                            <div class="score-section-container">
+                                <partial name="_QualityScoreDropdown" model='new QualityScoreDropdownModel { CurrentScore = Model?.Supplier.QualityScore, InputId = "supplierScoreInput", InputName = "QualityScore" }' />
+                                
+                                <div class="score-button-container">
+                                    <partial name="_PrimaryButton" model="scoreButtonModel"></partial>
+                                </div>
+                                <span id="score-error-message" class="text-danger" style="display: none; margin-top: 0.5rem; font-weight: 500;"></span>
                             </div>
-                            <span id="score-error-message" class="text-danger" style="display: none; margin-top: 0.5rem; font-weight: 500;"></span>
                         </div>
                     }
                 </div>
                 <div class="company-name-container">
                     <span class="company-name-title">Company Name: </span>
-                    <span class="company-name-data">@Model.Data.CompanyName</span>
+                    <span class="company-name-data">@Model?.Supplier.CompanyName</span>
                 </div>
             </div>
             <div class="info-box-container">
                 <div class="info-box">
                     <span class="info-title">Name</span>
-                    <span class="info-data">@Model.Data.Name</span>
+                    <span class="info-data">@Model?.Supplier.Name</span>
                 </div>
                 <div class="info-box">
                     <span class="info-title">Surname</span>
-                    <span class="info-data">@Model.Data.Surname</span>
+                    <span class="info-data">@Model?.Supplier.Surname</span>
                 </div>
                 <div class="info-box">
                     <span class="info-title">Email</span>
-                    <span class="info-data">@Model.Data.Email</span>
+                    <span class="info-data">@Model?.Supplier.Email</span>
+                </div>
+                <div class="info-box">
+                    <span class="info-title">Quality Score</span>
+                    <span class="info-data">
+                            @switch (Model?.Supplier.QualityScore)
+                            {
+                                case QualityScore.A:
+                                    <span class="score-a">A</span> <text>Excellent</text>
+                                    break;
+                                case QualityScore.B:
+                                    <span class="score-b">B</span> <text>Good</text>
+                                    break;
+                                case QualityScore.C:
+                                    <span class="score-c">C</span> <text>Average</text>
+                                    break;
+                                case QualityScore.D:
+                                    <span class="score-d">D</span> <text>Poor</text>
+                                    break;
+                                case QualityScore.F:
+                                    <span class="score-f">F</span> <text>Fail</text>
+                                    break;
+                                default:
+                                    <text>Not Rated Yet</text>
+                                    break;
+                            }
+                        </span>
+                </div>
+                <div class="info-box">
+                    <span class="info-title">Qualitier Full Name</span>
+                    <span class="info-data">
+                        @(string.IsNullOrWhiteSpace(Model?.Supplier.QualitierFullName) 
+                                ? "Not Rated Yet" 
+                                : Model.Supplier.QualitierFullName)
+                    </span>
+                </div>
+                <div class="info-box">
+                    <span class="info-title">Last Score Update</span>
+                    <span class="info-data">
+                          @(Model.Supplier.LastScoreUpdate.HasValue 
+                                ? Model.Supplier.LastScoreUpdate.Value.ToString("dd-MM-yyyy HH:mm") 
+                                : "Not Rated Yet")            
+                    </span>
                 </div>
             </div>
         </div>
@@ -86,12 +132,12 @@
         <div class="details-flexbox">
             <h3 class="details-title">
                 <i class="fa-solid fa-gears" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
-                Machines <span class="count-badge">@(Model.Data.Machines?.Count() ?? 0)</span>
+                Machines <span class="count-badge">@(Model.Supplier.Machines?.Count() ?? 0)</span>
             </h3>
             <div class="box-container">
-                @if (Model.Data.Machines != null && Model.Data.Machines.Any())
+                @if (Model.Supplier.Machines != null && Model.Supplier.Machines.Any())
                 {
-                    foreach (var machine in Model.Data.Machines)
+                    foreach (var machine in Model.Supplier.Machines)
                     {
                         string machineUrl = !isSupplier 
                             ? $"/{rolePrefix}/suppliers/{machine.AppUserId}/machines/{machine.Id}" 
@@ -133,12 +179,12 @@
         <div class="details-flexbox">
             <h3 class="details-title">
                 <i class="fa-solid fa-certificate" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
-                Certificates <span class="count-badge">@(Model.Data.Certificates?.Count() ?? 0)</span>
+                Certificates <span class="count-badge">@(Model.Supplier.Certificates?.Count() ?? 0)</span>
             </h3>
             <div class="box-container">
-                @if (Model.Data.Certificates != null && Model.Data.Certificates.Any())
+                @if (Model.Supplier.Certificates != null && Model.Supplier.Certificates.Any())
                 {
-                    foreach (var certificate in Model.Data.Certificates)
+                    foreach (var certificate in Model.Supplier.Certificates)
                     {
                         string certUrl = !isSupplier 
                             ? $"/{rolePrefix}/suppliers/{certificate.AppUserId}/certificates/{certificate.Id}" 
@@ -183,7 +229,7 @@
             <h3 class="details-title">
                 <i class="fa-solid fa-users" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
                 Human Resources
-                @if (Model.Data.HumanResources != null && Model.Data.HumanResources.Any())
+                @if (Model.Supplier.HumanResources != null && Model.Supplier.HumanResources.Any())
                 {
                     <i class="fa-solid fa-circle-check" style="color: #2ed573; margin-left: 8px;" title="Available"></i>
                 }
@@ -193,9 +239,9 @@
                 }
             </h3>
             <div class="box-container">
-                @if (Model.Data.HumanResources != null && Model.Data.HumanResources.Any())
+                @if (Model.Supplier.HumanResources != null && Model.Supplier.HumanResources.Any())
                 {
-                    foreach (var humanResource in Model.Data.HumanResources)
+                    foreach (var humanResource in Model.Supplier.HumanResources)
                     {
                         string hrUrl = !isSupplier 
                             ? $"/{rolePrefix}/suppliers/{humanResource.UserId}/human-resources" 

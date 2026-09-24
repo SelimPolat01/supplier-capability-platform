@@ -60,7 +60,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
         [Display(Name = "Quality Score")]
         public QualityScore? QualityScore { get; set; }
 
+        [Display(Name = "Last Score Update")]
         public DateTime? LastScoreUpdate { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 

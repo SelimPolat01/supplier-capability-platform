@@ -29,8 +29,8 @@
                 </th>
                 <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "issue-date_asc" ? "issue-date_desc" : "issue-date_asc")">Issue Date @(ViewBag.CurrentSort == "issue-date_asc" ? "↑" : ViewBag.CurrentSort == "issue-date_desc" ? "↓" : "")</a></th>
                 <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "expiry-date_asc" ? "expiry-date_desc" : "expiry-date_asc")">Expiry Date @(ViewBag.CurrentSort == "expiry-date_asc" ? "↑" : ViewBag.CurrentSort == "expiry-date_desc" ? "↓" : "")</a></th>
-                <th>File</th>
-                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Added @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a></th>
+                <th>Document</th>
+                <th><a asp-action="@targetAction" asp-controller="@targetController" asp-route-supplierId="@(isAdmin || isQualitier || isPurchaser ? ViewBag.SupplierId : null)" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-sortBy="@(ViewBag.CurrentSort == "added_asc" ? "added_desc" : "added_asc")">Date Added @(ViewBag.CurrentSort == "added_asc" ? "↑" : ViewBag.CurrentSort == "added_desc" ? "↓" : "")</a></th>
             </tr>
         </thead>
         <tbody>

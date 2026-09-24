@@ -185,6 +185,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("LastScoreUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -213,6 +216,12 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("QualitierId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QualityScore")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -238,6 +247,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("QualitierId");
+
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -249,6 +260,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("LastScoreUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
 
@@ -257,6 +271,12 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
                     b.Property<int>("PurchaserId")
                         .HasColumnType("int");
+
+                    b.Property<int?>("QualitierId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QualityScore")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -270,6 +290,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PurchaserId");
+
+                    b.HasIndex("QualitierId");
 
                     b.HasIndex("SupplierMachineId");
 
@@ -507,6 +529,16 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", b =>
+                {
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "Qualitier")
+                        .WithMany()
+                        .HasForeignKey("QualitierId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Qualitier");
+                });
+
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.PurchaserMachinePurchase", b =>
                 {
                     b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "Purchaser")
@@ -515,6 +547,11 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "Qualitier")
+                        .WithMany("QualitierPurchaserPurchaseScores")
+                        .HasForeignKey("QualitierId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.SupplierMachine", "SupplierMachine")
                         .WithMany()
                         .HasForeignKey("SupplierMachineId")
@@ -522,6 +559,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Purchaser");
+
+                    b.Navigation("Qualitier");
 
                     b.Navigation("SupplierMachine");
                 });
@@ -583,6 +622,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", b =>
                 {
                     b.Navigation("PurchaserMachinePurchases");
+
+                    b.Navigation("QualitierPurchaserPurchaseScores");
 
                     b.Navigation("QualitierSupplierCertificateScores");
 

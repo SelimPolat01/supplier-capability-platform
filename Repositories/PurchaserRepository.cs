@@ -49,6 +49,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
                 "surname_desc" => query.OrderByDescending(user => user.Surname).ThenByDescending(c => c.Id),
                 "email_asc" => query.OrderBy(user => user.Email).ThenBy(c => c.Id),
                 "email_desc" => query.OrderByDescending(user => user.Email).ThenByDescending(c => c.Id),
+                "score_asc" => query.OrderBy(user => user.QualityScore).ThenBy(c => c.Id),
+                "score_desc" => query.OrderByDescending(user => user.QualityScore).ThenByDescending(c => c.Id),
                 "added_asc" => query.OrderBy(user => user.CreatedAt).ThenBy(c => c.Id),
                 "added_desc" => query.OrderByDescending(user => user.CreatedAt).ThenByDescending(c => c.Id),
                 _ => query.OrderBy(user => user.Id)
@@ -63,8 +65,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
 
         public async Task<AppUser?> FetchPurchaserAsync(int purchaserId)
         {
-            return await _dbContext.Users.
-                Include(user => user.PurchaserMachinePurchases)
+            return await _dbContext.Users
+                .Include(user => user.Qualitier)
+                .Include(user => user.PurchaserMachinePurchases)
                 .ThenInclude(purchase => purchase.SupplierMachine)
                 .ThenInclude(supplierMachine => supplierMachine.AppUser)
                 .AsNoTracking()
@@ -99,8 +102,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
                 "supplier-id_desc" => query.OrderByDescending(mp => mp.SupplierMachine.AppUserId).ThenByDescending(mp => mp.Id),
                 "cost_asc" => query.OrderBy(mp => mp.TotalPurchasedPrice).ThenBy(m => m.Id),
                 "cost_desc" => query.OrderByDescending(mp => mp.TotalPurchasedPrice).ThenByDescending(m => m.Id),
-                "purchase-date_asc" => query.OrderBy(mp => mp.PurchaseDate).ThenBy(m => m.Id),
-                "purchase-date_desc" => query.OrderByDescending(mp => mp.PurchaseDate).ThenByDescending(m => m.Id),
+                "score_asc" => query.OrderBy(mp => mp.QualityScore).ThenBy(m => m.Id),
+                "score_desc" => query.OrderByDescending(mp => mp.QualityScore).ThenByDescending(m => m.Id),
+                "added_asc" => query.OrderBy(mp => mp.PurchaseDate).ThenBy(m => m.Id),
+                "added_desc" => query.OrderByDescending(mp => mp.PurchaseDate).ThenByDescending(m => m.Id),
                 "group_asc" => query.OrderBy(mp => mp.SupplierMachine.MachineGroup).ThenBy(m => m.Id),
                 "group_desc" => query.OrderByDescending(mp => mp.SupplierMachine.MachineGroup).ThenByDescending(m => m.Id),
                 "type_asc" => query.OrderBy(mp => mp.SupplierMachine.MachineType).ThenBy(m => m.Id),
@@ -129,6 +134,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
         public async Task<PurchaserMachinePurchase?> FetchPurchaserPurchaseAsync(int purchaseId)
         {
             return await _dbContext.PurchaserMachinePurchases
+                .Include(machinePurchase => machinePurchase.Qualitier)
                 .Include(machinePurchase => machinePurchase.Purchaser)
                 .Include(machinePurchase => machinePurchase.SupplierMachine)
                 .ThenInclude(supplierMachine => supplierMachine.AppUser)

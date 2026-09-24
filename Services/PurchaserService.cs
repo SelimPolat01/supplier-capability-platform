@@ -63,7 +63,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
 
                 return new FetchPurchaserGetResponseDTO()
                 {
-                    Data = mappedData,
+                    Purchaser = mappedData,
                     Message = "Purchaser details retrieved successfully.",
                     IsSuccess = true
                 };
@@ -126,7 +126,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
 
                 return new FetchPurchaserPurchaseGetResponseDTO()
                 {
-                    Data = existingPurchaserPurchase.ToPurchaserMachinePurchaseDTO(),
+                    Purchase = existingPurchaserPurchase.ToPurchaserMachinePurchaseDTO(),
                     Message = "Purchase retrieved successfully.",
                     IsSuccess = true
                 };

@@ -46,6 +46,14 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
                 .Property(supplierHumanResource => supplierHumanResource.QualityScore)
                 .HasConversion<string>();
 
+            modelBuilder.Entity<AppUser>()
+                .Property(supplier => supplier.QualityScore)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<PurchaserMachinePurchase>()
+                .Property(purchaserMachinePurchase => purchaserMachinePurchase.QualityScore)
+                .HasConversion<string>();
+
             modelBuilder.Entity<SupplierMachine>()
                 .HasOne(supplierMachine => supplierMachine.AppUser)
                 .WithMany(user => user.SupplierMachines)
@@ -82,16 +90,28 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
                 .HasForeignKey(supplierHumanResource => supplierHumanResource.QualitierId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PurchaserMachinePurchase>()
-                .HasOne(machinePurchase => machinePurchase.Purchaser)
-                .WithMany(purchaser => purchaser.PurchaserMachinePurchases)
-                .HasForeignKey(machinePurchase => machinePurchase.PurchaserId)
+            modelBuilder.Entity<AppUser>()
+                .HasOne(supplier => supplier.Qualitier)
+                .WithMany()
+                .HasForeignKey(supplier => supplier.QualitierId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PurchaserMachinePurchase>()
-                .HasOne(machinePurchase => machinePurchase.SupplierMachine)
+                .HasOne(purchaserMachinePurchase => purchaserMachinePurchase.Qualitier)
+                .WithMany(qualitier => qualitier.QualitierPurchaserPurchaseScores)
+                .HasForeignKey(purchaserMachinePurchase => purchaserMachinePurchase.QualitierId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PurchaserMachinePurchase>()
+                .HasOne(purchaserMachinePurchase => purchaserMachinePurchase.Purchaser)
+                .WithMany(purchaser => purchaser.PurchaserMachinePurchases)
+                .HasForeignKey(purchaserMachinePurchase => purchaserMachinePurchase.PurchaserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PurchaserMachinePurchase>()
+                .HasOne(purchaserMachinePurchase => purchaserMachinePurchase.SupplierMachine)
                 .WithMany()
-                .HasForeignKey(machinePurchase => machinePurchase.SupplierMachineId)
+                .HasForeignKey(purchaserMachinePurchase => purchaserMachinePurchase.SupplierMachineId)
                 .OnDelete(DeleteBehavior.Restrict);
 
         }

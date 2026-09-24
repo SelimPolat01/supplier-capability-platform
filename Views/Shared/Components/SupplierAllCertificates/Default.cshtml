@@ -8,7 +8,7 @@
                 <th style="padding: 0.75rem;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "issued-by_asc" ? "issued-by_desc" : "issued-by_asc")">Issued By @(ViewBag.CurrentCertificateSort == "issued-by_asc" ? "↑" : ViewBag.CurrentCertificateSort == "issued-by_desc" ? "↓" : "")</a></th>
                 <th style="padding: 0.75rem;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "score_asc" ? "score_desc" : "score_asc")">Score @(ViewBag.CurrentCertificateSort == "score_asc" ? "↑" : ViewBag.CurrentCertificateSort == "score_desc" ? "↓" : "")</a></th>
                 <th style="padding: 0.75rem;"><a asp-action="Home" asp-controller="Supplier" asp-route-machineSortBy="@ViewBag.CurrentMachineSort" asp-route-certificateSortBy="@(ViewBag.CurrentCertificateSort == "expiry-date_asc" ? "expiry-date_desc" : "expiry-date_asc")">Expiry Date @(ViewBag.CurrentCertificateSort == "expiry-date_asc" ? "↑" : ViewBag.CurrentCertificateSort == "expiry-date_desc" ? "↓" : "")</a></th>
-                <th style="padding: 0.75rem;">Document</th>
+                <th style="padding: 0.75rem;">Doc</th>
             </tr>
         </thead>
         <tbody>

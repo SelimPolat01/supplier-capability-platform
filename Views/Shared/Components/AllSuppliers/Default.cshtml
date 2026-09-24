@@ -17,10 +17,11 @@
                 <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "surname_asc" ? "surname_desc" : "surname_asc")">Surname @(ViewBag.CurrentSupplierSort == "surname_asc" ? "↑" : ViewBag.CurrentSupplierSort == "surname_desc" ? "↓" : "")</a></th>
                 <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "company-name_asc" ? "company-name_desc" : "company-name_asc")">Company Name @(ViewBag.CurrentSupplierSort == "company-name_asc" ? "↑" : ViewBag.CurrentSupplierSort == "company-name_desc" ? "↓" : "")</a></th>
                 <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "email_asc" ? "email_desc" : "email_asc")">Email @(ViewBag.CurrentSupplierSort == "email_asc" ? "↑" : ViewBag.CurrentSupplierSort == "email_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "score_asc" ? "score_desc" : "score_asc")">Score @(ViewBag.CurrentSupplierSort == "score_asc" ? "↑" : ViewBag.CurrentSupplierSort == "score_desc" ? "↓" : "")</a></th>
                 <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "certificates_asc" ? "certificates_desc" : "certificates_asc")">Certificates @(ViewBag.CurrentSupplierSort == "certificates_asc" ? "↑" : ViewBag.CurrentSupplierSort == "certificates_desc" ? "↓" : "")</a></th>
                 <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "machines_asc" ? "machines_desc" : "machines_asc")">Machines @(ViewBag.CurrentSupplierSort == "machines_asc" ? "↑" : ViewBag.CurrentSupplierSort == "machines_desc" ? "↓" : "")</a></th>
-                <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "human-resources_asc" ? "human-resources_desc" : "human-resources_asc")">Human Resources @(ViewBag.CurrentSupplierSort == "human-resources_asc" ? "↑" : ViewBag.CurrentSupplierSort == "human-resources_desc" ? "↓" : "")</a></th>
-                <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "added_asc" ? "added_desc" : "added_asc")">Added @(ViewBag.CurrentSupplierSort == "added_asc" ? "↑" : ViewBag.CurrentSupplierSort == "added_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "human-resources_asc" ? "human-resources_desc" : "human-resources_asc")">Human Resource @(ViewBag.CurrentSupplierSort == "human-resources_asc" ? "↑" : ViewBag.CurrentSupplierSort == "human-resources_desc" ? "↓" : "")</a></th>
+                <th style="padding: 0.75rem;"><a asp-fragment="supplier-section" asp-action="Home" asp-controller="@targetController" asp-route-qualitierSortBy="@(isAdmin ? ViewBag.CurrentQualitierSort : null)" asp-route-purchaserSortBy="@(isAdmin ? ViewBag.CurrentPurchaserSort : null)" asp-route-machineSortBy="@(isPurchaser ? ViewBag.CurrentMachineSort : null)" asp-route-supplierSortBy="@(ViewBag.CurrentSupplierSort == "added_asc" ? "added_desc" : "added_asc")">Date Added @(ViewBag.CurrentSupplierSort == "added_asc" ? "↑" : ViewBag.CurrentSupplierSort == "added_desc" ? "↓" : "")</a></th>
             </tr>
         </thead>
         <tbody>
@@ -35,6 +36,23 @@
                         <td style="padding: 0.75rem;">@supplier.CompanyName</td>
                         <td style="padding: 0.75rem;">@supplier.Email</td>
                         <td style="padding: 0.75rem;">
+                            @{
+                                string score = supplier.QualityScore?.ToString() ?? "-";
+                                string textColor = score switch
+                                {
+                                    "A" => "color: #4ade80; font-weight: bold;", 
+                                    "B" => "color: #60a5fa; font-weight: bold;",
+                                    "C" => "color: #fbbf24; font-weight: bold;", 
+                                    "D" => "color: #f97316; font-weight: bold;", 
+                                    "F" => "color: #ff3552; font-weight: bold;", 
+                                    _   => "color: inherit;"                    
+                                };
+                            }
+                            <span style="@textColor">
+                                @score
+                            </span>
+                        </td>
+                        <td style="padding: 0.75rem;">
                             <a asp-controller="@targetController" asp-action="SupplierCertificates" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
                                 Certificates <span class="count-badge">@supplier.Certificates.Count</span>
                             </a>
@@ -45,7 +63,7 @@
                             </a>
                         </td>
                         <td style="padding: 0.75rem;">
-                            <a asp-controller="@targetController" asp-action="SupplierHumanResources" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
+                            <a asp-controller="@targetController" asp-action="SupplierHumanResource" asp-route-supplierId="@supplier.Id" onclick="event.stopPropagation()" class="resource-link">
                                 HR 
                                 @if (supplier.HumanResources.Count > 0)
                                 {
@@ -64,7 +82,7 @@
             else
             {
                 <tr>
-                    <td colspan="9">
+                    <td colspan="10">
                         <div class="empty-state-message">
                             <p>No suppliers are registered in the system yet.</p>
                         </div>

@@ -8,7 +8,7 @@
     int.TryParse(userIdString, out int userId);
 }
 
-<vc:supplier-human-resources user-id="@userId"></vc:supplier-human-resources>
+<vc:supplier-human-resource user-id="@userId"></vc:supplier-human-resource>
 
 @section SupplierCertificateMachineHumanPurchaseStyles {
         <link rel="stylesheet" href="~/css/SupplierCertificateMachineHumanPurchaseStyles.css" />
@@ -16,4 +16,124 @@
 
 @section PrimaryButtonStyles {
         <link rel="stylesheet" href="~/css/PrimaryButtonStyles.css" />
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        async function submitHandler(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            const editInputs = document.querySelectorAll(".editable-input");
+            const editButton = document.querySelector(".edit-button");
+            const saveButton = document.querySelector(".save-button");
+            const buttonText = editButton ? editButton.querySelector("span") : null;
+            const buttonIcon = editButton ? editButton.querySelector("i") : null;
+
+            editInputs.forEach(editInput => {
+                const container = editInput.closest(".item-element-container");
+                if (container) {
+                    const span = container.querySelector(".item-element-data");
+                    if (span) span.style.display = "";
+                }
+                editInput.style.display = "none";
+            });
+
+            if (buttonText) buttonText.innerText = "Edit";
+            if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+            if (saveButton) saveButton.style.display = "none";
+
+            data.Id = data.Id ? parseInt(data.Id) : 0;
+            data.HasLaborUnion = document.querySelector('input[name="HasLaborUnion"][type="checkbox"]')?.checked || false;
+            data.TotalEmployeeCount = data.TotalEmployeeCount ? parseInt(data.TotalEmployeeCount) : null;
+            data.WhiteCollarCount = data.WhiteCollarCount ? parseInt(data.WhiteCollarCount) : null;
+            data.BlueCollarCount = data.BlueCollarCount ? parseInt(data.BlueCollarCount) : null;
+            data.EngineerCount = data.EngineerCount ? parseInt(data.EngineerCount) : null;
+            data.QualityControlStaffCount = data.QualityControlStaffCount ? parseInt(data.QualityControlStaffCount) : null;
+            data.RndStaffCount = data.RndStaffCount ? parseInt(data.RndStaffCount) : null;
+            data.CertifiedOperatorCount = data.CertifiedOperatorCount ? parseInt(data.CertifiedOperatorCount) : null;
+            data.ShiftCount = data.ShiftCount ? parseInt(data.ShiftCount) : null;
+            data.WorkingDaysPerWeek = data.WorkingDaysPerWeek ? parseInt(data.WorkingDaysPerWeek) : null;
+            data.EmployeeTurnoverRate = data.EmployeeTurnoverRate ? parseFloat(data.EmployeeTurnoverRate) : null;
+
+            try {
+                const currentSupplierId = '@ViewBag.SupplierId';
+
+                const response = await fetch("/supplier/edit-human-resource/patch", {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include"
+                });
+
+                if (!response.ok) {
+                    let errorDetails = "";
+                    try {
+                        const errorData = await response.json();
+                        if (errorData.errors) {
+                            const errorMessages = Object.values(errorData.errors).flat();
+                            errorDetails = errorMessages.join("\n");
+                        } else if (errorData.message) {
+                            errorDetails = errorData.message;
+                        } else if (errorData.title) {
+                            errorDetails = errorData.title;
+                        } else {
+                            errorDetails = JSON.stringify(errorData);
+                        }
+                    } catch (parseError) {
+                        errorDetails = "Server returned a non-JSON error.";
+                    }
+                    throw new Error(`Submit failed (Status: ${response.status})\n\nDetails:\n${errorDetails}`);
+                }
+
+                window.location.reload();
+
+            } catch (err) {
+                console.log(err.message);
+                alert(err.message);
+            }
+        }
+
+        function toggleEditClickHandler() {
+            const editInputs = document.querySelectorAll(".editable-input");
+            const editButton = document.querySelector(".edit-button");
+            const saveButton = document.querySelector(".save-button");
+            const buttonText = editButton.querySelector("span");
+            const buttonIcon = editButton.querySelector("i");
+
+            if (buttonText.innerText.trim() === "Edit") {
+                editInputs.forEach(editInput => {
+                    const container = editInput.closest(".item-element-container");
+                    if (container) {
+                        const span = container.querySelector(".item-element-data");
+                        if (span) span.style.display = "none";
+                    }
+                    editInput.style.display = "block";
+                });
+
+                buttonText.innerText = "Cancel";
+                if (buttonIcon) buttonIcon.className = "fa-solid fa-circle-xmark";
+
+                if (editInputs.length > 0) editInputs[0].focus();
+                if (saveButton) saveButton.style.display = "block";
+
+            } else if (buttonText.innerText.trim() === "Cancel") {
+                editInputs.forEach(editInput => {
+                    const container = editInput.closest(".item-element-container");
+                    if (container) {
+                        const span = container.querySelector(".item-element-data");
+                        if (span) span.style.display = "";
+                    }
+                    editInput.style.display = "none";
+                });
+
+                buttonText.innerText = "Edit";
+                if (buttonIcon) buttonIcon.className = "fa-solid fa-pen-to-square";
+
+                if (saveButton) saveButton.style.display = "none";
+            }
+        }
+    </script>
 }

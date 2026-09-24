@@ -12,5 +12,11 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
         public Task<EditSupplierCertificateQualityPatchResponseDTO> EditSupplierCertificateQualityAsync(int userId, int certificateId, QualityScore? qualityScore);
 
         public Task<EditSupplierHumanResourceQualityPatchResponseDTO> EditSupplierHumanResourceQualityAsync(int userId, int humanResourceId, QualityScore? qualityScore);
+
+        public Task<EditSupplierQualityPatchResponseDTO> EditSupplierQualityAsync(int userId, int supplierId, QualityScore? qualityScore);
+
+        public Task<EditPurchaserQualityPatchResponseDTO> EditPurchaserQualityAsync(int userId, int purchaserId, QualityScore? qualityScore);
+
+        public Task<EditPurchaserPurchaseQualityPatchResponseDTO> EditPurchaserPurchaseQualityAsync(int userId, int purchaseId, QualityScore? qualityScore);
     }
 }

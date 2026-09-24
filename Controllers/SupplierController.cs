@@ -169,7 +169,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         }
 
         [HttpPatch("edit-human-resource/patch")]
-        public async Task<IActionResult> EditHumanResource([FromBody] EditSupplierHumanResourcePatchRequestDTO editSupplierHumanRespourcePostRequestDTO)
+        public async Task<IActionResult> PatchHumanResource([FromBody] EditSupplierHumanResourcePatchRequestDTO editSupplierHumanRespourcePostRequestDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

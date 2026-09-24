@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SupplierCapabilitiesAndManagementSystem.Enums;
 using SupplierCapabilitiesAndManagementSystem.Models.DTO;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SupplierCapabilitiesAndManagementSystem.Entities
 {
@@ -17,6 +19,15 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
         [MaxLength(150, ErrorMessage = "Company Name cannot exceed 150 characters.")]
         public string CompanyName { get; set; } = string.Empty;
 
+        public int? QualitierId { get; set; }
+
+        [ForeignKey("QualitierId")]
+        public virtual AppUser Qualitier { get; set; }
+
+        public QualityScore? QualityScore { get; set; }
+
+        public DateTime? LastScoreUpdate { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual ICollection<SupplierMachine> SupplierMachines { get; set; } = new List<SupplierMachine>();
@@ -32,6 +43,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
         public virtual ICollection<SupplierCertificate> QualitierSupplierCertificateScores { get; set; } = new List<SupplierCertificate>();
 
         public virtual ICollection<SupplierHumanResource> QualitierSupplierHumanResourceScores { get; set; } = new List<SupplierHumanResource>();
+
+        public virtual ICollection<PurchaserMachinePurchase> QualitierPurchaserPurchaseScores { get; set; } = new List<PurchaserMachinePurchase>();
     }
 
     public static class AppUserExtensions
@@ -43,6 +56,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
             return new SupplierDTO()
             {
                 Id = supplier.Id,
+                QualitierId = supplier.QualitierId,
+                QualityScore = supplier.QualityScore,
+                QualitierFullName = supplier.Qualitier != null ? $"{supplier.Qualitier.Name} {supplier.Qualitier.Surname}" : null,
+                LastScoreUpdate = supplier.LastScoreUpdate,
                 Name = supplier.Name,
                 Surname = supplier.Surname,
                 CompanyName = supplier.CompanyName,
@@ -75,6 +92,10 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
             return new PurchaserDTO()
             {
                 Id = purchaser.Id,
+                QualitierId = purchaser.QualitierId,
+                QualityScore = purchaser.QualityScore,
+                QualitierFullName = purchaser.Qualitier != null ? $"{purchaser.Qualitier.Name} {purchaser.Qualitier.Surname}" : null,
+                LastScoreUpdate = purchaser.LastScoreUpdate,
                 Name = purchaser.Name,
                 Surname = purchaser.Surname,
                 Email = purchaser.Email ?? string.Empty,

@@ -144,5 +144,89 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
 
             return result > 0;
         }
+
+        public async Task<bool> EditSupplierQualityAsync(int userId, int supplierId, QualityScore? qualityScore)
+        {
+            var qualitierRoleId = await _dbContext.Roles
+                .AsNoTracking()
+                .Where(role => role.Name == "Qualitier")
+                .Select(role => role.Id)
+                .FirstOrDefaultAsync();
+
+            if (qualitierRoleId == 0) return false;
+
+            var hasQualitierRole = await _dbContext.UserRoles
+                .AnyAsync(userRoles => userRoles.UserId == userId && userRoles.RoleId == qualitierRoleId);
+
+            if (!hasQualitierRole) return false;
+
+            var supplier = await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == supplierId);
+
+            if (supplier == null) return false;
+
+            supplier.QualityScore = qualityScore;
+            supplier.QualitierId = userId;
+            supplier.LastScoreUpdate = DateTime.UtcNow;
+
+            var result = await _dbContext.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> EditPurchaserQualityAsync(int userId, int purchaserId, QualityScore? qualityScore)
+        {
+            var qualitierRoleId = await _dbContext.Roles
+                .AsNoTracking()
+                .Where(role => role.Name == "Qualitier")
+                .Select(role => role.Id)
+                .FirstOrDefaultAsync();
+
+            if (qualitierRoleId == 0) return false;
+
+            var hasQualitierRole = await _dbContext.UserRoles
+                .AnyAsync(userRoles => userRoles.UserId == userId && userRoles.RoleId == qualitierRoleId);
+
+            if (!hasQualitierRole) return false;
+
+            var purchaser = await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == purchaserId);
+
+            if (purchaser == null) return false;
+
+            purchaser.QualityScore = qualityScore;
+            purchaser.QualitierId = userId;
+            purchaser.LastScoreUpdate = DateTime.UtcNow;
+
+            var result = await _dbContext.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> EditPurchaserPurchaseQualityAsync(int userId, int purchaseId, QualityScore? qualityScore)
+        {
+            var qualitierRoleId = await _dbContext.Roles
+                .AsNoTracking()
+                .Where(role => role.Name == "Qualitier")
+                .Select(role => role.Id)
+                .FirstOrDefaultAsync();
+
+            if (qualitierRoleId == 0) return false;
+
+            var hasQualitierRole = await _dbContext.UserRoles
+                .AnyAsync(userRoles => userRoles.UserId == userId && userRoles.RoleId == qualitierRoleId);
+
+            if (!hasQualitierRole) return false;
+
+            var machinePurchase = await _dbContext.PurchaserMachinePurchases.FirstOrDefaultAsync(machinePurchase => machinePurchase.Id == purchaseId);
+
+            if (machinePurchase == null) return false;
+
+            machinePurchase.QualityScore = qualityScore;
+            machinePurchase.QualitierId = userId;
+            machinePurchase.LastScoreUpdate = DateTime.UtcNow;
+
+            var result = await _dbContext.SaveChangesAsync();
+
+            return result > 0;
+        }
     }
 }
