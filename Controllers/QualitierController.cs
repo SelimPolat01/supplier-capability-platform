@@ -84,7 +84,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         {
             ViewBag.SupplierId = supplierId;
 
-            return View(new FetchSupplierHumanResourcesGetResponseDTO());
+            return View(new FetchSupplierHumanResourceGetResponseDTO());
         }
 
         [HttpGet("suppliers/{supplierId:int}/machines/{machineId:int}")]
@@ -179,6 +179,22 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
             if (!int.TryParse(userIdString, out var userId) || userId <= 0) return Unauthorized(new { message = "User is not authorized or session expired." });
 
             EditSupplierCertificateQualityPatchResponseDTO responseDTO = await _qualitierService.EditSupplierCertificateQualityAsync(userId, certificateId, qualityScore);
+
+            if (!responseDTO.IsSuccess) return BadRequest(new { message = responseDTO.Message });
+
+            return Ok(new { message = responseDTO.Message });
+        }
+
+        [HttpPatch("suppliers/{supplierId:int}/human-resources/{humanResource:int}")]
+        public async Task<IActionResult> ScoreHumanResourceAsync([FromRoute] int supplierId, [FromRoute] int humanResourceId, [FromQuery] QualityScore? qualityScore)
+        {
+            if (qualityScore == null) return BadRequest(new { message = "Please select a score." });
+
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdString, out var userId) || userId <= 0) return Unauthorized(new { message = "User is not authorized or session expired." });
+
+            EditSupplierHumanResourceQualityPatchResponseDTO responseDTO = await _qualitierService.EditSupplierHumanResourceQualityAsync(userId, humanResourceId, qualityScore);
 
             if (!responseDTO.IsSuccess) return BadRequest(new { message = responseDTO.Message });
 

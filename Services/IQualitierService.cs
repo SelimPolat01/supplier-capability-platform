@@ -10,5 +10,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
         public Task<EditSupplierMachineQualityPatchResponseDTO> EditSupplierMachineQualityAsync(int userId, int machineId, QualityScore? qualityScore);
 
         public Task<EditSupplierCertificateQualityPatchResponseDTO> EditSupplierCertificateQualityAsync(int userId, int certificateId, QualityScore? qualityScore);
+
+        public Task<EditSupplierHumanResourceQualityPatchResponseDTO> EditSupplierHumanResourceQualityAsync(int userId, int humanResourceId, QualityScore? qualityScore);
     }
 }

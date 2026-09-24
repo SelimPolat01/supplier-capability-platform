@@ -6,7 +6,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Models.DTO
     {
         public List<SupplierMachineDTO> Machines { get; set; } = new();
         public List<SupplierCertificateDTO> Certificates { get; set; } = new();
-        public List<SupplierHumanResourcesDTO> HumanResources { get; set; } = new();
+        public List<SupplierHumanResourceDTO> HumanResources { get; set; } = new();
         public int Id { get; set; }
 
         [Display(Name = "First Name")]

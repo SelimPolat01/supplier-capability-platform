@@ -144,5 +144,55 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
                 };
             }
         }
+
+        public async Task<EditSupplierHumanResourceQualityPatchResponseDTO> EditSupplierHumanResourceQualityAsync(int userId, int humanResourceId, QualityScore? qualityScore)
+        {
+            if (humanResourceId <= 0)
+            {
+                return new EditSupplierHumanResourceQualityPatchResponseDTO()
+                {
+                    Message = "Invalid human resource ID.",
+                    IsSuccess = false
+                };
+            }
+
+            if (qualityScore == null)
+            {
+                return new EditSupplierHumanResourceQualityPatchResponseDTO()
+                {
+                    Message = "Quality score cannot be empty.",
+                    IsSuccess = false
+                };
+            }
+
+            try
+            {
+                bool result = await _qualitierRepository.EditSupplierHumanResourceQualityAsync(userId, humanResourceId, qualityScore);
+
+                if (!result)
+                {
+                    return new EditSupplierHumanResourceQualityPatchResponseDTO()
+                    {
+                        Message = "Failed to update the human resource's quality score. The human resource might not exist or the user is not authorized.",
+                        IsSuccess = false
+                    };
+                }
+
+                return new EditSupplierHumanResourceQualityPatchResponseDTO()
+                {
+                    Message = "Human resource quality score updated successfully.",
+                    IsSuccess = true,
+                    EditedHumanResourceId = humanResourceId
+                };
+            }
+            catch (Exception ex)
+            {
+                return new EditSupplierHumanResourceQualityPatchResponseDTO()
+                {
+                    Message = $"An error occurred while updating the quality score: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
+        }
     }
 }

@@ -133,7 +133,7 @@
 
         function deleteClickHandler() {
             const confirmModal = document.querySelector(".modal-overlay");
-            if (confirmModal) confirmModal.style.display = "block";
+            if (confirmModal) confirmModal.style.display = "block"; 
         }
 
         async function confirmDeleteHandler(certificateId) {
@@ -150,7 +150,7 @@
                 if (response.ok) {
                     window.location.href = `/admin/suppliers/${supplierId}/certificates`;
                 } else {
-                    alert("An error occured while deleting the supplier certificate.");
+                    alert("An error occurred while deleting the supplier certificate.");
                     closeModal();
                 }
             } catch (err) {
@@ -161,8 +161,90 @@
         }
 
         function closeModal() {
+            const modals = document.querySelectorAll(".modal-overlay");
+            modals.forEach(modal => modal.style.display = "none");
+        }
+
+        function toggleScoreDropdown() {
+            const scoreDropdownList = document.querySelector("#scoreDropdownList");
+            const icon = document.querySelector("#custom-select-icon");
+
+            if (scoreDropdownList.style.display === "block") {
+                scoreDropdownList.style.display = "none";
+                if(icon) icon.style.transform = "rotate(0deg)";
+            } else {
+                scoreDropdownList.style.display = "block";
+                if(icon) icon.style.transform = "rotate(180deg)";
+            }
+        }
+
+        function selectScore(value, text, inputId) {
+            const selectDisplay = document.querySelector("#select-display");
+            const scoreDropdownList = document.querySelector("#scoreDropdownList");
+            const scoreInput = document.getElementById(inputId); 
+            const scoreButton = document.querySelector(".score-button");
+            const icon = document.querySelector("#custom-select-icon");
+
+            if (scoreDropdownList) scoreDropdownList.style.display = "none";
+            if (icon) icon.style.transform = "rotate(0deg)";
+            
+            if (selectDisplay) selectDisplay.innerHTML = text.trim();
+            if (scoreInput) scoreInput.value = value;
+            if (scoreButton) scoreButton.style.display = "block"; 
+        }
+
+        document.addEventListener('click', function(event) {
+            const dropdownList = document.getElementById('scoreDropdownList');
+            const icon = document.getElementById('custom-select-icon');
+            
+            if (!event.target.closest('#scoreDropdownWrapper')) {
+                if(dropdownList && dropdownList.style.display === 'block') {
+                    dropdownList.style.display = 'none';
+                    if(icon) icon.style.transform = 'rotate(0deg)';
+                }
+            }
+        });
+
+        function scoreClickHandler() {
+            const wrapper = document.getElementById('scoreDropdownWrapper');
+            if (!wrapper) return;
+
+            const scoreInput = wrapper.querySelector('input[type="hidden"]');
+            const scoreValue = scoreInput ? scoreInput.value : "";
+
+            if (!scoreValue) {
+                alert("Please select a score from the dropdown first!");
+                return;
+            }
+
             const confirmModal = document.querySelector(".modal-overlay");
-            if (confirmModal) confirmModal.style.display = "none";
+            if (confirmModal) confirmModal.style.display = "block"; 
+        }
+
+        async function confirmScoreHandler(supplierId, targetId) {
+            const wrapper = document.getElementById('scoreDropdownWrapper');
+            const scoreInput = wrapper.querySelector('input[type="hidden"]');
+            const scoreValue = scoreInput.value;
+
+            try {
+                const response = await fetch(`/qualitier/suppliers/${supplierId}/certificates/${targetId}?qualityScore=${scoreValue}`, {
+                    method: "PATCH",
+                    credentials: "include"
+                });
+
+                if (!response.ok) {
+                    const errorMessage = await response.json();
+                    throw new Error(`An error occurred while submitting the score: ${errorMessage.message || 'Unknown Error'}`);
+                }
+
+                alert("Score successfully submitted!");
+                window.location.reload(); 
+
+            } catch(err) {
+                console.log(err.message);
+                alert(err.message);
+                closeModal();
+            }
         }
     </script>
 }

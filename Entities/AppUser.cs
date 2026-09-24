@@ -31,6 +31,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
 
         public virtual ICollection<SupplierCertificate> QualitierSupplierCertificateScores { get; set; } = new List<SupplierCertificate>();
 
+        public virtual ICollection<SupplierHumanResource> QualitierSupplierHumanResourceScores { get; set; } = new List<SupplierHumanResource>();
     }
 
     public static class AppUserExtensions

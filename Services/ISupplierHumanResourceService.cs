@@ -6,6 +6,6 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
     {
         public Task<EditSupplierHumanResourcePatchResponseDTO> EditHumanResourcesAsync(EditSupplierHumanResourcePatchRequestDTO addSupplierHumanRespourcePostRequestDTO, int userId);
 
-        public Task<FetchSupplierHumanResourcesGetResponseDTO> FetchSupplierHumanResourcesAsync(int userId);
+        public Task<FetchSupplierHumanResourceGetResponseDTO> FetchSupplierHumanResourcesAsync(int userId);
     }
 }

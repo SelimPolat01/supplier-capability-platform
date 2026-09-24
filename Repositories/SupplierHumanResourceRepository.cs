@@ -16,6 +16,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
         public async Task<SupplierHumanResource?> FetchSupplierHumanResourcesAsync(int userId)
         {
             return await _dbContext.SupplierHumanResources
+                .Include(supplierHumanResource => supplierHumanResource.Qualitier)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(humanResource => humanResource.UserId == userId);
         }

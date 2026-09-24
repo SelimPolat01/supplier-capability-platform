@@ -10,5 +10,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
         public Task<bool> EditSupplierMachineQualityAsync(int userId, int machineId, QualityScore? qualityScore);
 
         public Task<bool> EditSupplierCertificateQualityAsync(int userId, int certificateId, QualityScore? qualityScore);
+
+        public Task<bool> EditSupplierHumanResourceQualityAsync(int userId, int humanResourceId, QualityScore? qualityScore);
+
     }
 }

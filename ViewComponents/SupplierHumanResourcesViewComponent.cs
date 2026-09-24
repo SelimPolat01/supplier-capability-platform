@@ -15,9 +15,9 @@ namespace SupplierCapabilitiesAndManagementSystem.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(int userId)
         {
-            FetchSupplierHumanResourcesGetResponseDTO supplierHumanResourcesGetResponseDTO = await _supplierHumanResourceService.FetchSupplierHumanResourcesAsync(userId);
+            FetchSupplierHumanResourceGetResponseDTO supplierHumanResourcesGetResponseDTO = await _supplierHumanResourceService.FetchSupplierHumanResourcesAsync(userId);
 
-            return View(supplierHumanResourcesGetResponseDTO.Data);
+            return View(supplierHumanResourcesGetResponseDTO);
         }
     }
 }

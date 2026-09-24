@@ -42,10 +42,26 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
                 .Property(supplierCertificate => supplierCertificate.QualityScore)
                 .HasConversion<string>();
 
+            modelBuilder.Entity<SupplierHumanResource>()
+                .Property(supplierHumanResource => supplierHumanResource.QualityScore)
+                .HasConversion<string>();
+
             modelBuilder.Entity<SupplierMachine>()
                 .HasOne(supplierMachine => supplierMachine.AppUser)
                 .WithMany(user => user.SupplierMachines)
                 .HasForeignKey(supplierMachine => supplierMachine.AppUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SupplierCertificate>()
+                .HasOne(supplierCertificate => supplierCertificate.AppUser)
+                .WithMany(user => user.SupplierCertificates)
+                .HasForeignKey(supplierCertificate => supplierCertificate.AppUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SupplierHumanResource>()
+                .HasOne(supplierHumanResource => supplierHumanResource.User)
+                .WithMany(user => user.SupplierHumanResources)
+                .HasForeignKey(supplierHumanResource => supplierHumanResource.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SupplierMachine>()
@@ -58,6 +74,12 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
                 .HasOne(supplierCertificate => supplierCertificate.Qualitier)
                 .WithMany(qualitier => qualitier.QualitierSupplierCertificateScores)
                 .HasForeignKey(supplierCertificate => supplierCertificate.QualitierId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SupplierHumanResource>()
+                .HasOne(supplierHumanResource => supplierHumanResource.Qualitier)
+                .WithMany(qualitier => qualitier.QualitierSupplierHumanResourceScores)
+                .HasForeignKey(supplierHumanResource => supplierHumanResource.QualitierId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PurchaserMachinePurchase>()

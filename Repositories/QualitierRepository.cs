@@ -116,5 +116,33 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
 
             return result > 0;
         }
+
+        public async Task<bool> EditSupplierHumanResourceQualityAsync(int userId, int humanResourceId, QualityScore? qualityScore)
+        {
+            var qualitierRoleId = await _dbContext.Roles
+                .AsNoTracking()
+                .Where(role => role.Name == "Qualitier")
+                .Select(role => role.Id)
+                .FirstOrDefaultAsync();
+
+            if (qualitierRoleId == 0) return false;
+
+            var hasQualitierRole = await _dbContext.UserRoles
+                .AnyAsync(userRoles => userRoles.UserId == userId && userRoles.RoleId == qualitierRoleId);
+
+            if (!hasQualitierRole) return false;
+
+            var humanResource = await _dbContext.SupplierHumanResources.FirstOrDefaultAsync(supplierHumanResource => supplierHumanResource.Id == humanResourceId);
+
+            if (humanResource == null) return false;
+
+            humanResource.QualityScore = qualityScore;
+            humanResource.QualitierId = userId;
+            humanResource.LastScoreUpdate = DateTime.UtcNow;
+
+            var result = await _dbContext.SaveChangesAsync();
+
+            return result > 0;
+        }
     }
 }

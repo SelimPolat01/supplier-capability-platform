@@ -109,7 +109,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         {
             ViewBag.SupplierId = supplierId;
 
-            return View(new FetchSupplierHumanResourcesGetResponseDTO());
+            return View(new FetchSupplierHumanResourceGetResponseDTO());
         }
 
         [HttpGet("purchases")]

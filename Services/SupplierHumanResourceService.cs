@@ -32,15 +32,15 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             }
         }
 
-        public async Task<FetchSupplierHumanResourcesGetResponseDTO> FetchSupplierHumanResourcesAsync(int userId)
+        public async Task<FetchSupplierHumanResourceGetResponseDTO> FetchSupplierHumanResourcesAsync(int userId)
         {
             try
             {
                 SupplierHumanResource? supplierHumanResource = await _supplierHumanResourceRepository.FetchSupplierHumanResourcesAsync(userId);
 
-                if (supplierHumanResource == null) return new FetchSupplierHumanResourcesGetResponseDTO()
+                if (supplierHumanResource == null) return new FetchSupplierHumanResourceGetResponseDTO()
                 {
-                    Data = null,
+                    HumanResource = null,
                     Message = "No human resources data found for the user.",
                     IsSuccess = false,
                 };
@@ -49,9 +49,9 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             }
             catch (Exception ex)
             {
-                return new FetchSupplierHumanResourcesGetResponseDTO()
+                return new FetchSupplierHumanResourceGetResponseDTO()
                 {
-                    Data = null,
+                    HumanResource = null,
                     Message = $"An error occurred: {ex.Message}",
                     IsSuccess = false
                 };

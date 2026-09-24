@@ -349,11 +349,20 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                     b.Property<bool>("HasLaborUnion")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("LastScoreUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("QualitierId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("QualityControlStaffCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("QualityScore")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RndStaffCount")
                         .HasColumnType("int");
@@ -374,6 +383,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("QualitierId");
 
                     b.HasIndex("UserId");
 
@@ -535,11 +546,18 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierHumanResource", b =>
                 {
+                    b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "Qualitier")
+                        .WithMany("QualitierSupplierHumanResourceScores")
+                        .HasForeignKey("QualitierId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("SupplierCapabilitiesAndManagementSystem.Entities.AppUser", "User")
                         .WithMany("SupplierHumanResources")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Qualitier");
 
                     b.Navigation("User");
                 });
@@ -567,6 +585,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                     b.Navigation("PurchaserMachinePurchases");
 
                     b.Navigation("QualitierSupplierCertificateScores");
+
+                    b.Navigation("QualitierSupplierHumanResourceScores");
 
                     b.Navigation("QualitierSupplierMachineScores");
 
