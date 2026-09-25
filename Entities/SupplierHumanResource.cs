@@ -14,7 +14,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]
-        public virtual AppUser User { get; set; }
+        public virtual AppUser User { get; set; } = null!;
 
         public int? QualitierId { get; set; }
 

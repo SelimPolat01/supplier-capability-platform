@@ -39,22 +39,22 @@
 }
 
 <div class="home-container">
-    <div class="wrapper-vertical-flex">
+    <div class="wrapper-vertical-flex" style="width: fit-content;">
         <div class="users-container">
-            <h2 class="all-users-text"><i class="fa-solid fa-users" style="margin-right: 8px; color: #cbd5e1;"></i> All Suppliers</h2>
-            <vc:all-suppliers sort-by="@ViewBag.CurrentSupplierSort"></vc:all-suppliers>
+            <h2 class="all-users-text"><i class="fa-solid fa-user-tag" style="margin-right: 8px; color: #cbd5e1;"></i> All Purchasers</h2>
+            <vc:all-purchasers sort-by="@ViewBag.CurrentPurchaserSort"></vc:all-purchasers>
             <div class="flex-container-1">
-                <partial name="_PrimaryButton" model="viewAllSuppliersButtonModel"></partial>
+                <partial name="_PrimaryButton" model="viewAllPurchaserButtonModel"></partial>
                 </div>
             </div>
         </div>
 
-        <div class="wrapper-vertical-flex" style="width: fit-content;">
+        <div class="wrapper-vertical-flex">
             <div class="users-container">
-                <h2 class="all-users-text"><i class="fa-solid fa-user-tag" style="margin-right: 8px; color: #cbd5e1;"></i> All Purchasers</h2>
-                <vc:all-purchasers sort-by="@ViewBag.CurrentPurchaserSort"></vc:all-purchasers>
+                <h2 class="all-users-text"><i class="fa-solid fa-users" style="margin-right: 8px; color: #cbd5e1;"></i> All Suppliers</h2>
+                <vc:all-suppliers sort-by="@ViewBag.CurrentSupplierSort"></vc:all-suppliers>
                 <div class="flex-container-1">
-                    <partial name="_PrimaryButton" model="viewAllPurchaserButtonModel"></partial>
+                    <partial name="_PrimaryButton" model="viewAllSuppliersButtonModel"></partial>
                     </div>
                 </div>
             </div>

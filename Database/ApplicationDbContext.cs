@@ -92,7 +92,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Database
 
             modelBuilder.Entity<AppUser>()
                 .HasOne(supplier => supplier.Qualitier)
-                .WithMany()
+                .WithMany(qualitier => qualitier.QualitierSupplierScores)
                 .HasForeignKey(supplier => supplier.QualitierId)
                 .OnDelete(DeleteBehavior.Restrict);
 

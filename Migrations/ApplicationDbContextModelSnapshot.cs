@@ -295,7 +295,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
                     b.HasIndex("SupplierMachineId");
 
-                    b.ToTable("PurchaserMachinePurchases");
+                    b.ToTable("PurchaserMachinePurchases", (string)null);
                 });
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierCertificate", b =>
@@ -345,7 +345,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
                     b.HasIndex("AppUserId", "Name", "IssuedBy", "IssueDate", "ExpiryDate");
 
-                    b.ToTable("SupplierCertificates");
+                    b.ToTable("SupplierCertificates", (string)null);
                 });
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierHumanResource", b =>
@@ -410,7 +410,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SupplierHumanResources");
+                    b.ToTable("SupplierHumanResources", (string)null);
                 });
 
             modelBuilder.Entity("SupplierCapabilitiesAndManagementSystem.Entities.SupplierMachine", b =>
@@ -475,7 +475,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Migrations
                     b.HasIndex("AppUserId", "MachineGroup", "MachineType", "BrandAndModel", "ProductionYear", "CapacitySpecs")
                         .IsUnique();
 
-                    b.ToTable("SupplierMachines");
+                    b.ToTable("SupplierMachines", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

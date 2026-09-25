@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SupplierCapabilitiesAndManagementSystem.Models.DTO;
 using SupplierCapabilitiesAndManagementSystem.Services;
+using System.Security.Claims;
 
 namespace SupplierCapabilitiesAndManagementSystem.Controllers
 {
@@ -125,6 +126,12 @@ namespace SupplierCapabilitiesAndManagementSystem.Controllers
         [HttpGet("qualitiers/{qualitierId:int}")]
         public IActionResult Qualitier(int qualitierId)
         {
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int.TryParse(userIdString, out int userId);
+
+            ViewBag.UserId = userId;
+            ViewBag.QualitierId = qualitierId;
+
             return View();
         }
 

@@ -61,6 +61,34 @@ namespace SupplierCapabilitiesAndManagementSystem.Repositories
             return (result, totalQualitierCount);
         }
 
+        public async Task<AppUser?> FetchQualitierAsync(int userId, int qualitierId)
+        {
+            var adminRoleId = await _dbContext.Roles
+                .AsNoTracking()
+                .Where(role => role.Name == "Admin")
+                .Select(role => role.Id)
+                .FirstOrDefaultAsync();
+
+            if (adminRoleId == 0) return null;
+
+            var isAdmin = await _dbContext.UserRoles
+                .AsNoTracking()
+                .AnyAsync(role => role.RoleId == adminRoleId && role.UserId == userId);
+
+            if (!isAdmin) return null;
+
+            return await _dbContext.Users
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Include(qualitier => qualitier.QualitierSupplierScores)
+                .Include(qualitier => qualitier.QualitierPurchaserPurchaseScores)
+                .ThenInclude(qualitierPurchaserPurchaserScore => qualitierPurchaserPurchaserScore.SupplierMachine)
+                .Include(qualitier => qualitier.QualitierSupplierCertificateScores)
+                .Include(qualitier => qualitier.QualitierSupplierMachineScores)
+                .Include(qualitier => qualitier.QualitierSupplierHumanResourceScores)
+                .FirstOrDefaultAsync(user => user.Id == qualitierId);
+        }
+
         public async Task<bool> EditSupplierMachineQualityAsync(int userId, int machineId, QualityScore? qualityScore)
         {
             var qualitierRoleId = await _dbContext.Roles

@@ -22,7 +22,7 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
         public int? QualitierId { get; set; }
 
         [ForeignKey("QualitierId")]
-        public virtual AppUser Qualitier { get; set; }
+        public virtual AppUser? Qualitier { get; set; }
 
         public QualityScore? QualityScore { get; set; }
 
@@ -37,6 +37,8 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
         public virtual ICollection<SupplierHumanResource> SupplierHumanResources { get; set; } = new List<SupplierHumanResource>();
 
         public virtual ICollection<PurchaserMachinePurchase> PurchaserMachinePurchases { get; set; } = new List<PurchaserMachinePurchase>();
+
+        public virtual ICollection<AppUser> QualitierSupplierScores { get; set; } = new List<AppUser>();
 
         public virtual ICollection<SupplierMachine> QualitierSupplierMachineScores { get; set; } = new List<SupplierMachine>();
 
@@ -77,6 +79,11 @@ namespace SupplierCapabilitiesAndManagementSystem.Entities
 
             return new QualitierDTO()
             {
+                ScoredSuppliers = qualitier.QualitierSupplierScores?.Select(qs => qs.ToSupplierDTO()).ToList() ?? new(),
+                ScoredSupplierCertificates = qualitier.QualitierSupplierCertificateScores?.Select(qsc => qsc.ToSupplierCertificateDTO()).ToList() ?? new(),
+                ScoredSupplierMachines = qualitier.QualitierSupplierMachineScores?.Select(qsm => qsm.ToSupplierMachineDTO()).ToList() ?? new(),
+                ScoredSupplierHumanResource = qualitier.QualitierSupplierHumanResourceScores?.Select(qshr => qshr.ToSupplierHumanResourceDTO()).ToList() ?? new(),
+                ScoredPurchaserMachinePurchases = qualitier.QualitierPurchaserPurchaseScores?.Select(qpmp => qpmp.ToPurchaserMachinePurchaseDTO()).ToList() ?? new(),
                 Id = qualitier.Id,
                 Name = qualitier.Name,
                 Surname = qualitier.Surname,

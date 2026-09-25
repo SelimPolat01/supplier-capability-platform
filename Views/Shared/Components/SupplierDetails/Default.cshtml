@@ -8,13 +8,13 @@
 
     string rolePrefix = isAdmin ? "admin" : isQualitier ? "qualitier" : isPurchaser ? "purchaser" : "";
 
-    PrimaryButtonModel scoreButtonModel = new() 
-    { 
-        Type = "button", 
-        Text = "Submit Score", 
-        OnClick = "scoreClickHandler()", 
-        CssClass = "score-button", 
-        IconClass = "fa-solid fa-ranking-star" 
+    PrimaryButtonModel scoreButtonModel = new()
+    {
+        Type = "button",
+        Text = "Submit Score",
+        OnClick = "scoreClickHandler()",
+        CssClass = "score-button",
+        IconClass = "fa-solid fa-ranking-star"
     };
 
     ConfirmModalModel confirmModalModel = new()
@@ -33,11 +33,13 @@
 {
     <div class="wrapper">
         <partial name="_ConfirmModal" model="confirmModalModel"></partial>
-        
-        <div class="page-title-container">
-            <h1><i class="fa-solid fa-building-user" style="margin-right: 8px;"></i>Supplier Details <span style="display: inline-flex; align-items: center; color: rgba(255, 255, 255, 0.4); font-size: 2rem; margin: 0;">
-                        @(Model != null ? $"#{Model.Supplier.Id}" : "")
-                    </span></h1>
+
+            <div class="page-title-container">
+                <h1>
+                    <i class="fa-solid fa-building-user" style="margin-right: 8px;"></i>Supplier Details <span style="display: inline-flex; align-items: center; color: rgba(255, 255, 255, 0.4); font-size: 2rem; margin: 0;">
+                    @(Model != null ? $"#{Model.Supplier.Id}" : "")
+                </span>
+            </h1>
         </div>
 
         <div class="details-flexbox">
@@ -51,42 +53,42 @@
                             <span class="created-at-title">Created At: @Model?.Supplier.CreatedAt.ToString("dd-MM-yyyy")</span>
                         </div>
                     </div>
-                    
-                @if (isQualitier)
+
+                    @if (isQualitier)
                     {
                         <div>
                             <div class="score-section-container">
                                 <partial name="_QualityScoreDropdown" model='new QualityScoreDropdownModel { CurrentScore = Model?.Supplier.QualityScore, InputId = "supplierScoreInput", InputName = "QualityScore" }' />
-                                
+
                                 <div class="score-button-container">
                                     <partial name="_PrimaryButton" model="scoreButtonModel"></partial>
+                                    </div>
+                                    <span id="score-error-message" class="text-danger" style="display: none; margin-top: 0.5rem; font-weight: 500;"></span>
                                 </div>
-                                <span id="score-error-message" class="text-danger" style="display: none; margin-top: 0.5rem; font-weight: 500;"></span>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
+                    <div class="company-name-container">
+                        <span class="company-name-title">Company Name: </span>
+                        <span class="company-name-data">@Model?.Supplier.CompanyName</span>
+                    </div>
                 </div>
-                <div class="company-name-container">
-                    <span class="company-name-title">Company Name: </span>
-                    <span class="company-name-data">@Model?.Supplier.CompanyName</span>
-                </div>
-            </div>
-            <div class="info-box-container">
-                <div class="info-box">
-                    <span class="info-title">Name</span>
-                    <span class="info-data">@Model?.Supplier.Name</span>
-                </div>
-                <div class="info-box">
-                    <span class="info-title">Surname</span>
-                    <span class="info-data">@Model?.Supplier.Surname</span>
-                </div>
-                <div class="info-box">
-                    <span class="info-title">Email</span>
-                    <span class="info-data">@Model?.Supplier.Email</span>
-                </div>
-                <div class="info-box">
-                    <span class="info-title">Quality Score</span>
-                    <span class="info-data">
+                <div class="info-box-container">
+                    <div class="info-box">
+                        <span class="info-title">Name</span>
+                        <span class="info-data">@Model?.Supplier.Name</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-title">Surname</span>
+                        <span class="info-data">@Model?.Supplier.Surname</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-title">Email</span>
+                        <span class="info-data">@Model?.Supplier.Email</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-title">Quality Score</span>
+                        <span class="info-data">
                             @switch (Model?.Supplier.QualityScore)
                             {
                                 case QualityScore.A:
@@ -109,208 +111,208 @@
                                     break;
                             }
                         </span>
-                </div>
-                <div class="info-box">
-                    <span class="info-title">Qualitier Full Name</span>
-                    <span class="info-data">
-                        @(string.IsNullOrWhiteSpace(Model?.Supplier.QualitierFullName) 
-                                ? "Not Rated Yet" 
-                                : Model.Supplier.QualitierFullName)
-                    </span>
-                </div>
-                <div class="info-box">
-                    <span class="info-title">Last Score Update</span>
-                    <span class="info-data">
-                          @(Model.Supplier.LastScoreUpdate.HasValue 
-                                ? Model.Supplier.LastScoreUpdate.Value.ToString("dd-MM-yyyy HH:mm") 
-                                : "Not Rated Yet")            
-                    </span>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-title">Qualitier Full Name</span>
+                        <span class="info-data">
+                            @(string.IsNullOrWhiteSpace(Model?.Supplier.QualitierFullName)
+                                    ? "Not Rated Yet"
+                                    : Model.Supplier.QualitierFullName)
+                        </span>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-title">Last Score Update</span>
+                        <span class="info-data">
+                            @(Model.Supplier.LastScoreUpdate.HasValue
+                                  ? Model.Supplier.LastScoreUpdate.Value.ToString("dd-MM-yyyy HH:mm")
+                                  : "Not Rated Yet")
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="details-flexbox">
-            <h3 class="details-title">
-                <i class="fa-solid fa-gears" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
-                Machines <span class="count-badge">@(Model.Supplier.Machines?.Count() ?? 0)</span>
-            </h3>
-            <div class="box-container">
-                @if (Model.Supplier.Machines != null && Model.Supplier.Machines.Any())
-                {
-                    foreach (var machine in Model.Supplier.Machines)
+            <div class="details-flexbox">
+                <h3 class="details-title">
+                    <i class="fa-solid fa-gears" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
+                    Machines <span class="count-badge">@(Model.Supplier.Machines?.Count() ?? 0)</span>
+                </h3>
+                <div class="box-container">
+                    @if (Model.Supplier.Machines != null && Model.Supplier.Machines.Any())
                     {
-                        string machineUrl = !isSupplier 
-                            ? $"/{rolePrefix}/suppliers/{machine.AppUserId}/machines/{machine.Id}" 
-                            : $"/supplier/machines/{machine.Id}";
+                        foreach (var machine in Model.Supplier.Machines)
+                        {
+                            string machineUrl = !isSupplier
+                                ? $"/{rolePrefix}/suppliers/{machine.AppUserId}/machines/{machine.Id}"
+                                : $"/supplier/machines/{machine.Id}";
 
-                        <div class="box" onclick="window.location.href='@machineUrl'">
-                            <div class="info-flex-container">
-                                <span class="info-title">Group:</span>
-                                <span class="info-data">@machine.MachineGroup</span>
+                            <div class="box" onclick="window.location.href='@machineUrl'">
+                                <div class="info-flex-container">
+                                    <span class="info-title">Group:</span>
+                                    <span class="info-data">@machine.MachineGroup</span>
+                                </div>
+                                <div class="info-flex-container">
+                                    <span class="info-title">Type:</span>
+                                    <span class="info-data">@machine.MachineType</span>
+                                </div>
+                                <div class="info-flex-container">
+                                    <span class="info-title">Brand / Model:</span>
+                                    <span class="info-data">@machine.BrandAndModel</span>
+                                </div>
+                                <div class="info-flex-container">
+                                    <span class="info-title">Year:</span>
+                                    <span class="info-data">@machine.ProductionYear</span>
+                                </div>
+                                <div class="info-flex-container">
+                                    <span class="info-title">Quantity:</span>
+                                    <span class="info-data">@machine.Quantity</span>
+                                </div>
                             </div>
-                            <div class="info-flex-container">
-                                <span class="info-title">Type:</span>
-                                <span class="info-data">@machine.MachineType</span>
-                            </div>
-                            <div class="info-flex-container">
-                                <span class="info-title">Brand / Model:</span>
-                                <span class="info-data">@machine.BrandAndModel</span>
-                            </div>
-                            <div class="info-flex-container">
-                                <span class="info-title">Year:</span>
-                                <span class="info-data">@machine.ProductionYear</span>
-                            </div>
-                            <div class="info-flex-container">
-                                <span class="info-title">Quantity:</span>
-                                <span class="info-data">@machine.Quantity</span>
-                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state-message">
+                            <p>No machine information provided for this supplier.</p>
                         </div>
                     }
-                }
-                else
-                {
-                    <div class="empty-state-message">
-                        <p>No machine information provided for this supplier.</p>
-                    </div>
-                }
+                </div>
             </div>
-        </div>
 
-        <div class="details-flexbox">
-            <h3 class="details-title">
-                <i class="fa-solid fa-certificate" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
-                Certificates <span class="count-badge">@(Model.Supplier.Certificates?.Count() ?? 0)</span>
-            </h3>
-            <div class="box-container">
-                @if (Model.Supplier.Certificates != null && Model.Supplier.Certificates.Any())
-                {
-                    foreach (var certificate in Model.Supplier.Certificates)
+            <div class="details-flexbox">
+                <h3 class="details-title">
+                    <i class="fa-solid fa-certificate" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
+                    Certificates <span class="count-badge">@(Model.Supplier.Certificates?.Count() ?? 0)</span>
+                </h3>
+                <div class="box-container">
+                    @if (Model.Supplier.Certificates != null && Model.Supplier.Certificates.Any())
                     {
-                        string certUrl = !isSupplier 
-                            ? $"/{rolePrefix}/suppliers/{certificate.AppUserId}/certificates/{certificate.Id}" 
-                            : $"/supplier/certificates/{certificate.Id}";
+                        foreach (var certificate in Model.Supplier.Certificates)
+                        {
+                            string certUrl = !isSupplier
+                                ? $"/{rolePrefix}/suppliers/{certificate.AppUserId}/certificates/{certificate.Id}"
+                                : $"/supplier/certificates/{certificate.Id}";
 
-                        <div class="box" onclick="window.location.href='@certUrl'">
-                            <div class="info-flex-container">
-                                <span class="info-title">Name:</span>
-                                <span class="info-data">@certificate.Name</span>
+                            <div class="box" onclick="window.location.href='@certUrl'">
+                                <div class="info-flex-container">
+                                    <span class="info-title">Name:</span>
+                                    <span class="info-data">@certificate.Name</span>
+                                </div>
+                                <div class="info-flex-container">
+                                    <span class="info-title">Issued By:</span>
+                                    <span class="info-data">@certificate.IssuedBy</span>
+                                </div>
+                                <div class="info-flex-container">
+                                    <span class="info-title">Issue Date:</span>
+                                    <span class="info-data">@certificate.IssueDate.ToString("dd-MM-yyyy")</span>
+                                </div>
+                                <div class="info-flex-container">
+                                    <span class="info-title">Expiry Date:</span>
+                                    <span class="info-data">@certificate.ExpiryDate?.ToString("dd-MM-yyyy")</span>
+                                </div>
+                                <div class="info-flex-container" onclick="event.stopPropagation()">
+                                    <span class="info-title">Document:</span>
+                                    <a href="@certificate.DocumentUrl" target="_blank" rel="noopener noreferrer">
+                                        <i class="fa-solid fa-file-pdf"></i> View
+                                    </a>
+                                </div>
                             </div>
-                            <div class="info-flex-container">
-                                <span class="info-title">Issued By:</span>
-                                <span class="info-data">@certificate.IssuedBy</span>
-                            </div>
-                            <div class="info-flex-container">
-                                <span class="info-title">Issue Date:</span>
-                                <span class="info-data">@certificate.IssueDate.ToString("dd-MM-yyyy")</span>
-                            </div>
-                            <div class="info-flex-container">
-                                <span class="info-title">Expiry Date:</span>
-                                <span class="info-data">@certificate.ExpiryDate?.ToString("dd-MM-yyyy")</span>
-                            </div>
-                            <div class="info-flex-container" onclick="event.stopPropagation()">
-                                <span class="info-title">Document:</span>
-                                <a href="@certificate.DocumentUrl" target="_blank" rel="noopener noreferrer">
-                                    <i class="fa-solid fa-file-pdf"></i> View
-                                </a>
-                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state-message">
+                            <p>No certificate information provided for this supplier.</p>
                         </div>
                     }
-                }
-                else
-                {
-                    <div class="empty-state-message">
-                        <p>No certificate information provided for this supplier.</p>
-                    </div>
-                }
+                </div>
             </div>
-        </div>
 
-        <div class="details-flexbox">
-            <h3 class="details-title">
-                <i class="fa-solid fa-users" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
-                Human Resources
-                @if (Model.Supplier.HumanResources != null && Model.Supplier.HumanResources.Any())
-                {
-                    <i class="fa-solid fa-circle-check" style="color: #2ed573; margin-left: 8px;" title="Available"></i>
-                }
-                else
-                {
-                    <i class="fa-solid fa-circle-xmark" style="color: #ff4757; margin-left: 8px;" title="Not Available"></i>
-                }
-            </h3>
-            <div class="box-container">
-                @if (Model.Supplier.HumanResources != null && Model.Supplier.HumanResources.Any())
-                {
-                    foreach (var humanResource in Model.Supplier.HumanResources)
+            <div class="details-flexbox">
+                <h3 class="details-title">
+                    <i class="fa-solid fa-users" style="margin-right: 8px; color: rgba(255,255,255,0.7);"></i>
+                    Human Resources
+                    @if (Model.Supplier.HumanResources != null && Model.Supplier.HumanResources.Any())
                     {
-                        string hrUrl = !isSupplier 
-                            ? $"/{rolePrefix}/suppliers/{humanResource.UserId}/human-resources" 
-                            : $"/supplier/human-resources";
+                        <i class="fa-solid fa-circle-check" style="color: #2ed573; margin-left: 8px;" title="Available"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-circle-xmark" style="color: #ff4757; margin-left: 8px;" title="Not Available"></i>
+                    }
+                </h3>
+                <div class="box-container">
+                    @if (Model.Supplier.HumanResources != null && Model.Supplier.HumanResources.Any())
+                    {
+                        foreach (var humanResource in Model.Supplier.HumanResources)
+                        {
+                            string hrUrl = !isSupplier
+                                ? $"/{rolePrefix}/suppliers/{humanResource.UserId}/human-resources"
+                                : $"/supplier/human-resources";
 
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Total Employee Count</span>
-                            <span class="info-data">@(humanResource.TotalEmployeeCount?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">White Collar Count</span>
-                            <span class="info-data">@(humanResource.WhiteCollarCount?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Blue Collar Count</span>
-                            <span class="info-data">@(humanResource.BlueCollarCount?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Engineer Count</span>
-                            <span class="info-data">@(humanResource.EngineerCount?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Quality Control Staff Count</span>
-                            <span class="info-data">@(humanResource.QualityControlStaffCount?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Rnd Staff Count</span>
-                            <span class="info-data">@(humanResource.RndStaffCount?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Certified Operator Count</span>
-                            <span class="info-data">@(humanResource.CertifiedOperatorCount?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Shift Count</span>
-                            <span class="info-data">@(humanResource.ShiftCount?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Working Days Per Week</span>
-                            <span class="info-data">@(humanResource.WorkingDaysPerWeek?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Has Labor Union</span>
-                            <span class="info-data">@(humanResource.HasLaborUnion ? "Yes" : "No")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Employee Turnover Rate</span>
-                            <span class="info-data">@(humanResource.EmployeeTurnoverRate?.ToString() ?? "-")</span>
-                        </div>
-                        <div class="box" onclick="window.location.href='@hrUrl'">
-                            <span class="info-title">Last Updated</span>
-                            <span class="info-data">@humanResource.LastUpdatedDate.ToString("dd-MM-yyyy")</span>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Total Employee Count</span>
+                                <span class="info-data">@(humanResource.TotalEmployeeCount?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">White Collar Count</span>
+                                <span class="info-data">@(humanResource.WhiteCollarCount?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Blue Collar Count</span>
+                                <span class="info-data">@(humanResource.BlueCollarCount?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Engineer Count</span>
+                                <span class="info-data">@(humanResource.EngineerCount?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Quality Control Staff Count</span>
+                                <span class="info-data">@(humanResource.QualityControlStaffCount?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Rnd Staff Count</span>
+                                <span class="info-data">@(humanResource.RndStaffCount?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Certified Operator Count</span>
+                                <span class="info-data">@(humanResource.CertifiedOperatorCount?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Shift Count</span>
+                                <span class="info-data">@(humanResource.ShiftCount?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Working Days Per Week</span>
+                                <span class="info-data">@(humanResource.WorkingDaysPerWeek?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Has Labor Union</span>
+                                <span class="info-data">@(humanResource.HasLaborUnion ? "Yes" : "No")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Employee Turnover Rate</span>
+                                <span class="info-data">@(humanResource.EmployeeTurnoverRate?.ToString() ?? "-")</span>
+                            </div>
+                            <div class="box" onclick="window.location.href='@hrUrl'">
+                                <span class="info-title">Last Updated</span>
+                                <span class="info-data">@humanResource.LastUpdatedDate.ToString("dd-MM-yyyy")</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state-message">
+                            <p>No human resource information provided for this supplier.</p>
                         </div>
                     }
-                }
-                else
-                {
-                    <div class="empty-state-message">
-                        <p>No human resource information provided for this supplier.</p>
-                    </div>
-                }
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
 else
-{
-    <div style="padding: 2rem; color: #ff6b6b; background: rgba(255,0,0,0.1); border-radius: 8px; margin: 1rem; border: 1px solid #ff6b6b;">
-        <h3><i class="fa-solid fa-triangle-exclamation"></i> Error!</h3>
-        <p>@(Model?.Message ?? "Supplier details could not be loaded or the user does not exist.")</p>
-    </div>
-}
+    {
+        <div style="padding: 2rem; color: #ff6b6b; background: rgba(255,0,0,0.1); border-radius: 8px; margin: 1rem; border: 1px solid #ff6b6b;">
+            <h3><i class="fa-solid fa-triangle-exclamation"></i> Error!</h3>
+            <p>@(Model?.Message ?? "Supplier details could not be loaded or the user does not exist.")</p>
+        </div>
+    }

@@ -45,6 +45,39 @@ namespace SupplierCapabilitiesAndManagementSystem.Services
             }
         }
 
+        public async Task<FetchQualitierGetResponseDTO> FetchQualitierAsync(int userId, int qualitierId)
+        {
+            try
+            {
+                AppUser? existingQualitier = await _qualitierRepository.FetchQualitierAsync(userId, qualitierId);
+
+                if (existingQualitier == null)
+                {
+                    return new FetchQualitierGetResponseDTO()
+                    {
+                        Message = "Qualitier profile not found, or you do not have admin privileges to view this page.",
+                        IsSuccess = false
+                    };
+                }
+
+                return new FetchQualitierGetResponseDTO()
+                {
+                    Qualitier = existingQualitier.ToQualitierDTO(),
+                    Message = "Qualitier details retrieved successfully.",
+                    IsSuccess = true
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new FetchQualitierGetResponseDTO()
+                {
+                    Message = $"An error occurred while retrieving the qualitier: {ex.Message}",
+                    IsSuccess = false
+                };
+            }
+        }
+
         public async Task<EditSupplierMachineQualityPatchResponseDTO> EditSupplierMachineQualityAsync(int userId, int machineId, QualityScore? qualityScore)
         {
             if (machineId <= 0)
